@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import type { ChangeEvent } from 'react';
 import { useVariableStore, useRelationshipStore, useUIStore } from '../../stores';
 import type { Variable } from '../../types';
 
@@ -25,7 +26,7 @@ export function VariableCard({ variable }: VariableCardProps) {
     return `${displayFormat.prefix || ''}${formatted}${displayFormat.suffix || ''}`;
   };
 
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(e.target.value);
     setVariableValue(variable.id, value);
   };
@@ -48,12 +49,12 @@ export function VariableCard({ variable }: VariableCardProps) {
 
   return (
     <div
-      className={`bg-white rounded-lg border shadow-sm p-4 transition-all ${
+      className={`p-4 transition-all ${
         isConnectionTarget
-          ? 'border-blue-500 ring-2 ring-blue-200 cursor-pointer'
+          ? 'bg-[#e8f5ec] cursor-pointer'
           : variable.isLocked
-          ? 'border-gray-300 bg-gray-50'
-          : 'border-gray-200 hover:border-gray-300'
+          ? 'bg-[#f7f5f2]'
+          : 'hover:bg-[#f7f5f2]'
       }`}
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
@@ -62,13 +63,13 @@ export function VariableCard({ variable }: VariableCardProps) {
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2">
           <div
-            className="w-3 h-3 rounded-full"
+            className="w-2 h-2 rounded-full"
             style={{ backgroundColor: variable.categoryColor }}
           />
           <div>
-            <h3 className="font-medium text-gray-900">{variable.name}</h3>
+            <h3 className="font-medium text-sm text-[#1a1a1a]">{variable.name}</h3>
             {variable.description && (
-              <p className="text-xs text-gray-500 mt-0.5 line-clamp-1">
+              <p className="text-xs text-[#8a8a8a] mt-0.5 line-clamp-1">
                 {variable.description}
               </p>
             )}
@@ -76,60 +77,60 @@ export function VariableCard({ variable }: VariableCardProps) {
         </div>
 
         {/* Actions Menu */}
-        <div className={`flex items-center gap-1 transition-opacity ${showActions ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`flex items-center gap-0.5 transition-opacity ${showActions ? 'opacity-100' : 'opacity-0'}`}>
           <button
             onClick={() => lockVariable(variable.id, !variable.isLocked)}
-            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
+            className="p-1.5 text-[#8a8a8a] hover:text-[#1a1a1a] hover:bg-[#e5e2dd] rounded"
             title={variable.isLocked ? 'Unlock variable' : 'Lock variable'}
           >
             {variable.isLocked ? (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
             ) : (
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 10.5V6.75a4.5 4.5 0 119 0v3.75M3.75 21.75h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H3.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
             )}
           </button>
 
           <button
             onClick={() => startCreatingRelationship(variable.id)}
-            className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded"
+            className="p-1.5 text-[#8a8a8a] hover:text-[#2d8a4e] hover:bg-[#e8f5ec] rounded"
             title="Create relationship"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
             </svg>
           </button>
 
           <button
             onClick={() => openVariableModal(variable.id)}
-            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
+            className="p-1.5 text-[#8a8a8a] hover:text-[#1a1a1a] hover:bg-[#e5e2dd] rounded"
             title="Edit variable"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
             </svg>
           </button>
 
           <button
             onClick={handleDuplicate}
-            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded"
+            className="p-1.5 text-[#8a8a8a] hover:text-[#1a1a1a] hover:bg-[#e5e2dd] rounded"
             title="Duplicate variable"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75" />
             </svg>
           </button>
 
           <button
             onClick={handleDelete}
-            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded"
+            className="p-1.5 text-[#8a8a8a] hover:text-[#b91c1c] hover:bg-[#fde8e8] rounded"
             title="Delete variable"
           >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
             </svg>
           </button>
         </div>
@@ -138,17 +139,17 @@ export function VariableCard({ variable }: VariableCardProps) {
       {/* Value Display */}
       <div className="mb-3">
         <div className="flex items-baseline justify-between">
-          <span className="text-2xl font-semibold text-gray-900">
+          <span className="text-xl font-semibold text-[#1a1a1a]">
             {formatValue(variable.currentValue)}
           </span>
           {variable.units && (
-            <span className="text-sm text-gray-500">{variable.units}</span>
+            <span className="text-xs text-[#8a8a8a]">{variable.units}</span>
           )}
         </div>
       </div>
 
       {/* Slider */}
-      <div className="mb-3">
+      <div className="mb-2">
         <input
           type="range"
           min={variable.min}
@@ -159,19 +160,19 @@ export function VariableCard({ variable }: VariableCardProps) {
           disabled={variable.isLocked}
           className="w-full"
         />
-        <div className="flex justify-between text-xs text-gray-400 mt-1">
+        <div className="flex justify-between text-[10px] text-[#a3a3a3] mt-1">
           <span>{formatValue(variable.min)}</span>
           <span>{formatValue(variable.max)}</span>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between text-xs text-gray-500">
+      <div className="flex items-center justify-between text-xs text-[#8a8a8a]">
         <div className="flex items-center gap-2">
           {totalConnections > 0 && (
             <span className="flex items-center gap-1">
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244" />
               </svg>
               {totalConnections}
             </span>
@@ -181,7 +182,7 @@ export function VariableCard({ variable }: VariableCardProps) {
         {variable.currentValue !== variable.defaultValue && (
           <button
             onClick={() => resetVariable(variable.id)}
-            className="text-blue-600 hover:text-blue-700 hover:underline"
+            className="text-[#525252] hover:text-[#1a1a1a]"
           >
             Reset
           </button>

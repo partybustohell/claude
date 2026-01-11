@@ -7,33 +7,53 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+        // Enterprise industrial palette
+        surface: {
+          base: '#f7f5f2',
+          card: '#faf9f7',
+          elevated: '#ffffff',
+          border: '#e5e2dd',
         },
-        success: {
-          50: '#f0fdf4',
-          500: '#22c55e',
-          600: '#16a34a',
+        ink: {
+          900: '#1a1a1a',
+          800: '#2d2d2d',
+          700: '#404040',
+          600: '#525252',
+          500: '#6b6b6b',
+          400: '#8a8a8a',
+          300: '#a3a3a3',
+          200: '#d4d4d4',
+          100: '#e5e5e5',
         },
-        warning: {
-          50: '#fffbeb',
-          500: '#f59e0b',
-          600: '#d97706',
+        status: {
+          success: '#2d8a4e',
+          'success-bg': '#e8f5ec',
+          warning: '#b45309',
+          'warning-bg': '#fef3e2',
+          critical: '#b91c1c',
+          'critical-bg': '#fde8e8',
+          online: '#059669',
         },
-        danger: {
-          50: '#fef2f2',
-          500: '#ef4444',
-          600: '#dc2626',
+        accent: {
+          primary: '#1a1a1a',
+          secondary: '#404040',
         },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Consolas', 'monospace'],
+      },
+      fontSize: {
+        'kpi': ['2.5rem', { lineHeight: '1', fontWeight: '600' }],
+        'label': ['0.6875rem', { lineHeight: '1.4', letterSpacing: '0.05em' }],
+      },
+      boxShadow: {
+        'subtle': '0 1px 2px 0 rgba(0, 0, 0, 0.03)',
+        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.04)',
+      },
+      borderRadius: {
+        'sm': '0.25rem',
+        'DEFAULT': '0.375rem',
       },
     },
   },

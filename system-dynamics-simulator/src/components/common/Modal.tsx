@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import type { ReactNode } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  children: React.ReactNode;
+  children: ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
@@ -39,25 +40,25 @@ export function Modal({ isOpen, onClose, title, children, size = 'md' }: ModalPr
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 bg-[#1a1a1a]/40 backdrop-blur-sm"
         onClick={onClose}
       />
       <div
         ref={modalRef}
-        className={`relative bg-white rounded-xl shadow-2xl w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden flex flex-col`}
+        className={`relative bg-[#faf9f7] border border-[#e5e2dd] rounded-lg shadow-card w-full ${sizeClasses[size]} max-h-[90vh] overflow-hidden flex flex-col`}
       >
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-[#e5e2dd]">
+          <h2 className="text-base font-semibold text-[#1a1a1a]">{title}</h2>
           <button
             onClick={onClose}
-            className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-1.5 text-[#8a8a8a] hover:text-[#1a1a1a] hover:bg-[#e5e2dd] rounded transition-colors"
           >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
-        <div className="flex-1 overflow-y-auto p-6">
+        <div className="flex-1 overflow-y-auto p-5">
           {children}
         </div>
       </div>
@@ -87,18 +88,18 @@ export function ConfirmModal({
   variant = 'danger',
 }: ConfirmModalProps) {
   const variantClasses = {
-    danger: 'bg-red-600 hover:bg-red-700',
-    warning: 'bg-yellow-600 hover:bg-yellow-700',
-    info: 'bg-blue-600 hover:bg-blue-700',
+    danger: 'bg-[#b91c1c] hover:bg-[#991b1b] text-white',
+    warning: 'bg-[#b45309] hover:bg-[#92400e] text-white',
+    info: 'bg-[#1a1a1a] hover:bg-[#2d2d2d] text-white',
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title={title} size="sm">
-      <p className="text-gray-600 mb-6">{message}</p>
-      <div className="flex justify-end gap-3">
+      <p className="text-sm text-[#525252] mb-6">{message}</p>
+      <div className="flex justify-end gap-2">
         <button
           onClick={onClose}
-          className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+          className="btn-industrial btn-secondary"
         >
           {cancelText}
         </button>
@@ -107,7 +108,7 @@ export function ConfirmModal({
             onConfirm();
             onClose();
           }}
-          className={`px-4 py-2 text-white rounded-lg transition-colors ${variantClasses[variant]}`}
+          className={`btn-industrial ${variantClasses[variant]}`}
         >
           {confirmText}
         </button>
