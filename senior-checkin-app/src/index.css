@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles for accessibility */
+@layer base {
+  html {
+    font-family: 'Noto Sans', 'Noto Sans Devanagari', system-ui, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  body {
+    @apply bg-neutral-100 text-neutral-900;
+    overflow-x: hidden;
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Prevent zoom on input focus (mobile accessibility) */
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+
+  /* High contrast focus styles */
+  *:focus {
+    @apply outline-none ring-4 ring-safe-green-500 ring-offset-2;
+  }
+
+  /* Reduce motion for users who prefer it */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* Senior-optimized components */
+@layer components {
+  /* Large touch-friendly button */
+  .btn-senior {
+    @apply min-h-touch-lg px-8 py-4;
+    @apply text-senior-lg font-semibold;
+    @apply rounded-senior;
+    @apply transition-all duration-200;
+    @apply active:scale-95;
+  }
+
+  .btn-senior-primary {
+    @apply btn-senior;
+    @apply bg-safe-green-600 text-white;
+    @apply hover:bg-safe-green-700;
+    @apply active:bg-safe-green-800;
+    @apply shadow-senior;
+    @apply active:shadow-senior-pressed;
+  }
+
+  .btn-senior-secondary {
+    @apply btn-senior;
+    @apply bg-white text-neutral-800;
+    @apply border-2 border-neutral-300;
+    @apply hover:bg-neutral-50;
+    @apply active:bg-neutral-100;
+  }
+
+  /* Status cards */
+  .status-card {
+    @apply p-6 rounded-senior bg-white shadow-senior;
+    @apply border-l-4;
+  }
+
+  .status-card-green {
+    @apply status-card border-safe-green-500;
+  }
+
+  .status-card-yellow {
+    @apply status-card border-alert-amber-500;
+  }
+
+  .status-card-red {
+    @apply status-card border-danger-red-500;
+  }
+
+  /* Large check-in button animation */
+  @keyframes pulse-gentle {
+    0%, 100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(30, 127, 50, 0.4);
+    }
+    50% {
+      transform: scale(1.02);
+      box-shadow: 0 0 0 20px rgba(30, 127, 50, 0);
+    }
+  }
+
+  .checkin-button-pulse {
+    animation: pulse-gentle 2s infinite;
+  }
+
+  /* Success animation */
+  @keyframes check-bounce {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .check-animate {
+    animation: check-bounce 0.5s ease-out forwards;
+  }
+
+  /* Escalation pulse */
+  @keyframes escalation-pulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+
+  .escalation-pulse {
+    animation: escalation-pulse 1.5s infinite;
+  }
+}
+
+/* Utility classes */
+@layer utilities {
+  /* Safe area padding for notched phones */
+  .safe-area-inset {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Full height accounting for mobile chrome */
+  .min-h-screen-safe {
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Text shadow for better readability */
+  .text-shadow {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+}
