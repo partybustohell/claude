@@ -52,10 +52,12 @@ export type Sheet =
 
 const NavCtx = createContext<Nav>(null as unknown as Nav);
 
-export function NavProvider({ initial, children }: { initial?: Route; children: ReactNode }) {
+export function NavProvider({
+  initial, initialSheet, children,
+}: { initial?: Route; initialSheet?: Sheet; children: ReactNode }) {
   const [stack, setStack] = useState<Route[]>([initial ?? { name: 'welcome' }]);
   const [dir, setDir] = useState(1);
-  const [sheet, setSheet] = useState<Sheet>(null);
+  const [sheet, setSheet] = useState<Sheet>(initialSheet ?? null);
 
   const push = useCallback((r: Route) => {
     setDir(1);

@@ -48,7 +48,14 @@
   -webkit-tap-highlight-color: transparent;
 }
 .btn--full { width: 100%; }
-.btn:disabled { opacity: 0.42; cursor: not-allowed; }
+.btn:disabled {
+  cursor: not-allowed;
+  background: var(--paper-deep) !important;
+  color: var(--fg-faint) !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+.btn:disabled .btn__grain { opacity: 0; }
 
 /* Ink lay-down grain on solid buttons */
 .btn__grain {

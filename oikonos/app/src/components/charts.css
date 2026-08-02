@@ -1,0 +1,97 @@
+/* ---- Month columns ---- */
+
+.cols {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  width: 100%;
+}
+.cols__slot {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.cols__pair {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  width: 100%;
+  justify-content: center;
+}
+.cols__bar {
+  position: relative;
+  flex: 1;
+  max-width: 11px;
+  height: 100%;
+  border-radius: 3px 3px 1px 1px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.cols__bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/tex/grain.png');
+  background-size: 90px 90px;
+  mix-blend-mode: overlay;
+  opacity: 0.2;
+}
+.cols__label {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--fg-faint);
+  text-transform: uppercase;
+  height: 12px;
+}
+
+/* ---- Ring ---- */
+
+.ring {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+}
+.ring__center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+/* ---- Share bar ---- */
+
+.sharebar {
+  display: flex;
+  width: 100%;
+  gap: 2px;
+  border-radius: var(--r-pill);
+  overflow: hidden;
+}
+.sharebar__seg {
+  position: relative;
+  flex-basis: 0;
+  min-width: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.sharebar__seg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/tex/grain.png');
+  background-size: 80px 80px;
+  mix-blend-mode: overlay;
+  opacity: 0.2;
+}

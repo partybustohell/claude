@@ -103,6 +103,8 @@ async function main() {
         .device { border-radius: 0 !important; padding: 0 !important; box-shadow: none !important; }
         .device__rail, .device__sheen, .device__glass, .device__btn { display: none !important; }
         .device__screen { border-radius: 0 !important; }
+        /* the comp has no dynamic island — drop it so blind duels stay blind */
+        .island { display: none !important; }
       `});
       await page.waitForTimeout(180);
     }

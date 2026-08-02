@@ -34,7 +34,7 @@
   --bg:            var(--paper);
   --fg:            var(--ink);
   --fg-muted:      #5b6a92;   /* cobalt desaturated 62%    */
-  --fg-faint:      #8b95ae;
+  --fg-faint:      #8f9fbf;   /* cobalt at 45% over paper — never grey */
   --on-ink:        #fdf8ec;   /* text on cobalt            */
   --on-ink-muted:  rgba(253, 248, 236, 0.68);
   --on-olive:      #f6f1e2;

@@ -1,0 +1,213 @@
+/* ============================================================
+   HOME — the cream dashboard
+   ============================================================ */
+
+.home__scroll {
+  display: block;
+  padding-bottom: var(--s-8);
+}
+
+/* ---- Hero stage: text over a bleeding horizon ---------------- */
+
+.home__stage {
+  position: relative;
+  height: 330px;
+}
+
+.home__art {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 130px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.home__head {
+  position: relative;
+  z-index: 1;
+  padding: 22px var(--gutter) 0;
+}
+
+.home__greet {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.home__hello {
+  font-size: var(--t-body);
+  font-weight: 500;
+  line-height: 1.24;
+  letter-spacing: -0.004em;
+  color: var(--ink-lift);
+}
+
+.home__name {
+  font-size: var(--t-h2);
+  font-weight: 600;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 120;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin-top: 3px;
+  /* optical: the diagonal of the A sits proud of the gutter */
+  margin-left: -1.5px;
+}
+
+.home__avatar { margin-top: 2px; }
+
+/* ---- Net worth ---------------------------------------------- */
+
+.home__worth { margin-top: 34px; }
+
+.home__figure {
+  display: block;
+  margin-top: 9px;
+  /* optical: the ₹ bar has a fat left bearing — pull it back to the gutter */
+  margin-left: -3px;
+  font-size: 44px;
+  font-weight: 600;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
+  letter-spacing: -0.042em;
+  line-height: 1.02;
+  color: var(--ink);
+}
+
+.home__delta { display: block; margin-top: 13px; }
+
+/* ---- Sections ------------------------------------------------ */
+
+.home__sec {
+  position: relative;
+  z-index: 1;
+  padding: 0 var(--gutter);
+}
+
+.home__sec + .home__sec { margin-top: 30px; }
+
+.home__cardwrap { margin-top: 14px; }
+
+/* ---- Overview rows ------------------------------------------- */
+
+.ov__row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ov__row + .ov__row { margin-top: 15px; }
+
+.ov__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ov__line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.ov__label {
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  font-weight: 500;
+  letter-spacing: -0.006em;
+  color: var(--on-ink);
+}
+
+.ov__amount {
+  font-size: 18px;
+  font-weight: 600;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 96;
+  letter-spacing: -0.028em;
+  color: var(--on-ink);
+}
+
+.ov__meter {
+  position: relative;
+  margin-top: 9px;
+  height: 8px;
+}
+
+.ov__track {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-pill);
+  background: rgba(253, 248, 236, 0.19);
+  overflow: hidden;
+}
+
+.ov__track::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/tex/stipple.png');
+  background-size: 64px 64px;
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+
+.ov__meter .meter { position: relative; z-index: 1; }
+
+/* ---- Recent activity ----------------------------------------- */
+
+.home__list { margin-top: 6px; }
+
+.txnrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  padding: 10px 0;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.txnrow + .txnrow::before {
+  content: '';
+  position: absolute;
+  left: 58px;
+  right: 0;
+  top: 0;
+  height: 1px;
+  background: var(--hairline-soft);
+}
+
+.txnrow__body { flex: 1; min-width: 0; }
+
+.txnrow__merchant {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--t-lead);
+  font-weight: 600;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 90;
+  letter-spacing: -0.018em;
+  line-height: 1.2;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.txnrow__date {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--font-sans);
+  font-size: var(--t-small);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--fg-muted);
+}
+
+.txnrow__amount {
+  flex: none;
+  font-size: 19px;
+  font-weight: 600;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 96;
+  letter-spacing: -0.03em;
+}

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { PhoneFrame, StatusBar, HomeIndicator } from './components/PhoneFrame';
 import { TabBar } from './components/TabBar';
-import { NavProvider, useNav, routeKey, isTab, type Route } from './nav';
+import { NavProvider, useNav, routeKey, isTab, type Route, type Sheet } from './nav';
 import { StoreProvider } from './data/store';
 import { pageVariants } from './lib/motion';
 import './App.css';
@@ -68,17 +68,33 @@ function Shell() {
   );
 }
 
-export default function App() {
-  const params = new URLSearchParams(window.location.search);
-  const start = params.get('screen');
-  const id = params.get('id');
-  const initial = start
-    ? ({ name: start, ...(id ? { id } : {}) } as Route)
+/** The capture harness addresses any screen (and any sheet) by query string. */
+function deepLink(): { route?: Route; sheet?: Sheet } {
+  const p = new URLSearchParams(window.location.search);
+  const screen = p.get('screen');
+  const id = p.get('id');
+  const kind = p.get('sheet');
+
+  const route = screen
+    ? ({ name: screen, ...(id ? { id } : {}) } as Route)
     : undefined;
+
+  let sheet: Sheet = null;
+  if (kind === 'add') sheet = { kind: 'add' };
+  else if (kind === 'contribute' && id) sheet = { kind: 'contribute', goalId: id };
+  else if (kind === 'note' && id) sheet = { kind: 'note', txnId: id };
+  else if (kind === 'category' && id) sheet = { kind: 'category', txnId: id };
+  else if (kind === 'editBudget' && id) sheet = { kind: 'editBudget', budgetId: id };
+
+  return { route, sheet: sheet ?? undefined };
+}
+
+export default function App() {
+  const { route, sheet } = deepLink();
 
   return (
     <StoreProvider>
-      <NavProvider initial={initial}>
+      <NavProvider initial={route} initialSheet={sheet}>
         <PhoneFrame>
           <Shell />
         </PhoneFrame>

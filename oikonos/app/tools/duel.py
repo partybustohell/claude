@@ -10,7 +10,7 @@ image so the orchestrator can decode the verdict afterwards.
   python3 tools/duel.py home reference/phone2.png        -> duels/home.png + home.key
   python3 tools/duel.py home reference/phone2.png --seed 4
 """
-import argparse, hashlib, json, os, sys
+import argparse, hashlib, json, os
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,13 +18,21 @@ PAD = 54
 GAP = 44
 LABEL_H = 74
 TARGET_H = 1500
+TARGET_W = 700
+RADIUS = 58
 BG = (238, 235, 228)
 
 
 def load(p):
-    im = Image.open(p).convert("RGB")
-    s = TARGET_H / im.height
-    return im.resize((max(1, round(im.width * s)), TARGET_H), Image.LANCZOS)
+    """Normalise to identical pixel dimensions and corner treatment so that
+    nothing but the design itself distinguishes the two panels."""
+    im = Image.open(p).convert("RGB").resize((TARGET_W, TARGET_H), Image.LANCZOS)
+    mask = Image.new("L", (TARGET_W, TARGET_H), 0)
+    ImageDraw.Draw(mask).rounded_rectangle(
+        (0, 0, TARGET_W - 1, TARGET_H - 1), radius=RADIUS, fill=255)
+    out = Image.new("RGB", (TARGET_W, TARGET_H), BG)
+    out.paste(im, (0, 0), mask)
+    return out
 
 
 def label_font(size):
@@ -80,8 +88,9 @@ def main():
     with open(os.path.join(keydir, f"{a.name}.key.json"), "w") as fh:
         json.dump(key, fh)
 
+    # The key is deliberately NOT echoed: whoever renders the duel may
+    # also be the one who built one of the panels.
     print(img_path)
-    print(json.dumps(key))
 
 
 if __name__ == "__main__":
