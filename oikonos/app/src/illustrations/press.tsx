@@ -143,6 +143,163 @@ export function Press({ id, seed = 0 }: { id: string; seed?: number }) {
           <feComposite in="SourceGraphic" in2="m" operator="in" />
         </filter>
       ))}
+
+      {/* ---- COVERAGE -------------------------------------------------
+          The separation itself, and the only honest one in this module.
+
+          `screen-*` above dithers whatever it is handed. That is half a
+          press: it thins the dots, but the ink in each dot is whatever
+          the caller passed, and every caller passed a MIXED TINT —
+          --g-stone-mid is 48% cobalt stirred into cream. Measured on the
+          old windmill, inside the tower silhouette: coverage ran 0% to
+          68% across the shaft, which is correct, while 0.0% of the shade
+          face reached full ink and the densest strip averaged 27% of the
+          way from paper to cobalt. So the plate thinned the dots AND
+          weakened the ink, and half of each did nothing. A blind critic
+          measured the same thing by eye: "essentially none at full ink.
+          A riso drum cannot print that."
+
+          This filter takes the alpha it is handed as the WANTED COVERAGE
+          and returns full-strength ink at that coverage. Where the
+          caller asks for 0.4 it does not print a 40% ink; it prints 40%
+          of the cells at 100% ink and leaves the rest bare paper, which
+          is the only thing a drum can do.
+
+          The mechanism, in order:
+            n   turbulence — one cell per screen ruling
+            na  stretched so a cell's threshold spans the full 0..1
+            d   wanted coverage MINUS this cell's threshold
+            t   hard step on d: the cell takes ink or it does not
+            s   SourceGraphic with its alpha forced to 1, which
+                un-premultiplies the fill back to full strength
+          The transfer is close to linear where it matters and lifts a
+          little: the windmill's far ridge asks for 0.36 and measures
+          40.7% of cells inked. It does NOT reach solid, though — a
+          cell whose threshold clamps at the top never takes ink, so
+          asking for 1.0 leaves perhaps a tenth of the field open. That
+          is a screen behaving like a screen. A mass that has to be
+          SOLID is therefore drawn as a solid fill and the coverage pass
+          is used only where the mass turns, which is also the cheaper
+          way round.
+
+          Give it coverage with `fillOpacity` for a flat field, or with
+          a `CovMask` for a mass that turns.
+          ------------------------------------------------------------ */}
+      {COV.map(({ key, f }, i) => (
+        <filter key={key} id={`${id}-cov-${key}`}
+          x="-3%" y="-3%" width="106%" height="106%"
+          colorInterpolationFilters="sRGB">
+          <feTurbulence type="fractalNoise" baseFrequency={f} numOctaves="1"
+            seed={53 + seed + i * 19} stitchTiles="stitch" result="n" />
+          <feColorMatrix in="n" type="matrix" result="na"
+            values="0 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 0 0
+                    2.6 0 0 0 -0.8" />
+          <feComposite in="SourceAlpha" in2="na" operator="arithmetic"
+            k1="0" k2="1" k3="-1" k4="0" result="d" />
+          <feColorMatrix in="d" type="matrix" result="t"
+            values="0 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 0 0
+                    0 0 0 255 0" />
+          <feColorMatrix in="SourceGraphic" type="matrix" result="s"
+            values="1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    0 0 0 0 1" />
+          <feComposite in="s" in2="t" operator="in" />
+        </filter>
+      ))}
+    </>
+  );
+}
+
+/**
+ * The screen rulings a coverage pass can be pulled through. FINER than
+ * `SCREENS` across the board — a cell here is one to three units where
+ * `SCREENS` runs two to nine — because these dots are full-strength ink
+ * and a full-strength dot reads at a fraction of the size a tinted one
+ * needs. Opened up to `SCREENS` sizes the first cut of this filter gave
+ * a hillside made of amorphous blobs: at half coverage a big cell is
+ * not a screen, it is camouflage.
+ */
+const COV = [
+  { key: 'fine', f: 0.86 },
+  { key: 'mid', f: 0.52 },
+  { key: 'coarse', f: 0.32 },
+] as const;
+
+/** Reference a coverage screen. */
+export const cov = (id: string, scale: ScreenScale = 'mid') =>
+  `url(#${id}-cov-${scale})`;
+
+/**
+ * A coverage map for a mass that turns: a mask whose luminance IS the
+ * wanted dot coverage, running across the box of the mass itself.
+ *
+ * `box` is not optional bookkeeping. Expressed over the whole plate, a
+ * ramp across a 70-unit tower changes by a fifth of a stop and both
+ * cheeks come out identical — which a blind critic caught in those
+ * words. A coverage map runs from one side of its own object to the
+ * other or it describes nothing.
+ */
+export function CovMask({
+  id, name, w, h, box, from = 0, to = 1, x1 = 0, y1 = 0, x2 = 1, y2 = 0,
+}: {
+  id: string; name: string; w: number; h: number;
+  box: { x: number; y: number; w: number; h: number };
+  /** Coverage at the start of the run, and at the end. */
+  from?: number; to?: number;
+  x1?: number; y1?: number; x2?: number; y2?: number;
+}) {
+  const k = `${id}-${name}`;
+  const gx = (t: number) => box.x + box.w * t;
+  const gy = (t: number) => box.y + box.h * t;
+  return (
+    <>
+      <linearGradient id={`${k}-cg`} gradientUnits="userSpaceOnUse"
+        x1={gx(x1)} y1={gy(y1)} x2={gx(x2)} y2={gy(y2)}>
+        <stop offset="0" stopColor="#fff" stopOpacity={from} />
+        <stop offset="1" stopColor="#fff" stopOpacity={to} />
+      </linearGradient>
+      <mask id={`${k}-cm`} maskUnits="userSpaceOnUse" x="0" y="0" width={w} height={h}>
+        <rect x="0" y="0" width={w} height={h} fill={`url(#${k}-cg)`} />
+      </mask>
+    </>
+  );
+}
+
+/**
+ * A mass printed in ONE ink, turned by coverage.
+ *
+ * The mask has to sit inside the filter, not outside it: SVG applies a
+ * filter before a mask, so a mask on the filtered element would fade
+ * finished dots instead of deciding how many there are.
+ */
+export function Cov({
+  id, name, d, tone, base, scale = 'mid', children,
+}: {
+  id: string; name: string; d?: string; tone?: string;
+  /**
+   * The stock the pass lands on. Give it whenever the mass stands in
+   * front of something: a coverage pass prints ink and nothing else, so
+   * without a base the plate behind shows through the open cells and
+   * the object is a ghost. (It cost one render: three whitewashed
+   * towers came back as blue speckle floating on a green hill.) Leave
+   * it off for a mass lying directly on the paper.
+   */
+  base?: string;
+  scale?: ScreenScale; children?: ReactNode;
+}) {
+  return (
+    <>
+      {base && d && <path d={d} fill={base} />}
+      <g filter={cov(id, scale)}>
+        <g mask={`url(#${id}-${name}-cm)`}>
+          {d ? <path d={d} fill={tone} /> : children}
+        </g>
+      </g>
     </>
   );
 }
