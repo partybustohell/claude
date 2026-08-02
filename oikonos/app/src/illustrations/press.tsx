@@ -84,6 +84,90 @@ export function Press({ id, seed = 0 }: { id: string; seed?: number }) {
 }
 
 /* ================================================================
+   SCREEN RAMP — value by dot coverage, not by a fill that fades
+   ----------------------------------------------------------------
+   Round three's largest finding. Nine of fourteen plates modelled a
+   mass with a <linearGradient>: the shaft of a tower, the body of a
+   rock, the fall of a hillside. Four independent blind critics named it
+   without being asked, in nearly the same words — "an airbrushed
+   cylinder", "a gradient where flat ink belongs", "flatly foreign to
+   riso", "the single most foreign mark on either plate".
+
+   They are right, and the reason is mechanical. A risograph has one
+   drum per ink and no way to print a half-strength ink. It turns value
+   the only way it can: by changing how many dots per unit area land.
+   A fill that fades is a thing the press physically cannot do.
+
+   So a mass is now built as a flat base ink with two dithered passes
+   over it — a lighter ink where the light falls, a darker one where it
+   does not — each masked by a gradient so what varies across the shape
+   is DOT COVERAGE. The gradient survives, but it drives coverage rather
+   than colour, which is exactly the distinction between a print and an
+   airbrush. It also cannot drift through grey on the way, the way a
+   cream-to-cobalt ramp does, because no intermediate colour is ever
+   mixed — only more or fewer dots of colours that are already in the
+   palette.
+   ================================================================ */
+
+/** Defs for one ramp. `name` scopes it within the plate. */
+export function RampDefs({
+  id, name, w, h, x1 = 0.1, y1 = 0, x2 = 0.9, y2 = 1,
+}: {
+  id: string; name: string; w: number; h: number;
+  x1?: number; y1?: number; x2?: number; y2?: number;
+}) {
+  const k = `${id}-${name}`;
+  return (
+    <>
+      <linearGradient id={`${k}-gl`} x1={x1} y1={y1} x2={x2} y2={y2}>
+        <stop offset="0" stopColor="#fff" stopOpacity="1" />
+        <stop offset="0.52" stopColor="#fff" stopOpacity="0" />
+      </linearGradient>
+      <linearGradient id={`${k}-gd`} x1={x1} y1={y1} x2={x2} y2={y2}>
+        <stop offset="0.44" stopColor="#fff" stopOpacity="0" />
+        <stop offset="1" stopColor="#fff" stopOpacity="1" />
+      </linearGradient>
+      <mask id={`${k}-ml`}>
+        <rect x="0" y="0" width={w} height={h} fill={`url(#${k}-gl)`} />
+      </mask>
+      <mask id={`${k}-md`}>
+        <rect x="0" y="0" width={w} height={h} fill={`url(#${k}-gd)`} />
+      </mask>
+    </>
+  );
+}
+
+/**
+ * The ramp. `d` is the mass; `base` is the flat ink it is printed in;
+ * `lit` and `deep` are the two inks whose dot coverage does the turning.
+ */
+export function ScreenRamp({
+  id, name, d, w, h, base, lit, deep, litOpacity = 0.9, deepOpacity = 0.85,
+}: {
+  id: string; name: string; d: string; w: number; h: number;
+  base: string; lit: string; deep: string;
+  litOpacity?: number; deepOpacity?: number;
+}) {
+  const k = `${id}-${name}`;
+  return (
+    <>
+      <defs><clipPath id={`${k}-clip`}><path d={d} /></clipPath></defs>
+      <path d={d} fill={base} />
+      <g clipPath={`url(#${k}-clip)`}>
+        <g mask={`url(#${k}-ml)`}>
+          <rect x="0" y="0" width={w} height={h} fill={lit}
+            opacity={litOpacity} filter={ink(id, 'stipple')} />
+        </g>
+        <g mask={`url(#${k}-md)`}>
+          <rect x="0" y="0" width={w} height={h} fill={deep}
+            opacity={deepOpacity} filter={ink(id, 'stipple-coarse')} />
+        </g>
+      </g>
+    </>
+  );
+}
+
+/* ================================================================
    Entrance
    ================================================================ */
 

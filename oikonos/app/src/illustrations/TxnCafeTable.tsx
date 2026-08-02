@@ -20,6 +20,7 @@
  * as one path each) for the pool's falloff and the terrazzo aggregate.
  */
 import { motion, useReducedMotion } from 'framer-motion';
+import { RampDefs, ScreenRamp } from './press';
 import { gentle, surface } from '../lib/motion';
 
 const W = 390;
@@ -187,18 +188,15 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
           <feComposite in="SourceGraphic" in2="m" operator="in" />
         </filter>
 
-        {/* The stone is not one flat cream: light gathers at the left rim. */}
-        <linearGradient id="tc-stone" x1="0.05" y1="0" x2="0.98" y2="0.95">
-          <stop offset="0" stopColor="#fffdf6" />
-          <stop offset="0.44" stopColor="#fbf4e4" />
-          <stop offset="1" stopColor="#f0e3c6" />
-        </linearGradient>
-
-        <linearGradient id="tc-edge" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--paper-warm)" />
-          <stop offset="0.46" stopColor="#e0cfa9" />
-          <stop offset="1" stopColor="#bda880" />
-        </linearGradient>
+        {/* The table top is not one flat cream — light gathers at the
+            left rim — but it turns by DOT COVERAGE, not by a fill that
+            fades. Round three found smooth gradients modelling form on
+            nine of fourteen plates and four critics named them without
+            being asked; this was one of them. The inline hexes went with
+            it: the brief says derive a value in tokens.css, never inline
+            a colour, and these three were the last ones left. */}
+        <RampDefs id="tc" name="stone" w={390} h={470} x1={0.05} y1={0} x2={0.98} y2={0.95} />
+        <RampDefs id="tc" name="edge" w={390} h={470} x1={0} y1={0} x2={1} y2={0} />
 
         <clipPath id="tc-topclip">
           <ellipse cx={TX} cy={TY} rx={TRX} ry={TRY} />
@@ -236,9 +234,12 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
           <path
             d={`M${TX - TRX} ${TY}A${TRX} ${TRY} 0 0 0 ${TX + TRX} ${TY}` +
                `L${TX + TRX} ${TY + SLAB}A${TRX} ${TRY} 0 0 1 ${TX - TRX} ${TY + SLAB}Z`}
-            fill="url(#tc-edge)"
+            fill="var(--g-wall)"
           />
-          <ellipse cx={TX} cy={TY} rx={TRX} ry={TRY} fill="url(#tc-stone)" />
+          <ScreenRamp id="tc" name="stone" w={390} h={470}
+            d={`M${TX - TRX} ${TY}a${TRX} ${TRY} 0 1 0 ${TRX * 2} 0a${TRX} ${TRY} 0 1 0 ${-TRX * 2} 0Z`}
+            base="var(--g-stone)" lit="var(--g-stone-hi)" deep="var(--g-wall)"
+            deepOpacity={0.55} />
         </g>
 
         {/* aggregate */}

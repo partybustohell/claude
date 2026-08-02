@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Plate, Press, ink, useLayer, mulberry32 } from './press';
+import { Plate, Press, ink, useLayer, mulberry32, RampDefs, ScreenRamp } from './press';
 import { Dome, Void } from './parts';
 
 /**
@@ -203,13 +203,8 @@ export function WelcomeCliff({ className = '' }: { className?: string }) {
       <defs>
         <Press id={ID} seed={97} />
         <clipPath id={`${ID}-hill`}><path d={HILL} /></clipPath>
-        {/* The one permitted soft gradient: form across the landmass. */}
-        <linearGradient id={`${ID}-rock`} x1="0.15" y1="0" x2="0.85" y2="1">
-          <stop offset="0" stopColor="var(--g-green-lit)" />
-          <stop offset="0.22" stopColor="var(--g-green)" />
-          <stop offset="0.7" stopColor="var(--g-green)" />
-          <stop offset="1" stopColor="var(--g-green-deep)" />
-        </linearGradient>
+        {/* Value turns by dot coverage, not by a fill that fades. */}
+        <RampDefs id={ID} name="rock" w={W} h={H} x1={0.15} y1={0} x2={0.85} y2={1} />
       </defs>
 
       {/* ============================================================
@@ -217,7 +212,8 @@ export function WelcomeCliff({ className = '' }: { className?: string }) {
           ============================================================ */}
       <motion.g {...layer(38, 0.04)}>
         <g filter={ink(ID, 'grain')}>
-          <path d={HILL} fill={`url(#${ID}-rock)`} />
+          <ScreenRamp id={ID} name="rock" d={HILL} w={W} h={H}
+            base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
 
           <g clipPath={`url(#${ID}-hill)`}>
             {GULLIES.map((g, i) => (
@@ -387,10 +383,16 @@ export function WelcomeCliff({ className = '' }: { className?: string }) {
              same fault the critic caught on the old plate's lowest box,
              reappearing on the one building that crowns the drawing. */
           const CX = 316;
-          const foot = crestAt(CX) + 8;
+          const x0raw = CX - 20;
+          /* Sample the crest at BOTH ends of the building and take the
+             lower. Sampling at the centre only, as the first redraw did,
+             put the left two-thirds of a 44-wide chapel over open sky —
+             the crest at x=296 is twenty units below the crest at 316.
+             A wide object has to be tested where it is widest. */
+          const foot = Math.max(crestAt(x0raw), crestAt(x0raw + 44)) + 8;
           const bh = 26;
           const top = foot - bh;
-          const x0 = CX - 20;
+          const x0 = x0raw;
           return (
             <>
               <g clipPath={`url(#${ID}-hill)`}>
@@ -404,7 +406,7 @@ export function WelcomeCliff({ className = '' }: { className?: string }) {
                 <rect x={x0} y={top} width="44" height="1.4" fill="var(--g-stone-hi)" />
                 <Void x={x0 + 17} y={top + 8} w={10} h={18} arch />
                 {/* flat cobalt dome — ribs, cross, done */}
-                <Dome x={CX + 6} base={top} r={17} />
+                <Dome x={CX + 6} base={top} r={17} onInk />
                 {/* the bell arch beside it */}
                 <rect x={x0 - 12} y={top - 10} width="10" height={bh + 10}
                   fill="var(--g-stone)" />

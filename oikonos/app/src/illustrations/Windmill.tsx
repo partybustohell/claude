@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { Plate, Press, ink, useLayer } from './press';
+import { Plate, Press, ink, useLayer, RampDefs, ScreenRamp } from './press';
 import { Ridge, Cypress } from './parts';
 
 /**
@@ -72,17 +72,12 @@ export function Windmill({ className = '' }: { className?: string }) {
     >
       <defs>
         <Press id={ID} seed={29} />
-        <linearGradient id={`${ID}-tower`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--g-stone-hi)" />
-          <stop offset="0.26" stopColor="var(--g-stone)" />
-          <stop offset="0.72" stopColor="var(--g-stone-shade)" />
-          <stop offset="1" stopColor="var(--g-stone-mid)" />
-        </linearGradient>
-        <linearGradient id={`${ID}-cap`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--g-sea-lift)" />
-          <stop offset="0.42" stopColor="var(--g-sea)" />
-          <stop offset="1" stopColor="var(--g-sea-deep)" />
-        </linearGradient>
+        {/* A cylinder turns by dot coverage. Ramping cream to cobalt
+            across the shaft measured 18.3% near-neutral pixels — the
+            ramp passes through grey on the way, which is the palette's
+            one prohibition arriving via a gradient stop. */}
+        <RampDefs id={ID} name="tower" w={390} h={250} x1={0} y1={0} x2={1} y2={0} />
+        <RampDefs id={ID} name="cap" w={390} h={250} x1={0} y1={0} x2={1} y2={0} />
         <clipPath id={`${ID}-ground`}><path d={GROUND} /></clipPath>
       </defs>
 
@@ -160,13 +155,10 @@ export function Windmill({ className = '' }: { className?: string }) {
 
         <g filter={ink(ID, 'grain-fine')}>
           {/* ---- tower: a cylinder, so the value turns rather than steps ---- */}
-          <path
-            d={`M${CX - TOP_R} ${BASE - TOWER_H}`
-              + `L${CX - BOT_R} ${BASE}`
-              + `L${CX + BOT_R} ${BASE}`
-              + `L${CX + TOP_R} ${BASE - TOWER_H}Z`}
-            fill={`url(#${ID}-tower)`}
-          />
+          <ScreenRamp id={ID} name="tower" w={390} h={250}
+            d={`M${CX - TOP_R} ${BASE - TOWER_H}L${CX - BOT_R} ${BASE}`
+              + `L${CX + BOT_R} ${BASE}L${CX + TOP_R} ${BASE - TOWER_H}Z`}
+            base="var(--g-stone)" lit="var(--g-stone-hi)" deep="var(--g-stone-mid)" />
           {/* the whitewash is renewed every spring at the foot only */}
           <path d={`M${CX - BOT_R + 1} ${BASE - 12}L${CX + BOT_R - 1} ${BASE - 12}`}
             stroke="var(--g-stone-hi)" strokeWidth="1.4" opacity="0.5" />
@@ -180,11 +172,10 @@ export function Windmill({ className = '' }: { className?: string }) {
           <path d={`M${CX - 8} ${BASE}v-15a8 8 0 0 1 16 0v15Z`} fill="var(--g-void)" />
 
           {/* ---- cap: a cone in the cobalt, the same roof as the chapel ---- */}
-          <path
+          <ScreenRamp id={ID} name="cap" w={390} h={250}
             d={`M${CX - TOP_R - 4} ${BASE - TOWER_H}`
               + `Q${CX} ${BASE - TOWER_H - 26} ${CX + TOP_R + 4} ${BASE - TOWER_H}Z`}
-            fill={`url(#${ID}-cap)`}
-          />
+            base="var(--g-sea)" lit="var(--g-sea-lift)" deep="var(--g-sea-deep)" />
           {/* the eaves course, catching the light along its whole length */}
           <rect x={CX - TOP_R - 6} y={BASE - TOWER_H - 1.6} width={(TOP_R + 6) * 2}
             height="3.4" rx="1.6" fill="var(--g-stone-hi)" />

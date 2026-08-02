@@ -202,5 +202,157 @@
    "the sage hill drifts toward grey-green"
   ],
   "note": "Digest of the blind critic's verdict, not the verbatim text."
+ },
+ "round4/welcome": {
+  "round": 4,
+  "duel": "r01",
+  "subject": "welcome",
+  "against": "phone1",
+  "result": "loss",
+  "margin": "clear",
+  "residual_faults": [
+   "every right-hand plane — church, houses, stair risers — is the same flat lavender-slate: a half-strength blue, functionally cool grey",
+   "the terraces read as a decorative plinth projecting both left and right, not a cast shadow",
+   "the hill is one uniform green wedge with soft airbrushed darkening along its upper-left silhouette"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/harbour": {
+  "round": 4,
+  "duel": "r02",
+  "subject": "harbour",
+  "against": "acropolis",
+  "result": "loss",
+  "margin": "narrow",
+  "residual_faults": [
+   "no hierarchy: the quay slab and the caique compete at equal weight",
+   "the quay is sliced flat by the left frame edge and its identity never resolves",
+   "nothing sits in the water — no displacement, no waterline shadow"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/amphorae": {
+  "round": 4,
+  "duel": "r03",
+  "subject": "amphorae",
+  "against": "horizon",
+  "result": "loss",
+  "margin": "narrow",
+  "residual_faults": [
+   "five jars in one unbroken row, none overlapping, evenly spaced — assembled, not arranged",
+   "the ink band occupies the lower third of each body identically on left and right, so nothing turns",
+   "a pale ellipse beneath each foot reads as a halo, not a contact shadow"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/ascent": {
+  "round": 4,
+  "duel": "r04",
+  "subject": "ascent",
+  "against": "acropolis",
+  "result": "win",
+  "margin": "clear",
+  "residual_faults": [],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/windmill": {
+  "round": 4,
+  "duel": "r05",
+  "subject": "windmill",
+  "against": "horizon",
+  "result": "win",
+  "margin": "narrow",
+  "residual_faults": [
+   "the sail wheel is a tangle of outlined quadrilaterals that never resolves into a rotor",
+   "no contact shadow where the tower meets the ridge",
+   "the stipple is uniform on both flanks, so the cylinder never turns",
+   "vermilion entirely absent"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/mosaic": {
+  "round": 4,
+  "duel": "r06",
+  "subject": "mosaic",
+  "against": "acropolis",
+  "result": "win",
+  "margin": "narrow",
+  "residual_faults": [
+   "the meander is chopped mid-key at both edges — a scenic crop applied to a self-terminating border",
+   "no focal point; density uniform top to bottom"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/lighthouse": {
+  "round": 4,
+  "duel": "r07",
+  "subject": "lighthouse",
+  "against": "horizon",
+  "result": "win",
+  "margin": "narrow",
+  "residual_faults": [
+   "the headland runs off bottom and right in one unmodulated arc — overflow, not crop",
+   "the tower makes no contact shadow on the hill",
+   "the shaft's speckle describes nothing about the cylinder and starts to read as grey"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/shopfront": {
+  "round": 4,
+  "duel": "r08",
+  "subject": "shopfront",
+  "against": "acropolis",
+  "result": "loss",
+  "margin": "clear",
+  "residual_faults": [
+   "nothing casts a shadow: the shutter block floats, the awning struts hover above the awning",
+   "the crates are illegible stubs overlapping into mush",
+   "the awning's cast stops on a hard vertical edge at the door",
+   "the pavement is a flat lavender-blue that reads as grey"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/colophon": {
+  "round": 4,
+  "duel": "r09",
+  "subject": "colophon",
+  "against": "horizon",
+  "result": "loss",
+  "margin": "clear",
+  "residual_faults": [
+   "the internal tooth still begins at a hard horizontal edge — grain that stops on a straight line is noise over vector art",
+   "the discs are half-strength inks with soft vignetted edges",
+   "three discs sliced by three frame edges at once"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/santorini": {
+  "round": 4,
+  "duel": "r10",
+  "subject": "santorini",
+  "against": "acropolis",
+  "result": "win",
+  "margin": "narrow",
+  "residual_faults": [
+   "no cast shadow anywhere, so the cubes still read as stickers pressed to the green",
+   "the pale blue faces sit so low in coverage they drift toward grey",
+   "the top-right block and cypress run into the frame edge as overflow"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round4/olivegrove": {
+  "round": 4,
+  "duel": "r11",
+  "subject": "olivegrove",
+  "against": "horizon",
+  "result": "win",
+  "margin": "clear",
+  "residual_faults": [
+   "one ink: pine and cream, no cobalt and no vermilion",
+   "the distant ridge is a half-strength tint, its crest blurred rather than dithered",
+   "speckle uniform in density regardless of value — a noise layer, not coverage",
+   "tree spacing is stamp-repeat mechanical"
+  ],
+  "note": "After the three systemic fixes. Digest, not verbatim."
  }
 }

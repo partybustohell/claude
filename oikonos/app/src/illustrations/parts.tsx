@@ -170,9 +170,50 @@ export function Ridge({
   );
 }
 
+/* ================================================================
+   CONTACT
+   ----------------------------------------------------------------
+   Round three's third systemic finding: eight of eleven plates were
+   faulted for objects that cast nothing. "The awning throws no shadow
+   on the shopfront beneath it." "Not one tree casts a shadow onto its
+   terrace, so the trunks are stapled on rather than planted." "The
+   cypress and the chapel both sit on the green with a hard cut edge and
+   no anchoring dark, so they are decals, not objects."
+   Round two fixed this for houses and for jars, one plate at a time,
+   and every plate written afterwards repeated the omission — which is
+   what happens when a rule is treated as a detail. It is a part now,
+   and the parts that recur carry it themselves.
+   ================================================================ */
+
+/**
+ * The anchoring dark where an object meets its ground. Offset to the
+ * RIGHT, because the sun is upper left in every plate in this app.
+ */
+export function Contact({
+  cx, cy, rx, ry, id, tone = 'var(--g-green-deep)', opacity = 0.4,
+}: {
+  cx: number; cy: number; rx: number; ry: number;
+  id?: string; tone?: string; opacity?: number;
+}) {
+  return (
+    <g>
+      <ellipse cx={cx + rx * 0.3} cy={cy} rx={rx} ry={ry} fill={tone} opacity={opacity} />
+      {/* dithered, so the shadow has no vector edge */}
+      {id && (
+        <ellipse cx={cx + rx * 0.3} cy={cy} rx={rx * 1.25} ry={ry * 1.3}
+          fill={tone} opacity={opacity * 0.7} filter={ink(id, 'stipple')} />
+      )}
+    </g>
+  );
+}
+
 /**
  * A cypress. Standing punctuation — it appears wherever a composition
  * needs a vertical to stop the eye running off.
+ *
+ * It plants itself: the contact shadow is drawn here rather than left
+ * to each caller, because three separate plates were faulted for a
+ * cypress that touched nothing.
  */
 export function Cypress({
   x, base, h, lean = 0, id,
@@ -186,7 +227,9 @@ export function Cypress({
     + `C${x + w * 0.48} ${base - h * 0.02} ${x - w * 0.48} ${base - h * 0.02} ${x - w * 0.58} ${base - h * 0.11}`
     + `C${x - w * 0.72} ${top + h * 0.62} ${x - w * 0.86} ${top + h * 0.34} ${tip} ${top}Z`;
   return (
-    <g filter={id ? ink(id, 'grain') : undefined}>
+    <g>
+      <Contact cx={x} cy={base} rx={h * 0.16} ry={h * 0.035} id={id} opacity={0.38} />
+      <g filter={id ? ink(id, 'grain') : undefined}>
       <rect x={x - h * 0.017} y={base - h * 0.14} width={h * 0.034} height={h * 0.15}
         fill="var(--g-green-deep)" />
       <path d={body} fill="var(--g-green-deep)" />
@@ -196,6 +239,7 @@ export function Cypress({
           + `C${x - w * 0.72} ${top + h * 0.62} ${x - w * 0.86} ${top + h * 0.34} ${tip} ${top}Z`}
         fill="var(--g-green)" opacity="0.85"
       />
+      </g>
     </g>
   );
 }
@@ -298,10 +342,16 @@ export function Void({
  * per-screen exception.
  */
 export function Dome({
-  x, base, r,
-}: { x: number; base: number; r: number }) {
+  x, base, r, onInk = false,
+}: { x: number; base: number; r: number; onInk?: boolean }) {
   const cy = base - r * 0.1;
   const ry = r * 0.92;
+  /* On a cobalt ground the cobalt dome is the sky. A lit rim was not
+     enough — round three read it as "a hollow cream outline with sky
+     showing straight through". On ink stock the dome takes the lighter
+     cobalt so it is a mass, not a hole. */
+  const shell = onInk ? 'var(--g-sea-lift)' : 'var(--g-sea)';
+  const rib = onInk ? 'var(--g-stone-hi)' : 'var(--g-sea-lift)';
   return (
     <g>
       {/* drum */}
@@ -310,8 +360,7 @@ export function Dome({
       <rect x={x - r} y={base - r * 0.1} width={r * 2} height="1.2"
         fill="var(--g-stone-hi)" />
       {/* dome */}
-      <path d={`M${x - r} ${cy}A${r} ${ry} 0 0 1 ${x + r} ${cy}Z`}
-        fill="var(--g-sea)" />
+      <path d={`M${x - r} ${cy}A${r} ${ry} 0 0 1 ${x + r} ${cy}Z`} fill={shell} />
       {/* the lit rim: upper left, where the sun is */}
       <path
         d={`M${x - r} ${cy}A${r} ${ry} 0 0 1 ${x + r * 0.26} ${cy - ry * 0.96}`}
@@ -319,7 +368,7 @@ export function Dome({
         strokeLinecap="round"
       />
       {/* ribs — three, flat, no highlight */}
-      <g stroke="var(--g-sea-lift)" strokeWidth="0.9" opacity="0.5">
+      <g stroke={rib} strokeWidth="0.9" opacity={onInk ? 0.4 : 0.5}>
         {[-0.55, 0, 0.55].map((t) => (
           <path key={t}
             d={`M${x + r * t * 0.9} ${cy}Q${x + r * t * 0.62} ${cy - r * 0.62} ${x + r * t * 0.2} ${cy - r * 0.9}`}

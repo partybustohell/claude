@@ -4,6 +4,8 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
+  /* tex-paper / tex-ink position their overlay against this */
+  isolation: isolate;
 }
 
 .proof--paper { background: var(--paper); }

@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { Plate, Press, ink, useLayer } from './press';
-import { Awning, Void } from './parts';
+import { Awning, Void, Contact } from './parts';
 
 /**
  * SHOPFRONT — where the money actually goes.
@@ -41,10 +41,15 @@ export function Shopfront({ className = '' }: { className?: string }) {
     >
       <defs>
         <Press id={ID} seed={53} />
-        <linearGradient id={`${ID}-cast`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--g-stone-mid)" stopOpacity="0.5" />
-          <stop offset="1" stopColor="var(--g-stone-mid)" stopOpacity="0" />
+        {/* The awning's cast, as a mask on a dithered fill rather than a
+            soft wash — the shadow thins by losing dots. */}
+        <linearGradient id={`${ID}-castg`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity="1" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
+        <mask id={`${ID}-castm`}>
+          <rect x="0" y="132" width="390" height="60" fill={`url(#${ID}-castg)`} />
+        </mask>
       </defs>
 
       {/* ============================================================
@@ -82,7 +87,12 @@ export function Shopfront({ className = '' }: { className?: string }) {
           3 — THE AWNING, and the shadow it throws
           ============================================================ */}
       <motion.g {...layer(14, 0.18)}>
-        <rect x="16" y="132" width="252" height="46" fill={`url(#${ID}-cast)`} />
+        {/* it throws onto the front below it — named in round three as
+            the clearest case of an object casting nothing */}
+        <g mask={`url(#${ID}-castm)`}>
+          <rect x="16" y="132" width="252" height="56" fill="var(--g-stone-mid)"
+            filter={ink(ID, 'stipple')} />
+        </g>
         <Awning x={16} y={118} w={252} drop={26} stripes={9} />
         {/* the tie rods that hold it out from the wall */}
         <g stroke="var(--g-stone-shade)" strokeWidth="1.4">
@@ -132,11 +142,14 @@ export function Shopfront({ className = '' }: { className?: string }) {
         </g>
 
         {/* crates: three, each throwing the same shadow the same way */}
-        {[{ x: 232, w: 46, h: 26 }, { x: 284, w: 38, h: 20 }, { x: 328, w: 42, h: 30 }]
+        {/* the row closes at 350: carried to the frame the last crate
+            read as accidental overflow rather than a crop */}
+        {[{ x: 224, w: 46, h: 26 }, { x: 276, w: 38, h: 20 }, { x: 316, w: 34, h: 30 }]
           .map((c, i) => (
-            <g key={i} filter={ink(ID, 'grain-fine')}>
-              <path d={`M${c.x + c.w} ${PAVEMENT}l16 0l0 4l-${c.w + 16} 0l0-4Z`}
-                fill="var(--g-stone-dark)" opacity="0.3" />
+            <g key={i}>
+              <Contact cx={c.x + c.w * 0.5} cy={PAVEMENT + 1} rx={c.w * 0.66} ry={3}
+                id={ID} tone="var(--g-stone-dark)" opacity={0.34} />
+              <g filter={ink(ID, 'grain-fine')}>
               <rect x={c.x} y={PAVEMENT - c.h} width={c.w} height={c.h}
                 fill="var(--g-stone)" />
               <rect x={c.x} y={PAVEMENT - c.h} width="2" height={c.h}
@@ -151,6 +164,7 @@ export function Shopfront({ className = '' }: { className?: string }) {
                   <circle key={j} cx={c.x + c.w * t + 4} cy={PAVEMENT - c.h - 3}
                     r={4.2 - j * 0.4} />
                 ))}
+              </g>
               </g>
             </g>
           ))}

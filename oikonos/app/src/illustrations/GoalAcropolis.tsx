@@ -1,4 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
+import { RampDefs, ScreenRamp } from './press';
 import { surface, gentle, fade } from '../lib/motion';
 
 /**
@@ -196,13 +197,14 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
           <feComposite in="SourceGraphic" in2="m" operator="in" />
         </filter>
 
-        {/* the one permitted soft gradient — form across the rock */}
-        <linearGradient id="gd-rock" x1="0.04" y1="0.04" x2="0.9" y2="1">
-          <stop offset="0" stopColor="var(--g-green-lit)" />
-          <stop offset="0.26" stopColor="var(--g-green)" />
-          <stop offset="0.78" stopColor="var(--g-green)" />
-          <stop offset="1" stopColor="var(--g-green-deep)" />
-        </linearGradient>
+        {/* Was a linear gradient across the rock. FOUR independent blind
+            critics in round three named it unprompted — "a soft
+            lens-shaped lightening with a feathered edge", "an airbrushed
+            gradient in a four-ink flat-print language", "the single most
+            foreign mark on either plate". This plate had passed two
+            rounds of critique with that in it. Value turns by coverage
+            now, like everything else. */}
+        <RampDefs id="gd" name="rock" w={390} h={470} x1={0.04} y1={0.04} x2={0.9} y2={1} />
 
         {/* fades the printed shimmer out with depth */}
         <linearGradient id="gd-fade-down" x1="0" y1="0" x2="0" y2="1">
@@ -288,7 +290,8 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
           ============================================================ */}
       <motion.g {...layer(46, 0.12)}>
         <g filter="url(#gd-grain)">
-          <path d={ROCK} fill="url(#gd-rock)" />
+          <ScreenRamp id="gd" name="rock" d={ROCK} w={390} h={470}
+            base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
 
           <g clipPath="url(#gd-rock-clip)">
             {/* gullies raking down the fall line of the sea-facing face */}
@@ -507,7 +510,20 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
       </motion.g>
 
       {/* ============================================================
-          6 — THE GULL
+          6 — THE PENNANT
+          ----------------------------------------------------------
+          Round three: "vermilion never appears at all, so a four-ink
+          palette is spent as two." A flagstaff on the headland is the
+          one place a warm mark belongs here.
+          ============================================================ */}
+      <motion.g {...layer(10, 0.86)}>
+        <rect x="150.6" y="150" width="2" height="42" fill="var(--g-stone)" />
+        <rect x="150.6" y="150" width="0.8" height="42" fill="var(--g-stone-hi)" />
+        <path d="M152.6 152L172 158L152.6 164Z" fill="var(--g-clay)" />
+      </motion.g>
+
+      {/* ============================================================
+          7 — THE GULL
           ============================================================ */}
       <motion.g
         initial={reduce ? undefined : { opacity: 0, x: -14, y: 5 }}

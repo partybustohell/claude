@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Plate, Press, ink, useLayer, mulberry32 } from './press';
+import { Plate, Press, ink, useLayer, mulberry32, RampDefs, ScreenRamp } from './press';
 import { Water, WaterDefs, Ridge, Cypress, Dome, Block, Void, Gulls } from './parts';
 
 /**
@@ -100,11 +100,7 @@ export function Santorini({ className = '' }: { className?: string }) {
         <Press id={ID} seed={71} />
         <WaterDefs id={ID} y={HORIZON} h={470 - HORIZON} />
         <clipPath id={`${ID}-cliff`}><path d={CLIFF} /></clipPath>
-        <linearGradient id={`${ID}-rock`} x1="0.05" y1="0.05" x2="0.9" y2="1">
-          <stop offset="0" stopColor="var(--g-green-lit)" />
-          <stop offset="0.28" stopColor="var(--g-green)" />
-          <stop offset="1" stopColor="var(--g-green-deep)" />
-        </linearGradient>
+        <RampDefs id={ID} name="rock" w={390} h={470} x1={0.05} y1={0.05} x2={0.9} y2={1} />
       </defs>
 
       {/* ---- 1. the far headland, across the water ---- */}
@@ -120,7 +116,8 @@ export function Santorini({ className = '' }: { className?: string }) {
       {/* ---- 3. the cliff ---- */}
       <motion.g {...layer(40, 0.1)}>
         <g filter={ink(ID, 'grain')}>
-          <path d={CLIFF} fill={`url(#${ID}-rock)`} />
+          <ScreenRamp id={ID} name="rock" d={CLIFF} w={390} h={470}
+            base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
           <g clipPath={`url(#${ID}-cliff)`}>
             {GULLIES.map((g, i) => (
               <path key={i} d={g.d} opacity={g.o}

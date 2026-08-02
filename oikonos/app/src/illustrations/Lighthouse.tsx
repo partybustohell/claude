@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Plate, Press, ink, useLayer } from './press';
+import { Plate, Press, ink, useLayer, RampDefs, ScreenRamp } from './press';
 import { Water, WaterDefs, Reflection, Gulls } from './parts';
 
 /**
@@ -62,16 +62,18 @@ export function Lighthouse({ className = '' }: { className?: string }) {
         <Press id={ID} seed={43} />
         <WaterDefs id={ID} y={HORIZON} h={260 - HORIZON} />
         <clipPath id={`${ID}-rock`}><path d={ROCK} /></clipPath>
-        <linearGradient id={`${ID}-tower`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--g-stone-hi)" />
-          <stop offset="0.3" stopColor="var(--g-stone)" />
-          <stop offset="0.78" stopColor="var(--g-stone-shade)" />
-          <stop offset="1" stopColor="var(--g-stone-mid)" />
+        {/* Measured on the old shaft: cream to neutral grey to blue-grey
+            across ten smooth steps. A cylinder turns by coverage. */}
+        <RampDefs id={ID} name="tower" w={390} h={260} x1={0} y1={0} x2={1} y2={0} />
+        {/* The beam keeps a gradient, but only as a MASK on a dithered
+            fill — the light thins by losing dots, not by fading. */}
+        <linearGradient id={`${ID}-beamg`} x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stopColor="#fff" stopOpacity="1" />
+          <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
-        <linearGradient id={`${ID}-beam`} x1="1" y1="0" x2="0" y2="0">
-          <stop offset="0" stopColor="var(--g-clay-lit)" stopOpacity="0.85" />
-          <stop offset="1" stopColor="var(--g-clay-lit)" stopOpacity="0" />
-        </linearGradient>
+        <mask id={`${ID}-beamm`}>
+          <rect x="0" y="0" width="390" height="260" fill={`url(#${ID}-beamg)`} />
+        </mask>
       </defs>
 
       {/* ============================================================
@@ -88,8 +90,10 @@ export function Lighthouse({ className = '' }: { className?: string }) {
         initial={{ opacity: 0 }} animate={{ opacity: 1 }}
         transition={{ duration: 1.1, delay: 0.6 }}
       >
-        <path d={`M${CX - 6} ${LAMP_Y - 4}L0 ${LAMP_Y - 46}L0 ${LAMP_Y + 42}Z`}
-          fill={`url(#${ID}-beam)`} filter={ink(ID, 'stipple')} />
+        <g mask={`url(#${ID}-beamm)`}>
+          <path d={`M${CX - 6} ${LAMP_Y - 4}L0 ${LAMP_Y - 46}L0 ${LAMP_Y + 42}Z`}
+            fill="var(--g-clay-lit)" filter={ink(ID, 'stipple')} />
+        </g>
       </motion.g>
 
       {/* ============================================================
@@ -129,11 +133,10 @@ export function Lighthouse({ className = '' }: { className?: string }) {
       <motion.g {...layer(18, 0.2)}>
         <g filter={ink(ID, 'grain-fine')}>
           {/* the shaft */}
-          <path
+          <ScreenRamp id={ID} name="tower" w={390} h={260}
             d={`M${CX - TOP_R} ${LAMP_Y}L${CX - BOT_R} ${BASE}`
               + `L${CX + BOT_R} ${BASE}L${CX + TOP_R} ${LAMP_Y}Z`}
-            fill={`url(#${ID}-tower)`}
-          />
+            base="var(--g-stone)" lit="var(--g-stone-hi)" deep="var(--g-stone-mid)" />
           {/* the courses. Each one is set at its own radius. */}
           {BANDS.map((t) => {
             const r = radiusAt(t);
@@ -165,8 +168,8 @@ export function Lighthouse({ className = '' }: { className?: string }) {
           {/* the lantern room, and the lamp itself */}
           <path d={`M${CX - 11} ${LAMP_Y - 11}h22v-16h-22Z`} fill="var(--g-void)" />
           <circle cx={CX - 2} cy={LAMP_Y - 19} r="5.2" fill="var(--g-clay-lit)" />
-          <circle cx={CX - 2} cy={LAMP_Y - 19} r="8.4" fill="var(--g-clay-lit)"
-            opacity="0.42" filter={ink(ID, 'stipple')} />
+          {/* no glow ring: a halo is a rendered effect. The lamp reads
+              because it is the one saturated clay disc in the plate. */}
           {/* the cap */}
           <path d={`M${CX - 13} ${LAMP_Y - 27}L${CX} ${LAMP_Y - 38}L${CX + 13} ${LAMP_Y - 27}Z`}
             fill="var(--g-sea)" />

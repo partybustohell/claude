@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import { Plate, Press, ink, useLayer, mulberry32 } from './press';
-import { Ridge, Cypress } from './parts';
+import { Plate, Press, ink, useLayer, mulberry32, RampDefs, ScreenRamp } from './press';
+import { Ridge, Cypress, Contact } from './parts';
 
 /**
  * OLIVE GROVE — the long crop.
@@ -88,11 +88,7 @@ export function OliveGrove({ className = '' }: { className?: string }) {
     >
       <defs>
         <Press id={ID} seed={83} />
-        <linearGradient id={`${ID}-slope`} x1="0.1" y1="0" x2="0.8" y2="1">
-          <stop offset="0" stopColor="var(--g-lime)" />
-          <stop offset="0.34" stopColor="var(--g-green-far)" />
-          <stop offset="1" stopColor="var(--g-green)" />
-        </linearGradient>
+        <RampDefs id={ID} name="slope" w={390} h={470} x1={0.1} y1={0} x2={0.8} y2={1} />
       </defs>
 
       {/* ---- 1. the ridge closing the valley ---- */}
@@ -103,7 +99,8 @@ export function OliveGrove({ className = '' }: { className?: string }) {
       {/* ---- 2. the hillside ---- */}
       <motion.g {...layer(24, 0.04)}>
         <g filter={ink(ID, 'grain')}>
-          <path d={`M0 ${HORIZON}H390V470H0Z`} fill={`url(#${ID}-slope)`} />
+          <ScreenRamp id={ID} name="slope" d={`M0 ${HORIZON}H390V470H0Z`} w={390} h={470}
+            base="var(--g-green-far)" lit="var(--g-lime)" deep="var(--g-green)" />
           {/* the ground between the rows, ploughed along the contour */}
           <g fill="none" stroke="var(--g-green-deep)" strokeWidth="1.4" opacity="0.18">
             {[196, 238, 288, 348, 424].map((y) => (
@@ -139,9 +136,8 @@ export function OliveGrove({ className = '' }: { className?: string }) {
               {/* the shadow it throws, right and downslope — it sits at
                   the FOOT of the trunk, not under the canopy, or the
                   tree reads as floating on its own shade */}
-              <ellipse cx={t.x + t.r * 0.5} cy={t.y + t.r * 0.62}
-                rx={t.r * 0.8} ry={t.r * 0.16}
-                fill="var(--g-green-deep)" opacity="0.24" />
+              <Contact cx={t.x} cy={t.y + t.r * 0.62} rx={t.r * 0.8} ry={t.r * 0.17}
+                id={ID} opacity={0.34} />
               <g filter={ink(ID, 'grain')}>
                 {/* The trunk — near rows only; distance eats it first.
                     It has to clear the canopy, whose lowest lobe reaches

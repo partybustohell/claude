@@ -8,6 +8,14 @@
  *
  * Reached only by the capture harness — `?plate=harbour&ground=paper`.
  * It is not a route and nothing in the app links to it.
+ *
+ * The stock carries the same tex-paper / tex-ink overlay a real screen
+ * does. It did not, and round three's critics judged the plates on bare
+ * untextured cream — "noise dusted over a flat vector lattice", "the
+ * cream ground stays smooth, so it is noise on artwork, not ink on
+ * paper". They were describing the harness as much as the drawing: on a
+ * real screen the tooth runs across plate and paper alike, and a proof
+ * that omits it is not a proof of what ships.
  */
 import { Harbour } from './Harbour';
 import { Amphorae } from './Amphorae';
@@ -45,7 +53,7 @@ export const PLATES: Record<string, (p: { className?: string }) => React.ReactEl
 export function Proof({ name, ground }: { name: string; ground: string }) {
   const P = PLATES[name];
   return (
-    <div className={`proof proof--${ground}`}>
+    <div className={`proof proof--${ground} ${ground === 'paper' ? 'tex-paper' : 'tex-ink'}`}>
       {P ? <P className="proof__plate" /> : (
         <p className="proof__missing">no plate named “{name}”</p>
       )}

@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Plate, Press, ink, useLayer } from './press';
+import { Plate, Press, ink, useLayer, RampDefs, ScreenRamp } from './press';
 import { Water, WaterDefs, Ridge, Cypress, Dome, Gulls } from './parts';
 
 /**
@@ -72,11 +72,7 @@ export function Ascent({ className = '' }: { className?: string }) {
         <Press id={ID} seed={19} />
         <WaterDefs id={ID} y={HORIZON} h={70} />
         <clipPath id={`${ID}-hill`}><path d={HILL} /></clipPath>
-        <linearGradient id={`${ID}-slope`} x1="0.1" y1="0.1" x2="0.9" y2="1">
-          <stop offset="0" stopColor="var(--g-green-lit)" />
-          <stop offset="0.3" stopColor="var(--g-green)" />
-          <stop offset="1" stopColor="var(--g-green-deep)" />
-        </linearGradient>
+        <RampDefs id={ID} name="slope" w={390} h={260} x1={0.1} y1={0.1} x2={0.9} y2={1} />
       </defs>
 
       {/* ============================================================
@@ -92,7 +88,8 @@ export function Ascent({ className = '' }: { className?: string }) {
           ============================================================ */}
       <motion.g {...layer(26, 0.08)}>
         <g filter={ink(ID, 'grain')}>
-          <path d={HILL} fill={`url(#${ID}-slope)`} />
+          <ScreenRamp id={ID} name="slope" d={HILL} w={390} h={260}
+            base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
 
           <g clipPath={`url(#${ID}-hill)`}>
             {/* the shoulder turning away to the right loses the sun */}
