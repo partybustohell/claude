@@ -96,7 +96,9 @@
      of the didone do the spacing. */
   font-size: 53px;
   line-height: 1;
-  letter-spacing: 0.004em;
+  /* The comp sets the mark tighter than default at this cap height;
+     airy gaps read as spaced-out body type rather than as a logotype. */
+  letter-spacing: -0.006em;
   color: var(--on-ink);
   white-space: nowrap;
 }
@@ -122,7 +124,9 @@
   left: 50%;
   /* 51.2%: the optical centre of the O's ink inside a line-height-1 box,
      not the box's own midpoint */
-  top: 51.2%;
+  /* up and left of the counter's centre, toward the light */
+  top: 49.4%;
+  margin-left: -1.1px;
   width: 32px;
   height: 42px;
   transform: translate(-50%, -50%);

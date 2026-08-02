@@ -84,20 +84,24 @@ export function Welcome() {
 }
 
 /**
- * The eclipse living in the counter of the fourth letter.
+ * The lune in the counter of the O between K and N.
  *
- * It is cut, not pasted: the disc is an ellipse the size of the O's own
- * counter (12.27 × 17.17 at this size) grown by half a pixel so its back
- * fuses with the inner edge of the bowl, and the cobalt shadow that
- * crosses it is the same ellipse offset by 7.4 — one stem's width. The
- * lune that remains is therefore thickest at the equator and tapers to
- * cusps at the hairlines, which is exactly the O's own stroke modulation,
- * and it is lit from the left like everything else on this screen.
+ * The comp leaves that O *open* — the counter stays cobalt and a thin
+ * cream crescent nests just inside the bowl, thickest at the equator and
+ * tapering to cusps at top and bottom. An earlier version filled the whole
+ * counter with cream and subtracted a crescent from it, which turned the
+ * letter into a solid blob and cost it its counter entirely.
+ *
+ * The lune is the difference of two identical ellipses offset by a stem's
+ * width, so its modulation matches the O's own, and it sits up and left
+ * because that is where this screen's light comes from. The cobalt disc
+ * slides across on load and settles, so the crescent is drawn rather than
+ * pasted.
  */
 function Eclipse({ reduce }: { reduce: boolean }) {
-  const RX = 12.85;
-  const RY = 17.45;
-  const OFF = 7.4;
+  const RX = 9.6;      // sits inside the bowl, not on it
+  const RY = 13.4;
+  const OFF = 4.4;     // one stem's width
   return (
     <svg
       className="welcome__eclipse"
@@ -110,9 +114,11 @@ function Eclipse({ reduce }: { reduce: boolean }) {
           <ellipse cx="0" cy="0" rx={RX} ry={RY} fill="#fff" />
           <motion.ellipse
             cy="0" rx={RX} ry={RY} fill="#000"
-            initial={{ cx: reduce ? OFF : OFF + RX * 2.1 }}
+            initial={{ cx: reduce ? OFF : OFF + RX * 2.4 }}
             animate={{ cx: OFF }}
-            transition={reduce ? { duration: 0 } : { duration: 1.7, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
+            transition={reduce
+              ? { duration: 0 }
+              : { duration: 1.7, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
           />
         </mask>
       </defs>
