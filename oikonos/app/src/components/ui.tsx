@@ -4,7 +4,7 @@ import {
 import { motion, useInView, useReducedMotion, type HTMLMotionProps } from 'framer-motion';
 import { gentle, snap, surface, easeOutExpo } from '../lib/motion';
 import { groupINR } from '../lib/format';
-import { CategoryGlyph, ArrowLeft, More } from './icons';
+import { CategoryGlyph, ArrowLeft, More, ChevronRight } from './icons';
 import './ui.css';
 
 type Ink = 'ink' | 'olive' | 'vermilion' | 'paper';
@@ -409,6 +409,173 @@ export function Empty({ title, body, icon }: { title: string; body: string; icon
       {icon && <div className="empty__icon">{icon}</div>}
       <p className="display empty__title">{title}</p>
       <p className="empty__body">{body}</p>
+    </div>
+  );
+}
+
+/* ================================================================
+   List primitives
+   ----------------------------------------------------------------
+   Settings, accounts, payees, help — most of the app past the four
+   tabs is a list of rows. One component, so the row rhythm cannot
+   drift screen to screen.
+   ================================================================ */
+
+export function Row({
+  icon, title, sub, value, chevron, onClick, ink, danger, trailing,
+}: {
+  icon?: ReactNode;
+  title: string;
+  sub?: string;
+  value?: ReactNode;
+  chevron?: boolean;
+  onClick?: () => void;
+  /** tint for the icon chip */
+  ink?: Ink;
+  danger?: boolean;
+  trailing?: ReactNode;
+}) {
+  const Comp = onClick ? motion.button : motion.div;
+  return (
+    <Comp
+      className={`row ${onClick ? 'row--tap' : ''}`}
+      onClick={onClick}
+      {...(onClick
+        ? { whileTap: { scale: 0.99, backgroundColor: 'rgba(13,57,150,0.04)' }, transition: snap }
+        : {})}
+    >
+      {icon && (
+        <span
+          className="row__icon tex-ink"
+          style={{
+            background: ink ? INK_VAR[ink] : 'var(--paper-deep)',
+            color: ink ? 'var(--on-ink)' : 'var(--ink)',
+          }}
+        >
+          {icon}
+        </span>
+      )}
+      <span className="row__body">
+        <span className="row__title" style={danger ? { color: 'var(--vermilion)' } : undefined}>
+          {title}
+        </span>
+        {sub && <span className="row__sub">{sub}</span>}
+      </span>
+      {value !== undefined && <span className="row__value">{value}</span>}
+      {trailing}
+      {chevron && <ChevronRight size={17} className="row__chev" />}
+    </Comp>
+  );
+}
+
+/** A grouped block of rows with an optional caption underneath. */
+export function Group({
+  title, caption, children,
+}: { title?: string; caption?: string; children: ReactNode }) {
+  return (
+    <section className="group">
+      {title && <Eyebrow style={{ display: 'block', marginBottom: 10 }}>{title}</Eyebrow>}
+      <div className="group__body">{children}</div>
+      {caption && <p className="group__caption">{caption}</p>}
+    </section>
+  );
+}
+
+/** Physical-feeling switch: the knob overshoots slightly on the way in. */
+export function Toggle({
+  on, onChange, label,
+}: { on: boolean; onChange: (v: boolean) => void; label: string }) {
+  return (
+    <button
+      className={`toggle ${on ? 'toggle--on' : ''}`}
+      role="switch"
+      aria-checked={on}
+      aria-label={label}
+      onClick={() => onChange(!on)}
+    >
+      <motion.span
+        className="toggle__knob"
+        animate={{ x: on ? 20 : 0 }}
+        transition={{ type: 'spring', stiffness: 700, damping: 30, mass: 0.6 }}
+      />
+    </button>
+  );
+}
+
+/** Radio-style choice row, for currency / week-start style settings. */
+export function Choice({
+  selected, label, sub, onSelect,
+}: { selected: boolean; label: string; sub?: string; onSelect: () => void }) {
+  return (
+    <motion.button
+      className="choice"
+      role="radio"
+      aria-checked={selected}
+      onClick={onSelect}
+      whileTap={{ scale: 0.99 }}
+      transition={snap}
+    >
+      <span className="row__body">
+        <span className="row__title">{label}</span>
+        {sub && <span className="row__sub">{sub}</span>}
+      </span>
+      <span className={`choice__mark ${selected ? 'choice__mark--on' : ''}`}>
+        {selected && (
+          <motion.span
+            initial={{ scale: 0 }} animate={{ scale: 1 }} transition={snap}
+            className="choice__dot"
+          />
+        )}
+      </span>
+    </motion.button>
+  );
+}
+
+/** Segmented control with a spring-tracked pill. `id` scopes the layoutId. */
+export function Segmented<T extends string>({
+  id, value, options, onChange,
+}: {
+  id: string;
+  value: T;
+  options: { id: T; label: string }[];
+  onChange: (v: T) => void;
+}) {
+  return (
+    <div className="seg" role="tablist">
+      {options.map((o) => {
+        const on = o.id === value;
+        return (
+          <button
+            key={o.id}
+            role="tab"
+            aria-selected={on}
+            className={`seg__opt ${on ? 'seg__opt--on' : ''}`}
+            onClick={() => onChange(o.id)}
+          >
+            {on && (
+              <motion.span className="seg__pill" layoutId={`seg-${id}`}
+                transition={snap} aria-hidden />
+            )}
+            <span className="seg__label">{o.label}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+/** Page header used by every pushed screen that is not a hero. */
+export function PageHead({
+  eyebrow, title, sub, right,
+}: { eyebrow?: string; title: string; sub?: ReactNode; right?: ReactNode }) {
+  return (
+    <div className="pagehead">
+      <div className="pagehead__text">
+        {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
+        <h1 className="pagehead__title display">{title}</h1>
+        {sub && <div className="pagehead__sub">{sub}</div>}
+      </div>
+      {right}
     </div>
   );
 }

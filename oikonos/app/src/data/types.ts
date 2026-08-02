@@ -84,4 +84,114 @@ export interface AppState {
   budgets: Budget[];
   goals: Goal[];
   history: MonthPoint[];
+  bills: Bill[];
+  subscriptions: Subscription[];
+  contributions: Contribution[];
+  payees: Payee[];
+  notices: Notice[];
+  connected: ConnectedApp[];
+  settings: Settings;
+}
+
+/* ================================================================
+   Full-app additions
+   ================================================================ */
+
+export interface Merchant {
+  /** slug used in routes */
+  id: string;
+  name: string;
+  category: CategoryId;
+  /** where the user usually meets it */
+  place?: string;
+}
+
+export type BillStatus = 'due' | 'scheduled' | 'paid' | 'overdue';
+
+export interface Bill {
+  id: string;
+  name: string;
+  category: CategoryId;
+  amount: number;
+  /** ISO date the money leaves */
+  due: string;
+  accountId: string;
+  status: BillStatus;
+  autopay: boolean;
+}
+
+export interface Subscription {
+  id: string;
+  name: string;
+  category: CategoryId;
+  amount: number;
+  /** every N months — 1 monthly, 12 yearly */
+  everyMonths: number;
+  nextAt: string;
+  accountId: string;
+  /** the app noticed a price change */
+  priceRose?: number;
+}
+
+export interface Contribution {
+  id: string;
+  goalId: string;
+  amount: number;
+  at: string;
+  /** auto-save vs a deliberate top-up */
+  auto: boolean;
+}
+
+export type PayeeKind = 'person' | 'business';
+
+export interface Payee {
+  id: string;
+  name: string;
+  kind: PayeeKind;
+  /** UPI handle or account tail */
+  handle: string;
+  /** ISO of the last time money moved */
+  lastAt?: string;
+}
+
+export type NoticeKind = 'budget' | 'bill' | 'goal' | 'security' | 'insight';
+
+export interface Notice {
+  id: string;
+  kind: NoticeKind;
+  title: string;
+  body: string;
+  at: string;
+  read: boolean;
+  /** where tapping it should land */
+  route?: string;
+  routeId?: string;
+}
+
+export interface Settings {
+  /** the paper grain and ink texture can be dialled back */
+  texture: 'full' | 'subtle' | 'off';
+  motion: 'full' | 'reduced';
+  /** hide every figure behind a tap */
+  privacy: boolean;
+  weekStart: 'sunday' | 'monday';
+  /** the app is rupee-first but the formatter is switchable */
+  currency: 'INR' | 'EUR' | 'USD';
+  biometrics: boolean;
+  notifications: {
+    budgets: boolean;
+    bills: boolean;
+    goals: boolean;
+    insights: boolean;
+    security: boolean;
+  };
+}
+
+export interface ConnectedApp {
+  id: string;
+  name: string;
+  /** what it can see */
+  scope: string;
+  connectedAt: string;
+  ink: 'ink' | 'olive' | 'vermilion';
 }

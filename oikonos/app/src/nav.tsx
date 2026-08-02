@@ -7,17 +7,67 @@ import {
 export type Tab = 'home' | 'activity' | 'budgets' | 'goals';
 
 export type Route =
+  /* tabs */
   | { name: 'welcome' }
   | { name: 'home' }
   | { name: 'activity' }
   | { name: 'budgets' }
   | { name: 'goals' }
+  /* money */
   | { name: 'txn'; id: string }
-  | { name: 'goal'; id: string }
-  | { name: 'budget'; id: string }
+  | { name: 'merchant'; id: string }
+  | { name: 'search' }
+  | { name: 'recurring' }
+  | { name: 'transfer' }
+  | { name: 'payee'; id: string }
+  | { name: 'bills' }
+  | { name: 'bill'; id: string }
+  | { name: 'scan' }
+  /* accounts */
   | { name: 'accounts' }
+  | { name: 'account'; id: string }
+  | { name: 'addAccount' }
+  /* categories */
+  | { name: 'categories' }
+  | { name: 'category'; id: string }
+  /* budgets */
+  | { name: 'budget'; id: string }
+  | { name: 'newBudget' }
+  /* goals */
+  | { name: 'goal'; id: string }
+  | { name: 'newGoal' }
+  | { name: 'goalHistory'; id: string }
+  /* insight */
   | { name: 'insights' }
-  | { name: 'profile' };
+  | { name: 'report' }
+  | { name: 'networth' }
+  | { name: 'cashflow' }
+  | { name: 'subscriptions' }
+  /* account & app */
+  | { name: 'profile' }
+  | { name: 'notifications' }
+  | { name: 'settings' }
+  | { name: 'appearance' }
+  | { name: 'notifySettings' }
+  | { name: 'security' }
+  | { name: 'currency' }
+  | { name: 'connected' }
+  | { name: 'help' }
+  | { name: 'about' };
+
+/** Every route name, for the capture harness and for exhaustiveness checks. */
+export const ROUTE_NAMES = [
+  'welcome', 'home', 'activity', 'budgets', 'goals',
+  'txn', 'merchant', 'search', 'recurring', 'transfer', 'payee',
+  'bills', 'bill', 'scan',
+  'accounts', 'account', 'addAccount',
+  'categories', 'category',
+  'budget', 'newBudget',
+  'goal', 'newGoal', 'goalHistory',
+  'insights', 'report', 'networth', 'cashflow', 'subscriptions',
+  'profile', 'notifications', 'settings', 'appearance', 'notifySettings',
+  'security', 'currency', 'connected', 'help', 'about',
+] as const;
 
 export const TABS: Tab[] = ['home', 'activity', 'budgets', 'goals'];
 

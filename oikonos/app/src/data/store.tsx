@@ -2,7 +2,7 @@ import {
   createContext, useContext, useMemo, useReducer, useCallback,
   type ReactNode, type Dispatch,
 } from 'react';
-import type { AppState, Txn, Goal, CategoryId } from './types';
+import type { AppState, Txn, Goal, CategoryId, Settings } from './types';
 import { SEED, YTD, CATEGORIES } from './seed';
 
 /* ---------------------------------------------------------------- */
@@ -16,7 +16,19 @@ export type Action =
   | { type: 'txn/flag'; id: string }
   | { type: 'txn/recategorize'; id: string; category: CategoryId }
   | { type: 'goal/contribute'; id: string; amount: number }
-  | { type: 'budget/limit'; id: string; limit: number };
+  | { type: 'budget/limit'; id: string; limit: number }
+  | { type: 'budget/add'; category: CategoryId; limit: number }
+  | { type: 'budget/remove'; id: string }
+  | { type: 'goal/add'; goal: Omit<Goal, 'id'> }
+  | { type: 'goal/remove'; id: string }
+  | { type: 'bill/pay'; id: string }
+  | { type: 'bill/autopay'; id: string }
+  | { type: 'sub/cancel'; id: string }
+  | { type: 'notice/read'; id: string }
+  | { type: 'notice/readAll' }
+  | { type: 'app/disconnect'; id: string }
+  | { type: 'settings/set'; patch: Partial<Settings> }
+  | { type: 'settings/notify'; key: keyof Settings['notifications']; on: boolean };
 
 function reducer(s: AppState, a: Action): AppState {
   switch (a.type) {
@@ -42,6 +54,49 @@ function reducer(s: AppState, a: Action): AppState {
       return {
         ...s,
         budgets: s.budgets.map((b) => (b.id === a.id ? { ...b, limit: a.limit } : b)),
+      };
+    case 'budget/add': {
+      const id = `b${Math.random().toString(36).slice(2, 8)}`;
+      return { ...s, budgets: [...s.budgets, { id, category: a.category, limit: a.limit, rollover: 0 }] };
+    }
+    case 'budget/remove':
+      return { ...s, budgets: s.budgets.filter((b) => b.id !== a.id) };
+    case 'goal/add': {
+      const id = `g${Math.random().toString(36).slice(2, 8)}`;
+      return { ...s, goals: [...s.goals, { ...a.goal, id }] };
+    }
+    case 'goal/remove':
+      return { ...s, goals: s.goals.filter((g) => g.id !== a.id) };
+    case 'bill/pay':
+      return {
+        ...s,
+        bills: s.bills.map((b) => (b.id === a.id ? { ...b, status: 'paid' as const } : b)),
+      };
+    case 'bill/autopay':
+      return {
+        ...s,
+        bills: s.bills.map((b) => (b.id === a.id ? { ...b, autopay: !b.autopay } : b)),
+      };
+    case 'sub/cancel':
+      return { ...s, subscriptions: s.subscriptions.filter((x) => x.id !== a.id) };
+    case 'notice/read':
+      return {
+        ...s,
+        notices: s.notices.map((n) => (n.id === a.id ? { ...n, read: true } : n)),
+      };
+    case 'notice/readAll':
+      return { ...s, notices: s.notices.map((n) => ({ ...n, read: true })) };
+    case 'app/disconnect':
+      return { ...s, connected: s.connected.filter((c) => c.id !== a.id) };
+    case 'settings/set':
+      return { ...s, settings: { ...s.settings, ...a.patch } };
+    case 'settings/notify':
+      return {
+        ...s,
+        settings: {
+          ...s.settings,
+          notifications: { ...s.settings.notifications, [a.key]: a.on },
+        },
       };
     default:
       return s;
@@ -179,7 +234,184 @@ export function useActions() {
       d({ type: 'goal/contribute', id, amount }), [d]),
     setLimit: useCallback((id: string, limit: number) =>
       d({ type: 'budget/limit', id, limit }), [d]),
+    addBudget: useCallback((category: CategoryId, limit: number) =>
+      d({ type: 'budget/add', category, limit }), [d]),
+    removeBudget: useCallback((id: string) => d({ type: 'budget/remove', id }), [d]),
+    addGoal: useCallback((goal: Omit<Goal, 'id'>) => d({ type: 'goal/add', goal }), [d]),
+    removeGoal: useCallback((id: string) => d({ type: 'goal/remove', id }), [d]),
+    payBill: useCallback((id: string) => d({ type: 'bill/pay', id }), [d]),
+    toggleAutopay: useCallback((id: string) => d({ type: 'bill/autopay', id }), [d]),
+    cancelSub: useCallback((id: string) => d({ type: 'sub/cancel', id }), [d]),
+    readNotice: useCallback((id: string) => d({ type: 'notice/read', id }), [d]),
+    readAllNotices: useCallback(() => d({ type: 'notice/readAll' }), [d]),
+    disconnectApp: useCallback((id: string) => d({ type: 'app/disconnect', id }), [d]),
+    setSetting: useCallback((patch: Partial<Settings>) =>
+      d({ type: 'settings/set', patch }), [d]),
+    setNotify: useCallback((key: keyof Settings['notifications'], on: boolean) =>
+      d({ type: 'settings/notify', key, on }), [d]),
   };
 }
 
 export { CATEGORIES };
+
+/* ================================================================
+   Full-app selectors
+   ================================================================ */
+
+/** Slug a merchant name so it can live in a route. */
+export function merchantId(name: string): string {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+/** Every merchant the ledger knows, with its totals. */
+export function useMerchants() {
+  const { txns } = useApp();
+  return useMemo(() => {
+    const m = new Map<string, {
+      id: string; name: string; category: CategoryId;
+      total: number; count: number; lastAt: string; place?: string;
+    }>();
+    for (const t of txns) {
+      const id = merchantId(t.merchant);
+      const cur = m.get(id);
+      if (cur) {
+        cur.total += Math.abs(t.amount);
+        cur.count += 1;
+        if (t.at > cur.lastAt) { cur.lastAt = t.at; cur.place = t.place ?? cur.place; }
+      } else {
+        m.set(id, {
+          id, name: t.merchant, category: t.category,
+          total: Math.abs(t.amount), count: 1, lastAt: t.at, place: t.place,
+        });
+      }
+    }
+    return [...m.values()].sort((a, b) => b.total - a.total);
+  }, [txns]);
+}
+
+export function useMerchant(id: string | null) {
+  const all = useMerchants();
+  const { txns } = useApp();
+  return useMemo(() => {
+    const meta = all.find((m) => m.id === id);
+    if (!meta) return undefined;
+    const items = txns
+      .filter((t) => merchantId(t.merchant) === id)
+      .sort((a, b) => b.at.localeCompare(a.at));
+    return { ...meta, items };
+  }, [all, txns, id]);
+}
+
+/** Everything the ledger holds for one account. */
+export function useAccount(id: string | null) {
+  const { accounts, txns } = useApp();
+  return useMemo(() => {
+    const acct = accounts.find((a) => a.id === id);
+    if (!acct) return undefined;
+    const items = txns
+      .filter((t) => t.accountId === id)
+      .sort((a, b) => b.at.localeCompare(a.at));
+    const out = items.filter((t) => t.amount < 0).reduce((n, t) => n + Math.abs(t.amount), 0);
+    const inn = items.filter((t) => t.amount > 0).reduce((n, t) => n + t.amount, 0);
+    return { ...acct, items, out, in: inn };
+  }, [accounts, txns, id]);
+}
+
+/** One category's month, its trend, and its transactions. */
+export function useCategory(id: CategoryId | null) {
+  const { txns, budgets, now, history } = useApp();
+  return useMemo(() => {
+    if (!id) return undefined;
+    const meta = CATEGORIES[id];
+    const items = txns
+      .filter((t) => t.category === id)
+      .sort((a, b) => b.at.localeCompare(a.at));
+    const month = now.slice(0, 7);
+    const spent = items
+      .filter((t) => t.at.slice(0, 7) === month && t.amount < 0)
+      .reduce((n, t) => n + Math.abs(t.amount), 0);
+    const budget = budgets.find((b) => b.category === id);
+
+    /* Per-month totals across the seeded history window. */
+    const byMonth = history.map((h) => {
+      const m = h.month.slice(0, 7);
+      const v = items
+        .filter((t) => t.at.slice(0, 7) === m && t.amount < 0)
+        .reduce((n, t) => n + Math.abs(t.amount), 0);
+      return { month: m, value: v };
+    });
+
+    return { id, meta, items, spent, budget, byMonth };
+  }, [txns, budgets, now, history, id]);
+}
+
+/** Bills grouped by urgency, soonest first. */
+export function useBills() {
+  const { bills } = useApp();
+  return useMemo(() => {
+    const rank = { overdue: 0, due: 1, scheduled: 2, paid: 3 } as const;
+    return [...bills].sort(
+      (a, b) => rank[a.status] - rank[b.status] || a.due.localeCompare(b.due),
+    );
+  }, [bills]);
+}
+
+export function useBill(id: string | null) {
+  const { bills } = useApp();
+  return useMemo(() => bills.find((b) => b.id === id), [bills, id]);
+}
+
+/** Subscriptions with a normalised monthly cost, dearest first. */
+export function useSubscriptions() {
+  const { subscriptions } = useApp();
+  return useMemo(() => {
+    const rows = subscriptions.map((s) => ({
+      ...s,
+      perMonth: s.amount / s.everyMonths,
+      meta: CATEGORIES[s.category],
+    }));
+    rows.sort((a, b) => b.perMonth - a.perMonth);
+    return {
+      rows,
+      perMonth: rows.reduce((n, r) => n + r.perMonth, 0),
+      perYear: rows.reduce((n, r) => n + (r.amount * 12) / r.everyMonths, 0),
+    };
+  }, [subscriptions]);
+}
+
+export function useContributions(goalId: string | null) {
+  const { contributions } = useApp();
+  return useMemo(
+    () => contributions
+      .filter((c) => c.goalId === goalId)
+      .sort((a, b) => b.at.localeCompare(a.at)),
+    [contributions, goalId],
+  );
+}
+
+export function usePayee(id: string | null) {
+  const { payees } = useApp();
+  return useMemo(() => payees.find((p) => p.id === id), [payees, id]);
+}
+
+export function useNotices() {
+  const { notices } = useApp();
+  return useMemo(() => ({
+    rows: [...notices].sort((a, b) => b.at.localeCompare(a.at)),
+    unread: notices.filter((n) => !n.read).length,
+  }), [notices]);
+}
+
+export function useSettings() {
+  return useApp().settings;
+}
+
+/** Monthly cashflow with a running balance, for the cashflow screen. */
+export function useCashflow() {
+  const { history } = useApp();
+  return useMemo(() => history.map((h) => ({
+    ...h,
+    net: h.income - h.expenses,
+    rate: (h.income - h.expenses) / h.income,
+  })), [history]);
+}

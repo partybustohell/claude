@@ -1,4 +1,7 @@
-import type { AppState, Category, CategoryId } from './types';
+import type {
+  AppState, Category, CategoryId, Bill, Subscription, Contribution,
+  Payee, Notice, ConnectedApp, Settings,
+} from './types';
 
 export const CATEGORIES: Record<CategoryId, Category> = {
   food:          { id: 'food',          label: 'Food & Dining',  icon: 'bag',      ink: 'olive' },
@@ -51,6 +54,72 @@ const RAW: Raw[] = [
 
 const RECURRING = new Set(['Airtel Fibre', 'Rent — Nizamuddin East', 'Tata Power', 'Index Fund SIP', 'Greek Summer — deposit', 'Salary — Meridian Labs']);
 
+/* ================================================================
+   Full-app seed
+   ================================================================ */
+
+export const BILLS: Bill[] = [
+  { id: 'bl1', name: 'Rent — Nizamuddin East', category: 'home', amount: 62000, due: '2024-06-05', accountId: 'hdfc', status: 'scheduled', autopay: true },
+  { id: 'bl2', name: 'Tata Power', category: 'bills', amount: 3820, due: '2024-06-05', accountId: 'hdfc', status: 'scheduled', autopay: true },
+  { id: 'bl3', name: 'Airtel Fibre', category: 'bills', amount: 1499, due: '2024-05-22', accountId: 'hdfc', status: 'due', autopay: true },
+  { id: 'bl4', name: 'Amex Platinum', category: 'bills', amount: 48250, due: '2024-05-20', accountId: 'hdfc', status: 'due', autopay: false },
+  { id: 'bl5', name: 'Society Maintenance', category: 'home', amount: 6400, due: '2024-05-14', accountId: 'hdfc', status: 'overdue', autopay: false },
+  { id: 'bl6', name: 'Water — DJB', category: 'bills', amount: 780, due: '2024-05-08', accountId: 'hdfc', status: 'paid', autopay: true },
+];
+
+export const SUBSCRIPTIONS: Subscription[] = [
+  { id: 's1', name: 'Spotify Duo', category: 'entertainment', amount: 149, everyMonths: 1, nextAt: '2024-05-28', accountId: 'upi' },
+  { id: 's2', name: 'Netflix', category: 'entertainment', amount: 649, everyMonths: 1, nextAt: '2024-06-02', accountId: 'amex', priceRose: 150 },
+  { id: 's3', name: 'iCloud 2TB', category: 'bills', amount: 749, everyMonths: 1, nextAt: '2024-05-26', accountId: 'amex' },
+  { id: 's4', name: 'Figma Professional', category: 'education', amount: 1250, everyMonths: 1, nextAt: '2024-06-01', accountId: 'amex' },
+  { id: 's5', name: 'Cult.fit Elite', category: 'health', amount: 16000, everyMonths: 12, nextAt: '2024-11-04', accountId: 'hdfc' },
+  { id: 's6', name: 'The Ken', category: 'education', amount: 2750, everyMonths: 12, nextAt: '2025-01-19', accountId: 'amex' },
+];
+
+export const CONTRIBUTIONS: Contribution[] = [
+  { id: 'c1', goalId: 'g1', amount: 25000, at: '2024-05-02T09:00:00', auto: true },
+  { id: 'c2', goalId: 'g1', amount: 25000, at: '2024-04-02T09:00:00', auto: true },
+  { id: 'c3', goalId: 'g1', amount: 30000, at: '2024-03-14T18:20:00', auto: false },
+  { id: 'c4', goalId: 'g1', amount: 25000, at: '2024-03-02T09:00:00', auto: true },
+  { id: 'c5', goalId: 'g1', amount: 20000, at: '2024-02-02T09:00:00', auto: true },
+  { id: 'c6', goalId: 'g2', amount: 30000, at: '2024-05-02T09:00:00', auto: true },
+  { id: 'c7', goalId: 'g2', amount: 30000, at: '2024-04-02T09:00:00', auto: true },
+  { id: 'c8', goalId: 'g3', amount: 20000, at: '2024-05-02T09:00:00', auto: true },
+  { id: 'c9', goalId: 'g4', amount: 15000, at: '2024-05-02T09:00:00', auto: true },
+];
+
+export const PAYEES: Payee[] = [
+  { id: 'p1', name: 'Meera Nair', kind: 'person', handle: 'meera@okaxis', lastAt: '2024-05-18T14:05:00' },
+  { id: 'p2', name: 'Ravi (flatmate)', kind: 'person', handle: 'ravi.kt@okhdfcbank', lastAt: '2024-05-06T10:12:00' },
+  { id: 'p3', name: 'Sunita — help', kind: 'person', handle: '98••••2210', lastAt: '2024-05-01T08:00:00' },
+  { id: 'p4', name: 'Kunzum Books', kind: 'business', handle: 'kunzum@ybl', lastAt: '2024-05-15T18:44:00' },
+  { id: 'p5', name: 'Blue Tokai', kind: 'business', handle: 'bluetokai@icici', lastAt: '2024-05-18T09:12:00' },
+];
+
+export const NOTICES: Notice[] = [
+  { id: 'n1', kind: 'bill', title: 'Amex Platinum due in 2 days', body: '₹48,250 — no autopay set on this one.', at: '2024-05-18T08:00:00', read: false, route: 'bills' },
+  { id: 'n2', kind: 'budget', title: 'Bills & Utilities is 76% spent', body: '₹1,681 left with 13 days to go.', at: '2024-05-17T09:30:00', read: false, route: 'budgets' },
+  { id: 'n3', kind: 'goal', title: 'Greek Summer passed 60%', body: 'On track for September at ₹25,000 a month.', at: '2024-05-02T09:05:00', read: true, route: 'goal', routeId: 'g1' },
+  { id: 'n4', kind: 'insight', title: 'Netflix went up ₹150', body: 'From ₹499 to ₹649 on the 2nd.', at: '2024-05-03T07:00:00', read: true, route: 'subscriptions' },
+  { id: 'n5', kind: 'security', title: 'New sign-in on iPad', body: 'New Delhi · 14 May, 9:41 PM.', at: '2024-05-14T21:41:00', read: true, route: 'security' },
+];
+
+export const CONNECTED: ConnectedApp[] = [
+  { id: 'ca1', name: 'Zerodha Console', scope: 'Reads holdings and P&L', connectedAt: '2023-11-02', ink: 'olive' },
+  { id: 'ca2', name: 'Cleartax', scope: 'Reads capital-gains statements', connectedAt: '2024-01-18', ink: 'ink' },
+  { id: 'ca3', name: 'Splitwise', scope: 'Reads settled expenses', connectedAt: '2024-03-09', ink: 'vermilion' },
+];
+
+export const SETTINGS: Settings = {
+  texture: 'full',
+  motion: 'full',
+  privacy: false,
+  weekStart: 'monday',
+  currency: 'INR',
+  biometrics: true,
+  notifications: { budgets: true, bills: true, goals: true, insights: true, security: true },
+};
+
 export const SEED: AppState = {
   user: { name: 'Arjun', handle: '@arjun' },
   now: NOW,
@@ -89,6 +158,14 @@ export const SEED: AppState = {
       target: 1500000, saved: 210000, by: '2029-06-01', monthly: 15000, scene: 'olivegrove', ink: 'olive' },
   ],
 
+  bills: BILLS,
+  subscriptions: SUBSCRIPTIONS,
+  contributions: CONTRIBUTIONS,
+  payees: PAYEES,
+  notices: NOTICES,
+  connected: CONNECTED,
+  settings: SETTINGS,
+
   history: [
     { month: '2023-12-01', income: 198000, expenses: 121400, netWorth: 642000 },
     { month: '2024-01-01', income: 206000, expenses: 138900, netWorth: 698500 },
@@ -107,3 +184,4 @@ export const YTD = {
   expenses: 565250,
   savings: 380750,
 };
+
