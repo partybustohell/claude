@@ -3,7 +3,7 @@ import { useNav } from '../nav';
 import {
   Screen, TopBar, PageHead, Group, Choice, Row, Stack, Rise,
 } from '../components/ui';
-import { inr, groupINR } from '../lib/format';
+import { inr } from '../lib/format';
 import './Settings.css';
 
 const CURRENCIES = [
@@ -37,7 +37,7 @@ export function Currency() {
           </Rise>
 
           <Rise>
-            <Group caption={`Grouped as ₹${groupINR(874350)} — three digits, then twos.`}>
+            <Group caption={`Grouped as ${inr(874350)} — three digits, then twos.`}>
               {CURRENCIES.map((c) => (
                 <Choice
                   key={c.id}

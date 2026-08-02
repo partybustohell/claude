@@ -10,17 +10,25 @@
  *
  *   node tools/bundle.mjs   ->  dist/artifact.html
  */
-import { readFileSync, writeFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import path from 'node:path';
 
 const ROOT = path.resolve(import.meta.dirname, '..');
 const DIST = path.join(ROOT, 'dist');
 const ASSETS = path.join(DIST, 'assets');
 
-const files = readdirSync(ASSETS);
-const cssFile = files.find((f) => f.endsWith('.css'));
-const jsFile = files.find((f) => f.endsWith('.js'));
+/* Read the app's own entry rather than picking the first file in assets/ —
+   the design-system reference builds its bundle into the same directory. */
+const indexHtml = existsSync(path.join(DIST, 'index.html'))
+  ? readFileSync(path.join(DIST, 'index.html'), 'utf8')
+  : '';
+const refs = [...indexHtml.matchAll(/(?:src|href)="\/assets\/([^"]+)"/g)].map((m) => m[1]);
+const cssFile = refs.find((f) => f.endsWith('.css'));
+const jsFile = refs.find((f) => f.endsWith('.js'));
 if (!cssFile || !jsFile) throw new Error('run `npx vite build` first');
+if (refs.filter((f) => f.endsWith('.js')).length > 1) {
+  throw new Error('the app built into more than one chunk — the artifact must be a single inlined script');
+}
 
 let css = readFileSync(path.join(ASSETS, cssFile), 'utf8');
 const js = readFileSync(path.join(ASSETS, jsFile), 'utf8');

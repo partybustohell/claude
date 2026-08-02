@@ -45,7 +45,8 @@ on transforms. Entrances stagger. Meters fill from zero on first view.
 Hero figures count up. Everything must respect `prefers-reduced-motion`
 (the `Meter`/`Amount` primitives already do).
 
-**Reuse the kit.** `src/components/ui.tsx` has `Screen`, `Card`, `Button`,
+**Reuse the kit.** Open the live reference first — `npm run system`, or
+`../DESIGN-SYSTEM.md` for the written version. `src/components/ui.tsx` has `Screen`, `Card`, `Button`,
 `IconButton`, `TopBar`, `Meter`, `Amount`, `Delta`, `CategoryBadge`,
 `Eyebrow`, `SectionHead`, `Rule`, `Stack`, `Rise`, `Empty`. Extend it if
 something is genuinely missing; never fork a near-duplicate.

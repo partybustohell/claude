@@ -29,6 +29,15 @@ export const screen: Transition = {
   type: 'spring', stiffness: 170, damping: 26, mass: 1.15,
 };
 
+/**
+ * A small knob thrown across a short track: stiffer and lighter than
+ * `snap`, so a switch arrives with a physical click rather than a glide.
+ * Toggle is the only consumer; anything larger uses `snap`.
+ */
+export const knob: Transition = {
+  type: 'spring', stiffness: 700, damping: 30, mass: 0.6,
+};
+
 /** Non-spring easing for opacity-only fades (springs on opacity look mushy). */
 export const fade: Transition = { duration: 0.26, ease: [0.22, 1, 0.36, 1] };
 

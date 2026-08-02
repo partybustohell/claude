@@ -2,7 +2,7 @@ import {
   useEffect, useRef, useState, type ReactNode, type CSSProperties,
 } from 'react';
 import { motion, useInView, useReducedMotion, type HTMLMotionProps } from 'framer-motion';
-import { gentle, snap, surface, easeOutExpo } from '../lib/motion';
+import { gentle, knob, snap, surface, easeOutExpo } from '../lib/motion';
 import { groupINR } from '../lib/format';
 import { CategoryGlyph, ArrowLeft, More, ChevronRight } from './icons';
 import './ui.css';
@@ -315,10 +315,16 @@ export function Amount({
     if (!animate || reduce) { setShown(Math.abs(value)); return; }
     if (!inView) return;
     const target = Math.abs(value);
-    const t0 = performance.now();
+    /* The clock starts on the first frame, not on performance.now(). A
+       document embedded in an iframe gets rAF timestamps from the parent's
+       time origin while performance.now() runs off its own, and mixing the
+       two yields a negative elapsed time — which sends the eased figure to
+       an enormous negative number instead of counting up. */
+    let t0 = 0;
     let raf = 0;
     const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / duration);
+      if (t0 === 0) t0 = t;
+      const p = Math.min(1, Math.max(0, (t - t0) / duration));
       setShown(target * easeOutExpo(p));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
@@ -508,7 +514,7 @@ export function Toggle({
       <motion.span
         className="toggle__knob"
         animate={{ x: on ? 20 : 0 }}
-        transition={{ type: 'spring', stiffness: 700, damping: 30, mass: 0.6 }}
+        transition={knob}
       />
     </button>
   );

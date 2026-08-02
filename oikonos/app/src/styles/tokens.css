@@ -30,6 +30,8 @@
   --sand:         #d9c9a3;  /* illustration mid-tone       */
   --terracotta:   #c96a3f;  /* illustration warm accent    */
 
+  --stage:        #f2ead9;  /* the desk the device sits on */
+
   /* ---- Semantic ---- */
   --bg:            var(--paper);
   --fg:            var(--ink);
@@ -42,6 +44,16 @@
 
   --positive:      var(--olive);
   --negative:      var(--vermilion);
+
+  /* Opaque washes for SVG area fills. `var()` does not resolve in an SVG
+     attribute, so these have literal twins in INK_WASH_HEX — they live
+     here so the palette still owns them. */
+  --ink-fill:       #c9d6f0;
+  --olive-fill:     #c8ded0;
+  --vermilion-fill: #f8d5cb;
+
+  --scrim:      rgba(20, 30, 60, 0.34);  /* over a screen, under a sheet */
+  --scrim-deep: rgba(4, 18, 54, 0.55);   /* inside the camera viewport   */
 
   --hairline:      rgba(13, 57, 150, 0.14);
   --hairline-soft: rgba(13, 57, 150, 0.08);
@@ -109,6 +121,9 @@
             0 12px 30px rgba(9, 32, 88, 0.18);
   --sh-red: 0 3px 8px rgba(160, 40, 22, 0.22),
             0 12px 28px rgba(160, 40, 22, 0.24);
+  /* A surface rising from the bottom edge casts upward — sheets and trays */
+  --sh-sheet: 0 -8px 24px rgba(30, 22, 8, 0.14),
+              0 -28px 64px rgba(30, 22, 8, 0.18);
   /* inner letterpress for pressed states */
   --sh-press: inset 0 1px 2px rgba(48, 36, 12, 0.16),
               inset 0 -1px 0 rgba(255, 255, 255, 0.35);

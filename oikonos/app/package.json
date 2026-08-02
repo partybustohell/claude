@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:system": "vite build --mode system",
     "lint": "oxlint",
+    "audit": "node tools/audit.mjs",
+    "system": "vite --open /system.html",
     "preview": "vite preview"
   },
   "dependencies": {

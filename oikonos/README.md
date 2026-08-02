@@ -30,7 +30,17 @@ reaches them:
 
 ## The design system
 
-Everything visual resolves through four files. Nothing outside them
+[**DESIGN-SYSTEM.md**](DESIGN-SYSTEM.md) is the handbook. It has a live
+counterpart that renders the real components and reads the real
+stylesheet, so the documentation can only be wrong when the system is:
+
+```bash
+cd app
+npm run system     # the reference, at /system.html
+npm run audit      # the system's rules, checked mechanically
+```
+
+Everything visual resolves through five files. Nothing outside them
 should introduce a colour, a type size, or a spring.
 
 | file | holds |
@@ -39,6 +49,7 @@ should introduce a colour, a type size, or a spring.
 | `src/styles/global.css` | font faces, reset, and the three texture primitives |
 | `src/lib/motion.ts` | the entire motion vocabulary — four springs and shared variants |
 | `src/components/ui.tsx` | the component kit every screen is assembled from |
+| `src/system/tokens.ts` | what each token means, and which exist only to derive others |
 
 ### The inks
 
@@ -80,11 +91,14 @@ tabular numerals everywhere so a counting-up figure does not shimmer.
 ## Verification
 
 ```bash
+npm run audit              # token parity, closed palette, springs, currency
+
 export PW_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome
 
 npx tsc -b --noEmit        # types
 node tools/shoot.mjs       # render every screen to shots/
 node tools/shoot.mjs --bare home    # screen only, no device frame
+node tools/shoot-system.mjs         # render the design-system reference
 node tools/flow.mjs        # drive the app and assert it actually works
 ```
 
@@ -114,7 +128,9 @@ app/
     illustrations/  one SVG scene per screen
     lib/            formatting, motion
     screens/        one file per route, sheets/ underneath
-  tools/            shoot / duel / flow
+    system/         the live design-system reference (/system.html)
+  tools/            shoot / duel / flow / audit
 ```
 
-`BRIEF.md` is the build contract every screen was written against.
+`BRIEF.md` is the build contract every screen was written against, and
+[`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) is the system those screens produced.
