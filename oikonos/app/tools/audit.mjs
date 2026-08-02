@@ -158,6 +158,9 @@ const SIGNATURE = `(() => {
   }
 })()`;
 
+/** The one selector for "things a user can operate". */
+const CONTROL_SEL = 'button, a[href], [role="button"], [role="switch"], [role="tab"], input, select, textarea, [role="checkbox"], [role="radio"]';
+
 /** Every control a user can operate, with enough to describe it in a report. */
 const CONTROLS = `(() => {
   const sel = 'button, a[href], [role="button"], [role="switch"], [role="tab"],'
@@ -185,7 +188,12 @@ const CONTROLS = `(() => {
         /* A radio that is already the chosen one. NOT a switch or a
            checkbox — those must flip, and a dead one is a real fault. */
         || (el.getAttribute('role') === 'radio'
-            && el.getAttribute('aria-checked') === 'true'),
+            && el.getAttribute('aria-checked') === 'true')
+        /* A chip in a single-select group that is already the pressed
+           one. A real toggle also uses aria-pressed and MUST flip, so
+           this is not a free pass: anything excluded here is retried
+           from a different state below before it is let go. */
+        || el.getAttribute('aria-pressed') === 'true',
     });
   });
   return out;
@@ -285,6 +293,8 @@ async function auditRoute(browser, name, quick) {
     const controls = await page.evaluate(CONTROLS);
     const dead = [];
     let inert = 0;
+    let stateDependent = 0;
+    let primer = null;
     for (const c of controls) {
       /* Text fields are exercised by typing, not clicking. */
       if (c.tag === 'input' && !['checkbox', 'radio', 'button', 'submit', 'range'].includes(c.type)) {
@@ -293,7 +303,7 @@ async function auditRoute(browser, name, quick) {
           return !!el && !el.readOnly;
         })()`);
         if (!ok) continue;
-        const handle = (await page.$$('button, a[href], [role="button"], [role="switch"], [role="tab"], input, select, textarea, [role="checkbox"], [role="radio"]'))[c.i];
+        const handle = (await page.$$(CONTROL_SEL))[c.i];
         if (!handle) continue;
         await handle.fill('7').catch(() => {});
         const v = await handle.inputValue().catch(() => '');
@@ -303,7 +313,7 @@ async function auditRoute(browser, name, quick) {
       }
 
       const before = await page.evaluate(SIGNATURE);
-      const handles = await page.$$('button, a[href], [role="button"], [role="switch"], [role="tab"], input, select, textarea, [role="checkbox"], [role="radio"]');
+      const handles = await page.$$(CONTROL_SEL);
       const h = handles[c.i];
       if (!h) continue;
       const errsBefore = page.__errors.length;
@@ -316,17 +326,58 @@ async function auditRoute(browser, name, quick) {
       }
       if (after === before) {
         if (c.current) inert++;                       // already in that state
-        else dead.push(c.name || `<${c.tag}>`);
+        else dead.push({ i: c.i, name: c.name || `<${c.tag}>` });
       } else {
+        if (primer === null) primer = c.i;            // a control known to do something
         await open(page, q);            // it did something; restore the screen
       }
     }
 
+    /*
+     * SECOND CHANCE, and it is the difference between a report worth
+     * reading and one full of noise.
+     *
+     * A control can be correctly inert in the state it happens to be
+     * found in: a keypad's delete with nothing typed yet, a zero on an
+     * empty amount, a chip that is already the chosen one. Reporting
+     * those as dead is how an audit teaches people to ignore it.
+     *
+     * So every apparent dead control gets one more go, this time after
+     * the screen has been moved off its opening state by a control that
+     * is known to work. Anything that responds the second time was
+     * state-dependent, not unwired. Anything still inert in both states
+     * is reported — including, deliberately, an aria-pressed toggle that
+     * turned out not to toggle.
+     */
+    if (dead.length && primer !== null) {
+      const survivors = [];
+      for (const d of dead) {
+        await open(page, q);
+        const all = async () => page.$$(CONTROL_SEL);
+        const p = (await all())[primer];
+        if (p) { await p.click({ timeout: 3000 }).catch(() => {}); await delay(420); }
+        const before = await page.evaluate(SIGNATURE);
+        const h = (await all())[d.i];
+        if (!h) continue;
+        await h.click({ timeout: 3000 }).catch(() => {});
+        await delay(560);
+        if (await page.evaluate(SIGNATURE) === before) survivors.push(d.name);
+        else stateDependent++;
+      }
+      dead.length = 0;
+      survivors.forEach((n) => dead.push({ name: n }));
+    }
+
     if (dead.length) {
-      fail(scope, `${dead.length}/${controls.length} control(s) do nothing: ${dead.slice(0, 6).map((d) => `"${d}"`).join(', ')}`);
+      fail(scope, `${dead.length}/${controls.length} control(s) do nothing in any state: `
+        + dead.slice(0, 6).map((d) => `"${d.name}"`).join(', '));
     } else if (controls.length) {
       pass(`${scope} — all ${controls.length} controls respond`
-        + (inert ? ` (${inert} already-selected)` : ''));
+        + (inert || stateDependent
+          ? ` (${[inert && `${inert} already-selected`,
+                  stateDependent && `${stateDependent} state-dependent`]
+              .filter(Boolean).join(', ')})`
+          : ''));
     }
   } catch (e) {
     fail(scope, `audit threw — ${e.message}`);
