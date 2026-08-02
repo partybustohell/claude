@@ -132,37 +132,41 @@ const FLECK_RED_D = buildFlecks(0xbe11, 13, 0.8);
    The chair — one path set, printed twice
    ================================================================ */
 
-const SEAT_D = 'M134 244A62 14 0 0 1 258 244A62 14 0 0 1 134 244Z';
+const SEAT_D = 'M141 250A55 12.5 0 0 1 251 250A55 12.5 0 0 1 141 250Z';
 
 const CHAIR: { d: string; cap?: number }[] = [
   /* back legs, behind everything */
-  { d: taper(172, 250, 6.5, 158, 286, 4.5) },
-  { d: taper(220, 250, 6.5, 234, 286, 4.5) },
-  /* the bent hoop that is the whole back — one steamed length of beech */
-  { d: 'M152 244C150 202 160 166.5 196 166.5C232 166.5 242 202 240 244L232 244C234 204 225 175 196 175C167 175 158 204 160 244Z' },
-  /* the inner flourish hanging off the crown */
-  { d: 'M172 177C165 215 178 234 196 234C214 234 227 215 220 177', cap: 5.5 },
-  /* arms sweeping down to the seat rim */
-  { d: 'M158 200C136 203 128 221 137 241', cap: 6 },
-  { d: 'M234 200C256 203 264 221 255 241', cap: 6 },
+  { d: taper(172, 250, 7, 158, 290, 4.5) },
+  { d: taper(220, 250, 7, 234, 290, 4.5) },
+  /* the hoop that is the whole back — one steamed length of beech */
+  { d: 'M154 254C150 202 164 161 196 161C228 161 242 202 238 254L230 254C234 205 220 170 196 170C172 170 158 205 162 254Z' },
+  /* the cross slat */
+  { d: 'M162 197C178 203 214 203 230 197L230 208.5C214 214.5 178 214.5 162 208.5Z' },
+  /* arms — a short bentwood sweep out of the hoop, dropped onto the seat
+     by a stub post, so the window under them stays small and the chair
+     never reads as a basket */
+  { d: 'M165 210C151 209.6 142 214 135.5 222.5', cap: 6 },
+  { d: 'M227 210C241 209.6 250 214 256.5 222.5', cap: 6 },
+  { d: taper(136, 221, 6.4, 143, 248, 5.4) },
+  { d: taper(256, 221, 6.4, 249, 248, 5.4) },
   /* ring stretcher */
-  { d: 'M154 278C174 289 218 289 238 278', cap: 4.5 },
+  { d: 'M152 282C172 293 220 293 240 282', cap: 4.5 },
   /* the round seat */
   { d: SEAT_D },
   /* seat rim */
-  { d: 'M134 244A62 14 0 0 0 258 244L258 249.5A62 14 0 0 1 134 249.5Z' },
+  { d: 'M141 250A55 12.5 0 0 0 251 250L251 255.5A55 12.5 0 0 1 141 255.5Z' },
   /* front legs */
-  { d: taper(162, 250, 8, 140, 302, 5.5) },
-  { d: taper(230, 250, 8, 252, 302, 5.5) },
+  { d: taper(163, 254, 8.5, 139, 304, 5.5) },
+  { d: taper(229, 254, 8.5, 253, 304, 5.5) },
 ];
 
 /** Cane weave inside the seat, as one path. */
 function buildCane(): string {
   const out: string[] = [];
   for (let k = -16; k <= 16; k++) {
-    const x = CX + k * 6;
-    out.push(`M${x - 11} 228L${x + 9} 262`);
-    out.push(`M${x + 11} 228L${x - 9} 262`);
+    const x = CX + k * 6.5;
+    out.push(`M${x - 10} 234L${x + 8} 268`);
+    out.push(`M${x + 10} 234L${x - 8} 268`);
   }
   return out.join('');
 }
@@ -183,7 +187,7 @@ function ChairPlate({ ink }: { ink: string }) {
 
 /* ---- crockery paths shared with their clip regions ---------------- */
 
-const CUP_D = 'M97 148.6C94.4 141.6 92.4 133.6 91.4 127.5L124.6 127.5C123.6 133.6 121.6 141.6 119 148.6C117 151.6 99 151.6 97 148.6Z';
+const CUP_D = 'M99 148.4C96.4 141.4 94 133.4 92.6 127.5L123.4 127.5C122 133.4 119.6 141.4 117 148.4C115 151.2 101 151.2 99 148.4Z';
 const BOTTLE_D =
   'M241 143L241 106C241 97 250.5 92.5 250.5 84.5L250.5 71L261.5 71L261.5 84.5C261.5 92.5 271 97 271 106L271 143Z';
 
@@ -274,20 +278,20 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
         transition={reduce ? { duration: 0 } : { ...surface, delay: 0.24 }}
       >
         <g filter="url(#tc-ink)">
-          <ellipse cx={SX} cy={SY} rx={SRX} ry={SRY} fill="var(--ink)" opacity="0.86" />
+          <ellipse cx={SX} cy={SY} rx={SRX} ry={SRY} fill="var(--ink)" opacity="0.82" />
         </g>
-        <path d={POOL_D} fill="var(--ink)" opacity="0.78" />
+        <path d={POOL_D} fill="var(--ink)" opacity="0.72" />
       </motion.g>
 
       {/* ---------------- table ---------------- */}
       <motion.g {...rise(0.3, 14)}>
         {/* pedestal — four splayed legs under a cast collar */}
         <g fill="var(--ink)" filter="url(#tc-ink)">
-          <path d="M175 152L211 152L206 170L180 170Z" opacity="0.86" />
-          <path d={taper(193, 166, 21, 193, 252, 13)} />
-          <path d={taper(193, 246, 13, 150, 286, 5)} opacity="0.9" />
-          <path d={taper(193, 246, 13, 236, 286, 5)} opacity="0.9" />
-          <path d={taper(193, 250, 11, 194, 292, 8)} opacity="0.94" />
+          <path d="M177 152L209 152L205 170L181 170Z" opacity="0.86" />
+          <path d={taper(193, 166, 13, 193, 254, 8.5)} />
+          <path d={taper(193, 250, 10, 154, 288, 4.5)} opacity="0.9" />
+          <path d={taper(193, 250, 10, 232, 288, 4.5)} opacity="0.9" />
+          <path d={taper(193, 254, 9, 194, 294, 7)} opacity="0.94" />
         </g>
 
         {/* stone slab — the edge first, the surface printed over it */}
@@ -313,18 +317,21 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
           d={`M${TX - TRX} ${TY}A${TRX} ${TRY} 0 0 0 ${TX + TRX * 0.55} ${TY + TRY * 0.84}`}
           fill="none" stroke="#fffdf5" strokeWidth="1.15" opacity="0.5" strokeLinecap="round"
         />
-        <path d={UNDER_D} fill="var(--ink)" opacity="0.42" />
+        <path d={UNDER_D} fill="var(--ink)" opacity="0.34" />
       </motion.g>
 
       {/* ---------------- what is on the table ---------------- */}
       <motion.g {...rise(0.46, 10)}>
         {/* contact shadows, trailing right of the light */}
         <g fill="var(--ink)">
-          <ellipse cx={116} cy={156} rx={32} ry={6} opacity="0.15" />
+          <ellipse cx={144} cy={157} rx={35} ry={6.6} opacity="0.15" />
           <ellipse cx={264} cy={145} rx={17} ry={4} opacity="0.22" />
           <ellipse cx={286} cy={146} rx={28} ry={4.4} opacity="0.08" />
         </g>
 
+        {/* the cup, set a little in from the near rim and a size up on the
+            saucer so it still reads at print scale */}
+        <g transform="translate(138 152) scale(1.1) translate(-108 -152)">
         {/* saucer */}
         <g filter="url(#tc-ink-fine)">
           <ellipse cx={108} cy={155.4} rx={30} ry={6} fill="#e7d8b4" />
@@ -334,22 +341,23 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
           stroke="var(--ink)" strokeWidth="1.3" opacity="0.4" />
 
         {/* espresso cup */}
-        <path d="M122 131.5C133.5 130.6 138 137.4 134.8 142.4C133 145 129.2 145.5 126.4 144"
-          fill="none" stroke="var(--paper)" strokeWidth="3.1" strokeLinecap="round" />
+        <path d="M120.6 132C131 131.3 135 137.6 132.2 142C130.6 144.4 127.3 144.8 124.8 143.6"
+          fill="none" stroke="var(--paper)" strokeWidth="3" strokeLinecap="round" />
         <g filter="url(#tc-ink-fine)">
           <path d={CUP_D} fill="var(--paper)" />
           <g clipPath="url(#tc-cupclip)">
-            <rect x="89" y="126" width="13" height="28" fill="#fffdf6" opacity="0.85" />
-            <rect x="114" y="126" width="13" height="28" fill="var(--ink)" opacity="0.12" />
+            <rect x="91" y="126" width="12" height="28" fill="#fffdf6" opacity="0.85" />
+            <rect x="113" y="126" width="12" height="28" fill="var(--ink)" opacity="0.12" />
           </g>
-          <ellipse cx={108} cy={127.5} rx={17} ry={4.4} fill="#fffbf2" />
+          <ellipse cx={108} cy={127.5} rx={15.6} ry={4.2} fill="#fffbf2" />
         </g>
         <g clipPath="url(#tc-cupclip)">
-          <ellipse cx={108} cy={131.2} rx={16} ry={4.1} fill="none"
-            stroke="var(--ink)" strokeWidth="1.6" opacity="0.66" />
+          <ellipse cx={108} cy={135} rx={14.4} ry={3.9} fill="none"
+            stroke="var(--ink)" strokeWidth="1.5" opacity="0.5" />
         </g>
-        <ellipse cx={108} cy={127.7} rx={13.4} ry={3.2} fill="var(--ink)" opacity="0.8" />
-        <ellipse cx={105.4} cy={127.2} rx={6.2} ry={1.3} fill="var(--paper)" opacity="0.24" />
+        <ellipse cx={108} cy={127.7} rx={11.4} ry={2.9} fill="var(--ink)" opacity="0.82" />
+        <ellipse cx={105.6} cy={127.3} rx={5} ry={1.1} fill="var(--paper)" opacity="0.24" />
+        </g>
 
         {/* water bottle */}
         <g clipPath="url(#tc-bottleclip)">
@@ -360,7 +368,7 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
           <rect x="264" y="68" width="9" height="78" fill="var(--ink)" opacity="0.11" />
         </g>
         <g filter="url(#tc-ink-fine)">
-          <path d={BOTTLE_D} fill="none" stroke="var(--paper)" strokeWidth="2.7"
+          <path d={BOTTLE_D} fill="none" stroke="var(--paper)" strokeWidth="2.4"
             strokeLinejoin="round" />
           <ellipse cx={256} cy={143} rx={15} ry={3.2} fill="var(--paper)" opacity="0.92" />
           <rect x="248.8" y="62.5" width="14.4" height="10.5" rx="1.7" fill="var(--paper)" />
@@ -372,8 +380,11 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
         </g>
       </motion.g>
 
-      {/* ---------------- the chair ---------------- */}
+      {/* ---------------- the chair ----------------
+           pushed right of the table's axis so the still life is composed,
+           not mirrored, and the pedestal reads through the hoop */}
       <motion.g {...rise(0.4, 22)}>
+       <g transform="translate(14 0)">
         {/* the cobalt plate, printed a hair low and right */}
         <g transform="translate(2.6 1.9)" opacity="0.8" filter="url(#tc-ink)">
           <ChairPlate ink="var(--ink)" />
@@ -383,25 +394,26 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
         </g>
         {/* cane weave */}
         <g clipPath="url(#tc-seatclip)">
-          <path d={CANE_D} fill="none" stroke="var(--ink)" strokeWidth="1.2" opacity="0.24" />
-          <path d={CANE_D} fill="none" stroke="#ffb4a4" strokeWidth="0.8" opacity="0.4"
-            transform="translate(-1.2 -0.9)" />
+          <path d={CANE_D} fill="none" stroke="var(--ink)" strokeWidth="1" opacity="0.2" />
+          <path d={CANE_D} fill="none" stroke="#ffbdad" strokeWidth="0.7" opacity="0.3"
+            transform="translate(-1.1 -0.8)" />
         </g>
         {/* light rakes the left face of every upright */}
         {/* the light rakes the left flank of the hoop and the near legs */}
+        {/* the light rakes the left flank of the hoop and the near leg */}
         <g fill="none" stroke="#ffab96" strokeLinecap="round" opacity="0.6">
-          <path d="M154.4 240C152.6 203 162 170.4 196 169.4" strokeWidth="2.2" />
-          <path d="M174.4 179C168.2 214 179 231.4 195 231.6" strokeWidth="1.5" opacity="0.7" />
+          <path d="M156.4 250C152.6 204 167 165.4 196 164.4" strokeWidth="2.2" />
         </g>
         <g fill="#ff9179" opacity="0.5">
-          <path d={taper(159.6, 252, 2.4, 138, 301, 2)} />
-          <path d={taper(232.6, 252, 1.5, 254, 301, 1.3)} />
+          <path d={taper(160.6, 256, 2.5, 137, 303, 2)} />
+          <path d={taper(231.6, 256, 1.5, 255, 303, 1.3)} />
         </g>
         {/* the seat turns away from the light along its far rim */}
         <g clipPath="url(#tc-seatclip)">
-          <ellipse cx={214} cy={252} rx={62} ry={14} fill="var(--ink)" opacity="0.14" />
-          <ellipse cx={172} cy={236} rx={44} ry={9} fill="#ffb9a8" opacity="0.24" />
+          <ellipse cx={214} cy={258} rx={55} ry={12.5} fill="var(--ink)" opacity="0.13" />
+          <ellipse cx={174} cy={243} rx={38} ry={7.6} fill="#ffbcac" opacity="0.22" />
         </g>
+       </g>
       </motion.g>
     </svg>
   );

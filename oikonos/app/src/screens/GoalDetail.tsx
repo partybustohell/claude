@@ -7,7 +7,7 @@ import { More } from '../components/icons';
 import { GoalAcropolis } from '../illustrations/GoalAcropolis';
 import { useNav } from '../nav';
 import { useGoal, useActions } from '../data/store';
-import { inr, longDate, clamp } from '../lib/format';
+import { inr, monthLabel, clamp } from '../lib/format';
 import { gentle, snap } from '../lib/motion';
 import './GoalDetail.css';
 
@@ -27,7 +27,8 @@ export function GoalDetail({ id }: { id: string }) {
   }
 
   const ratio = clamp(goal.saved / goal.target, 0, 1);
-  const percent = Math.round(ratio * 100);
+  /* Floor, never round: a goal is only as far along as it has actually got. */
+  const percent = Math.floor(ratio * 100);
 
   const addMoney = () => {
     setMenu(false);
@@ -85,9 +86,9 @@ export function GoalDetail({ id }: { id: string }) {
 
           <Rise>
             <p className="goal__meta">
-              {inr(goal.monthly)} auto-saved each month
+              {inr(goal.monthly)} a month
               <span className="goal__dot" aria-hidden>•</span>
-              target {longDate(goal.by)}
+              target {monthLabel(goal.by)}
             </p>
           </Rise>
         </Stack>

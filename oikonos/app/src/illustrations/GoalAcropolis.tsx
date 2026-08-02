@@ -5,86 +5,129 @@ import { surface, gentle, fade } from '../lib/motion';
  * GOAL — the Acropolis headland.
  *
  * A three-ink riso plate printed on the cream field:
- *   cobalt (--ink family)   — the sea, the roof, the shadow between columns
+ *   cobalt (--ink family)   — the sea, the roof, the dark between columns
  *   pine   (--olive family) — the headland, the cypress
  *   cream  (--paper family) — the marble
  *
- * Light comes from the upper left. Every left-facing plane is lit: the
- * cliff face that turns toward the water, the temple's pedimented front,
- * the top of each step. Every right-facing plane goes to a cobalt-tinted
- * stone or, on the roof, to flat cobalt. The temple therefore reads as a
- * solid, not a decal, and the whole plate has one sun in it.
+ * The sun is in the upper left. Every left-facing plane is lit — the cliff
+ * face that turns toward the water, the pedimented front, the tread of each
+ * step — and every right-facing plane falls to a cobalt-tinted stone or, on
+ * the roof, to flat cobalt. One sun, no exceptions, so the temple reads as a
+ * solid sitting on the rock rather than a decal stuck to it.
  *
- * The peristyle is generated, not drawn by hand: eight columns across the
- * front on an exact pitch, nine down the flank on a compressing series, so
- * the rhythm is mechanically even in front and correctly foreshortened as
- * it recedes. Sloppy columns kill this drawing.
+ * The headland is four silhouettes, not one: a far shore at the horizon, the
+ * great cliff, a nearer spur crossing the lower third, and the raking gullies
+ * cut into the face. Their boundaries are dithered, never vector-clean.
+ *
+ * The peristyle is generated: eight columns across the front on an exact
+ * pitch, eight down the flank on a compressing series, at true Doric
+ * proportion (front 100 wide, 65 to the apex, shafts 5.5 diameters tall).
  *
  * Plate: 390 × 470, bleeding off the bottom and the right edge.
  */
 
-/* ---- The crest: shoreline, cliff, plateau, and the fall to the right ---- */
+const HORIZON = 224;
+
+/* ---- The crest: shoreline, cliff, lip, plateau, fall to the right ---- */
 const CREST =
-  'M18 470'
-  + 'C46 400 68 336 88 288'
-  + 'C102 254 114 222 132 200'
-  + 'C148 180 164 168 190 164'
-  + 'L300 162'
-  + 'C320 160 338 154 358 156'
-  + 'C372 157 381 162 390 170';
+  'M56 470'
+  + 'C64 446 76 410 90 372'
+  + 'C102 338 116 300 130 262'
+  + 'C138 240 144 214 152 192'
+  + 'C157 176 163 162 176 154'
+  + 'C183 150 190 149 200 149'
+  + 'L300 149'
+  + 'C310 153 320 155 330 153'
+  + 'C342 150 350 141 360 142'
+  + 'C372 144 381 150 390 158';
 
 const ROCK = `${CREST}L390 470Z`;
 
-/** Where the rock meets the water — carries the surf. */
-const SHORE = 'M18 470C46 400 68 336 88 288C98 264 106 242 112 226';
+/** Where the rock enters the water — carries the surf. */
+const SHORE = 'M56 470C64 446 76 410 90 372C100 344 111 314 122 284';
 
-const HORIZON = 224;
+/** A nearer terrace folding across the very bottom of the plate. */
+const SPUR =
+  'M44 470C68 438 98 412 136 394C186 371 248 360 316 360L390 362V470Z';
 
 /* ================================================================
-   Temple geometry. One place, so nothing drifts.
+   Temple. One table of numbers so nothing drifts.
    ================================================================ */
 
-/* Front elevation */
-const F = {
-  left: 176, right: 278,          // cornice / pediment span
-  apexX: 227, apexY: 79,
-  corniceY: 105, corniceH: 5,
-  archX0: 180, archX1: 274, archY: 110, archH: 11,
-  colX0: 183, colSpan: 88, colTop: 121, colBot: 157,
+const T = {
+  apexX: 230, apexY: 85,
+  corn: { x: 180, w: 100, y: 99, h: 4 },
+  arch: { x: 183, w: 94, y: 103, h: 8 },
+  col: { x: 186, span: 89, top: 111, bot: 146 },
+  steps: [
+    { x: 183, w: 94, y: 146 },
+    { x: 180, w: 100, y: 148.4 },
+    { x: 177, w: 106, y: 150.6 },
+  ],
+  stepH: 2.4,
 };
-/* Recession of the flank: right and slightly up */
-const V = { x: 66, y: -7 };
+/** Recession of the flank: right, and slightly up. */
+const V = { x: 62, y: -6 };
 
 const N_FRONT = 8;
-const COL_W = 8.0;
-const COL_GAP = (F.colSpan - N_FRONT * COL_W) / (N_FRONT - 1);
+const COL_W = 8.4;
+const COL_GAP = (T.col.span - N_FRONT * COL_W) / (N_FRONT - 1);
 const COL_PITCH = COL_W + COL_GAP;
-const FRONT_COLS = Array.from({ length: N_FRONT }, (_, i) => F.colX0 + i * COL_PITCH);
+const FRONT_COLS = Array.from({ length: N_FRONT }, (_, i) => T.col.x + i * COL_PITCH);
 
-/** Doric triglyph rhythm: one over every column, one over every gap. */
+/** Doric frieze: a triglyph over every column and every intercolumniation. */
 const TRIGLYPHS = Array.from({ length: N_FRONT * 2 - 1 }, (_, i) =>
-  F.colX0 + COL_W / 2 + (i * COL_PITCH) / 2);
+  T.col.x + COL_W / 2 + (i * COL_PITCH) / 2);
 
 /**
- * Flank columns. `u` is a compressing series — even in plan, converging
- * on the page — so the colonnade recedes instead of marching.
+ * Flank columns. `u` compresses toward the far end, so the colonnade
+ * recedes instead of marching in lockstep.
  */
-const N_FLANK = 9;
+const FLANK_X = T.col.x + T.col.span;
+const N_FLANK = 8;
 const FLANK_COLS = Array.from({ length: N_FLANK }, (_, j) => {
-  const u = 1 - Math.pow(1 - j / N_FLANK, 1.28);
+  const u = 1 - Math.pow(1 - j / N_FLANK, 1.3);
   return {
-    x: 271 + V.x * u,
-    w: 6.4 * (1 - 0.45 * u),
-    top: F.colTop + V.y * u,
-    bot: F.colBot + V.y * u,
+    x: FLANK_X + V.x * u,
+    w: 6.8 * (1 - 0.44 * u),
+    top: T.col.top + V.y * u,
+    bot: T.col.bot + V.y * u,
   };
 });
 
-/** A band of height `h` running `len` units to the right along the recession. */
+/** A band of height `h` running `len` to the right along the recession. */
 function slab(x: number, y: number, len: number, h: number) {
   const dy = (V.y * len) / V.x;
   return `M${x} ${y}L${x + len} ${y + dy}L${x + len} ${y + dy + h}L${x} ${y + h}Z`;
 }
+
+/** A gully raking down the fall line of the cliff face. */
+const FALL = 0.3;
+function rake(x: number, y: number, w: number, len: number, spread = 9) {
+  const dx = FALL * len;
+  const bx0 = x - dx;
+  const bx1 = x + w - dx + spread;
+  return (
+    `M${x} ${y}`
+    + `C${x - dx * 0.26} ${y + len * 0.4} ${bx0 + dx * 0.14} ${y + len * 0.74} ${bx0} ${y + len}`
+    + `L${bx1} ${y + len}`
+    + `C${bx1 + dx * 0.12} ${y + len * 0.7} ${x + w - dx * 0.24} ${y + len * 0.38} ${x + w} ${y}Z`
+  );
+}
+
+const GULLIES = [
+  { d: rake(138, 178, 15, 292), fill: 'deep', o: 0.4 },
+  { d: rake(157, 166, 9, 214, 5), fill: 'lit', o: 0.34 },
+  { d: rake(169, 158, 19, 306), fill: 'deep', o: 0.3 },
+  { d: rake(194, 151, 11, 262, 5), fill: 'lit', o: 0.26 },
+  { d: rake(209, 149, 23, 196), fill: 'deep', o: 0.38 },
+  { d: rake(238, 148, 10, 296, 5), fill: 'lit', o: 0.24 },
+  { d: rake(252, 148, 19, 244), fill: 'deep', o: 0.26 },
+  { d: rake(279, 148, 26, 318), fill: 'deep', o: 0.34 },
+  { d: rake(313, 148, 13, 232, 5), fill: 'lit', o: 0.22 },
+  { d: rake(331, 147, 31, 272), fill: 'deep', o: 0.3 },
+  { d: rake(366, 148, 20, 190), fill: 'deep', o: 0.22 },
+];
 
 export function GoalAcropolis({ className = '' }: { className?: string }) {
   const reduce = useReducedMotion();
@@ -101,10 +144,10 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
       viewBox="0 0 390 470"
       preserveAspectRatio="xMidYMax slice"
       role="img"
-      aria-label="A Doric temple on a green headland high above the Aegean, with a cypress beside it and a gull in the sky"
+      aria-label="A Doric temple on a green headland high above the Aegean, a cypress beside it and a gull in the sky"
     >
       <defs>
-        {/* ---- riso ink mottle, clipped to whatever plate it prints on ---- */}
+        {/* ---- riso ink mottle, clipped to the plate it prints on ---- */}
         <filter id="gd-grain" x="-4%" y="-4%" width="108%" height="108%">
           <feTurbulence type="fractalNoise" baseFrequency="0.62" numOctaves="4"
             seed="23" stitchTiles="stitch" result="n" />
@@ -112,61 +155,72 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
             values="0 0 0 0 0
                     0 0 0 0 0
                     0 0 0 0 0
-                    0.78 0.3 0 0 -0.17" />
+                    0.8 0.32 0 0 -0.18" />
           <feComposite in="na" in2="SourceAlpha" operator="in" result="g" />
           <feBlend in="SourceGraphic" in2="g" mode="multiply" />
         </filter>
 
         {/* finer, lighter speckle for the marble */}
         <filter id="gd-grain-fine" x="-4%" y="-4%" width="108%" height="108%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.92" numOctaves="3"
+          <feTurbulence type="fractalNoise" baseFrequency="0.95" numOctaves="3"
             seed="6" stitchTiles="stitch" result="n" />
           <feColorMatrix in="n" type="matrix" result="na"
             values="0 0 0 0 0
                     0 0 0 0 0
                     0 0 0 0 0
-                    0.3 0.11 0 0 -0.1" />
+                    0.26 0.1 0 0 -0.09" />
           <feComposite in="na" in2="SourceAlpha" operator="in" result="g" />
           <feBlend in="SourceGraphic" in2="g" mode="multiply" />
         </filter>
 
-        {/* hard-threshold dither: turns any shape into printed dots */}
+        {/* hard-threshold dither — turns any shape into printed dots */}
         <filter id="gd-stipple" x="-2%" y="-2%" width="104%" height="104%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="1"
+          <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="1"
             seed="41" stitchTiles="stitch" result="n" />
           <feColorMatrix in="n" type="matrix" result="m"
             values="0 0 0 0 0
                     0 0 0 0 0
                     0 0 0 0 0
-                    2.6 0 0 0 -1.06" />
+                    2.7 0 0 0 -1.1" />
           <feComposite in="SourceGraphic" in2="m" operator="in" />
         </filter>
 
         <filter id="gd-stipple-coarse" x="-2%" y="-2%" width="104%" height="104%">
-          <feTurbulence type="fractalNoise" baseFrequency="0.42" numOctaves="1"
+          <feTurbulence type="fractalNoise" baseFrequency="0.38" numOctaves="1"
             seed="8" stitchTiles="stitch" result="n" />
           <feColorMatrix in="n" type="matrix" result="m"
             values="0 0 0 0 0
                     0 0 0 0 0
                     0 0 0 0 0
-                    2.4 0 0 0 -1.0" />
+                    2.3 0 0 0 -0.98" />
           <feComposite in="SourceGraphic" in2="m" operator="in" />
         </filter>
 
         {/* the one permitted soft gradient — form across the rock */}
-        <linearGradient id="gd-rock" x1="0.06" y1="0.02" x2="0.86" y2="1">
+        <linearGradient id="gd-rock" x1="0.04" y1="0.04" x2="0.9" y2="1">
           <stop offset="0" stopColor="var(--g-green-lit)" />
-          <stop offset="0.36" stopColor="var(--g-green)" />
+          <stop offset="0.26" stopColor="var(--g-green)" />
+          <stop offset="0.78" stopColor="var(--g-green)" />
           <stop offset="1" stopColor="var(--g-green-deep)" />
         </linearGradient>
 
-        {/* fades the stippled water shimmer out with depth */}
-        <linearGradient id="gd-depth" x1="0" y1="0" x2="0" y2="1">
+        {/* fades the printed shimmer out with depth */}
+        <linearGradient id="gd-fade-down" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0" stopColor="#fff" stopOpacity="1" />
           <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </linearGradient>
-        <mask id="gd-depth-mask">
-          <rect x="0" y={HORIZON} width="390" height="120" fill="url(#gd-depth)" />
+        <linearGradient id="gd-fade-up" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor="#fff" stopOpacity="0" />
+          <stop offset="1" stopColor="#fff" stopOpacity="1" />
+        </linearGradient>
+        <mask id="gd-shimmer">
+          <rect x="0" y={HORIZON} width="390" height="104" fill="url(#gd-fade-down)" />
+        </mask>
+        <mask id="gd-deep">
+          <rect x="0" y="300" width="390" height="170" fill="url(#gd-fade-up)" />
+        </mask>
+        <mask id="gd-spur-edge">
+          <rect x="0" y="0" width="390" height="470" fill="#fff" />
         </mask>
 
         <clipPath id="gd-rock-clip"><path d={ROCK} /></clipPath>
@@ -174,17 +228,21 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
       </defs>
 
       {/* ============================================================
-          1 — THE FAR SHORE, above the horizon on the left
+          1 — THE FAR SHORE, a low ridge on the horizon
           ============================================================ */}
       <motion.g {...layer(10, 0.06)}>
         <g filter="url(#gd-grain)">
           <path
-            d="M0 224V213C12 204 28 198 46 200C64 202 78 210 94 217C104 221 112 224 120 224Z"
+            d="M0 224V212C14 205 30 201 48 203C66 205 82 211 98 217C108 221 116 224 124 224Z"
             fill="var(--g-green-far)"
           />
           <path
-            d="M0 224V216C10 210 22 207 34 208C46 209 56 214 64 219C69 222 74 224 78 224Z"
-            fill="var(--g-green)" opacity="0.34"
+            d="M0 224V217C12 212 24 210 36 211C48 212 58 216 68 220C73 222 77 224 81 224Z"
+            fill="var(--g-green)" opacity="0.3"
+          />
+          <path
+            d="M0 213C14 206 30 202 48 204C66 206 82 212 98 218l-2 3c-16-6-32-12-50-14-17-2-32 2-46 9Z"
+            fill="var(--g-green-lit)" opacity="0.5" filter="url(#gd-stipple)"
           />
         </g>
       </motion.g>
@@ -199,111 +257,103 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
 
         <g clipPath="url(#gd-sea-clip)">
           {/* light gathers on the water near the horizon — dithered, not blurred */}
-          <g mask="url(#gd-depth-mask)">
-            <rect
-              x="0" y={HORIZON} width="390" height="120"
-              fill="var(--g-sea-lift)" filter="url(#gd-stipple)"
-            />
-          </g>
-          {/* the horizon itself: a printed edge, slightly proud */}
-          <rect x="0" y={HORIZON} width="390" height="1.4" fill="var(--g-sea-lift)" opacity="0.85" />
-
-          {/* a few flat swells — the sea is a shape, not a texture */}
-          <g fill="var(--g-sea-lift)" opacity="0.5">
-            <rect x="10" y="243" width="34" height="1.8" rx="0.9" />
-            <rect x="58" y="252" width="22" height="1.8" rx="0.9" />
-            <rect x="6" y="268" width="26" height="2" rx="1" />
-            <rect x="44" y="286" width="30" height="2" rx="1" />
-            <rect x="0" y="312" width="20" height="2.2" rx="1.1" />
-            <rect x="30" y="340" width="24" height="2.2" rx="1.1" />
-            <rect x="0" y="382" width="16" height="2.4" rx="1.2" />
+          <g mask="url(#gd-shimmer)">
+            <rect x="0" y={HORIZON} width="390" height="104"
+              fill="var(--g-sea-lift)" filter="url(#gd-stipple)" />
           </g>
           {/* the ink lays down heavier in the near water */}
-          <rect
-            x="0" y="330" width="390" height="140"
-            fill="var(--g-sea-deep)" opacity="0.55" filter="url(#gd-stipple-coarse)"
-          />
+          <g mask="url(#gd-deep)" opacity="0.6">
+            <rect x="0" y="300" width="390" height="170"
+              fill="var(--g-sea-deep)" filter="url(#gd-stipple-coarse)" />
+          </g>
+          {/* the horizon itself: a printed edge, slightly proud */}
+          <rect x="0" y={HORIZON} width="390" height="1.4" fill="var(--g-sea-lift)" opacity="0.9" />
+
+          {/* flat swells — the sea is a shape with marks on it, not a texture */}
+          <g fill="var(--g-sea-lift)" opacity="0.52">
+            <rect x="12" y="241" width="38" height="1.6" rx="0.8" />
+            <rect x="64" y="249" width="24" height="1.6" rx="0.8" />
+            <rect x="4" y="262" width="28" height="1.8" rx="0.9" />
+            <rect x="46" y="277" width="34" height="1.8" rx="0.9" />
+            <rect x="0" y="298" width="24" height="2" rx="1" />
+            <rect x="36" y="309" width="30" height="2" rx="1" />
+            <rect x="6" y="338" width="26" height="2.2" rx="1.1" />
+            <rect x="0" y="392" width="20" height="2.4" rx="1.2" />
+          </g>
         </g>
       </motion.g>
 
       {/* ============================================================
           3 — THE HEADLAND
           ============================================================ */}
-      <motion.g {...layer(44, 0.12)}>
+      <motion.g {...layer(46, 0.12)}>
         <g filter="url(#gd-grain)">
           <path d={ROCK} fill="url(#gd-rock)" />
 
           <g clipPath="url(#gd-rock-clip)">
             {/* gullies raking down the fall line of the sea-facing face */}
-            <g fill="var(--g-green-deep)">
-              <path d="M196 172c6 30-2 62-20 96-18 34-42 68-66 106l-30-14c30-38 56-74 72-106 16-32 22-60 20-82Z" opacity="0.34" />
-              <path d="M258 170c8 34 2 68-16 104-18 36-44 72-70 112l-24-12c30-40 56-78 72-112 16-34 22-64 18-92Z" opacity="0.2" />
-              <path d="M150 186c4 26-4 54-20 84-16 30-38 60-60 92l-22-12c26-32 48-62 62-90 14-28 20-52 18-74Z" opacity="0.26" />
-              {/* the dark chine right under the crest */}
-              <path d="M300 164c14 24 22 52 24 84 2 32-2 68-8 106l-34 4c8-40 12-78 10-110-2-32-8-58-18-80Z" opacity="0.22" />
-            </g>
+            {GULLIES.map((g, i) => (
+              <path
+                key={i} d={g.d} opacity={g.o}
+                fill={g.fill === 'deep' ? 'var(--g-green-deep)' : 'var(--g-green-lit)'}
+              />
+            ))}
+            {/* the same gullies again, dithered, so no shadow has a vector edge */}
+            {GULLIES.filter((g) => g.fill === 'deep').map((g, i) => (
+              <path key={`s${i}`} d={g.d} fill="var(--g-green-deep)"
+                opacity={g.o * 0.85} filter="url(#gd-stipple)" />
+            ))}
 
-            {/* a nearer shoulder crossing the lower third */}
+            {/* the mass turns away to the right and loses the sun */}
             <path
-              d="M-10 470C40 424 82 372 118 320c30-44 62-78 96-98l186 26v222Z"
-              fill="var(--g-green-deep)" opacity="0.3"
-            />
-            <path
-              d="M-10 480C34 442 74 396 108 348c26-38 56-68 90-88l-4 220Z"
+              d="M312 142c28 26 52 62 68 108 12 36 18 78 20 130l-88 90V142Z"
               fill="var(--g-green-deep)" opacity="0.22"
             />
 
-            {/* stippled transitions so no shadow has a vector edge */}
+            {/* a nearer terrace closing the foot of the plate */}
+            <path d={SPUR} fill="var(--g-green-deep)" opacity="0.34" />
+            <path d={SPUR} fill="var(--g-green-deep)" opacity="0.32" filter="url(#gd-stipple)" />
             <path
-              d="M196 176c6 26 0 54-16 84-16 30-38 62-62 96l-14-6c26-34 48-66 62-94 14-28 20-54 18-80Z"
-              fill="var(--g-green-deep)" opacity="0.5" filter="url(#gd-stipple)"
-            />
-            <path
-              d="M-10 470C40 424 82 372 118 320c26-38 54-68 84-88l6 24c-30 20-58 50-84 88-34 50-74 100-124 146Z"
-              fill="var(--g-green-deep)" opacity="0.55" filter="url(#gd-stipple)"
-            />
-
-            {/* sunlit limestone path threading the plateau behind the temple */}
-            <path
-              d="M186 168c34-4 74-6 118-4 32 2 62 6 86 12l-2 8c-26-6-56-10-86-12-44-2-84 0-118 4Z"
-              fill="var(--g-lime)" opacity="0.72"
+              d="M44 470C68 438 98 412 136 394C186 371 248 360 316 360L390 362"
+              fill="none" stroke="var(--g-green-lit)" strokeWidth="2"
+              strokeLinecap="round" opacity="0.34"
             />
 
-            {/* scrub clinging to the face */}
-            <g fill="var(--g-green-deep)" opacity="0.5">
-              <ellipse cx="120" cy="238" rx="8" ry="4.4" />
-              <ellipse cx="96" cy="290" rx="6.5" ry="3.6" />
-              <ellipse cx="70" cy="356" rx="9" ry="5" />
-              <ellipse cx="150" cy="212" rx="6" ry="3.4" />
-              <ellipse cx="46" cy="424" rx="7" ry="4" />
+            {/* scrub clinging to the face, on the ledges only */}
+            <g fill="var(--g-green-deep)" opacity="0.22">
+              <ellipse cx="158" cy="206" rx="8" ry="3.4" />
+              <ellipse cx="132" cy="266" rx="6.4" ry="2.8" />
+              <ellipse cx="112" cy="326" rx="9" ry="3.8" />
             </g>
           </g>
 
           {/* the sun catches the whole crest */}
           <path
             d={CREST} fill="none" stroke="var(--g-green-lit)"
-            strokeWidth="3.2" strokeLinecap="round" opacity="0.95"
+            strokeWidth="3" strokeLinecap="round" opacity="0.95"
+          />
+          {/* the plateau itself is a sunlit shelf of limestone turf */}
+          <path
+            d="M186 154L300 150c12 4 22 6 32 4 12-3 20-11 30-10 12 2 21 7 32 15v6
+               c-11-8-20-13-32-15-10-1-18 7-30 10-10 2-20 0-32-4l-114 4Z"
+            fill="var(--g-green-lit)" opacity="0.55"
           />
           {/* scrub straddling the ridge so the silhouette is not a wire */}
-          <g fill="var(--g-green-deep)">
-            <ellipse cx="146" cy="187" rx="6.5" ry="3.6" />
-            <ellipse cx="118" cy="216" rx="5.4" ry="3" />
-            <ellipse cx="98" cy="260" rx="6.8" ry="3.8" />
-            <ellipse cx="316" cy="159" rx="5.6" ry="3.2" />
-            <ellipse cx="338" cy="155" rx="4.4" ry="2.6" />
+          <g fill="var(--g-green-deep)" opacity="0.8">
+            <ellipse cx="161" cy="169" rx="4.6" ry="2.4" />
+            <ellipse cx="141" cy="226" rx="4" ry="2.2" />
+            <ellipse cx="112" cy="303" rx="5" ry="2.6" />
+            <ellipse cx="322" cy="146" rx="5" ry="2.6" />
+            <ellipse cx="348" cy="143" rx="3.6" ry="2" />
           </g>
         </g>
 
         {/* surf: a printed fringe where the rock enters the water */}
         <g clipPath="url(#gd-sea-clip)">
-          <path
-            d={SHORE} fill="none" stroke="var(--g-foam)" strokeWidth="9"
-            strokeLinecap="round" opacity="0.85" filter="url(#gd-stipple)"
-          />
-          <path
-            d={SHORE} fill="none" stroke="var(--g-sea-lift)" strokeWidth="2.2"
-            strokeLinecap="round" opacity="0.9"
-          />
+          <path d={SHORE} fill="none" stroke="var(--g-foam)" strokeWidth="7"
+            strokeLinecap="round" opacity="0.7" filter="url(#gd-stipple)" />
+          <path d={SHORE} fill="none" stroke="var(--g-sea-lift)" strokeWidth="1.8"
+            strokeLinecap="round" opacity="0.7" />
         </g>
       </motion.g>
 
@@ -311,158 +361,121 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
           4 — THE TEMPLE
           ============================================================ */}
       <motion.g
-        initial={reduce ? undefined : { opacity: 0, y: 18, scale: 0.965 }}
+        initial={reduce ? undefined : { opacity: 0, y: 16, scale: 0.968 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={reduce ? { duration: 0 } : { ...gentle, delay: 0.4 }}
-        style={{ transformOrigin: '250px 168px' }}
+        transition={reduce ? { duration: 0 } : { ...gentle, delay: 0.42 }}
+        style={{ transformOrigin: '250px 153px' }}
       >
         {/* cast shadow: the sun is upper-left, so the mass throws right */}
         <g clipPath="url(#gd-rock-clip)">
-          <path
-            d="M281 166l66-7 38 12-96 12-52-6Z"
-            fill="var(--g-green-deep)" opacity="0.42"
-          />
-          <path
-            d="M281 166l66-7 38 12-96 12-52-6Z"
-            fill="var(--g-green-deep)" opacity="0.5" filter="url(#gd-stipple)"
-          />
+          <path d="M283 151l58-5 34 12-86 11-52-6Z" fill="var(--g-green-deep)" opacity="0.4" />
+          <path d="M283 151l58-5 34 12-86 11-52-6Z" fill="var(--g-green-deep)"
+            opacity="0.5" filter="url(#gd-stipple)" />
         </g>
 
         <g filter="url(#gd-grain-fine)">
           {/* ---- the shaded roof slope, falling away to the right ---- */}
           <path
-            d={`M${F.apexX} ${F.apexY}L${F.apexX + V.x} ${F.apexY + V.y}`
-              + `L${F.right + V.x} ${F.corniceY + V.y}L${F.right} ${F.corniceY}Z`}
+            d={`M${T.apexX} ${T.apexY}L${T.apexX + V.x} ${T.apexY + V.y}`
+              + `L${T.corn.x + T.corn.w + V.x} ${T.corn.y + V.y}`
+              + `L${T.corn.x + T.corn.w} ${T.corn.y}Z`}
             fill="var(--g-roof)"
           />
-          {/* tile courses running down the slope */}
-          <g stroke="var(--g-roof-lit)" strokeWidth="0.7" opacity="0.4">
-            {[0.2, 0.4, 0.6, 0.8].map((t) => (
-              <line
-                key={t}
-                x1={F.apexX + V.x * t} y1={F.apexY + V.y * t}
-                x2={F.right + V.x * t} y2={F.corniceY + V.y * t}
-              />
+          <g stroke="var(--g-roof-lit)" strokeWidth="0.7" opacity="0.42">
+            {[0.22, 0.44, 0.66, 0.88].map((t) => (
+              <line key={t}
+                x1={T.apexX + V.x * t} y1={T.apexY + V.y * t}
+                x2={T.corn.x + T.corn.w + V.x * t} y2={T.corn.y + V.y * t} />
             ))}
           </g>
-          {/* the ridge takes the light */}
           <line
-            x1={F.apexX} y1={F.apexY} x2={F.apexX + V.x} y2={F.apexY + V.y}
-            stroke="var(--g-roof-lit)" strokeWidth="1.6" strokeLinecap="round"
+            x1={T.apexX} y1={T.apexY} x2={T.apexX + V.x} y2={T.apexY + V.y}
+            stroke="var(--g-roof-lit)" strokeWidth="1.5" strokeLinecap="round"
           />
 
-          {/* ---- flank: cornice, architrave, colonnade, all in shade ---- */}
-          <path d={slab(F.right, F.corniceY, V.x, F.corniceH)} fill="var(--g-stone-shade)" />
-          <path d={slab(F.archX1, F.archY, V.x, F.archH)} fill="var(--g-stone-dark)" />
-
-          {/* the dark between the flank columns */}
+          {/* ---- flank, all of it in shade ---- */}
+          <path d={slab(T.corn.x + T.corn.w, T.corn.y, V.x, T.corn.h)} fill="var(--g-stone-shade)" />
+          <path d={slab(T.arch.x + T.arch.w, T.arch.y, V.x, T.arch.h)} fill="var(--g-stone-dark)" />
           <path
-            d={`M271 ${F.colTop}L${271 + V.x} ${F.colTop + V.y}`
-              + `L${271 + V.x} ${F.colBot + V.y}L271 ${F.colBot}Z`}
+            d={`M${FLANK_X} ${T.col.top}L${FLANK_X + V.x} ${T.col.top + V.y}`
+              + `L${FLANK_X + V.x} ${T.col.bot + V.y}L${FLANK_X} ${T.col.bot}Z`}
             fill="var(--g-shadow)"
           />
           {FLANK_COLS.map((c, j) => (
-            <rect
-              key={j} x={c.x} y={c.top} width={c.w} height={c.bot - c.top}
-              fill="var(--g-stone-shade)"
-            />
+            <rect key={j} x={c.x} y={c.top} width={c.w} height={c.bot - c.top}
+              fill="var(--g-stone-shade)" />
           ))}
-          {/* capitals on the flank, read as one receding band */}
-          <path
-            d={slab(271, F.colTop - 2.4, V.x, 2.4)}
-            fill="var(--g-stone-dark)" opacity="0.9"
-          />
+          <path d={slab(FLANK_X, T.col.top - 2.2, V.x, 2.2)}
+            fill="var(--g-stone-dark)" opacity="0.85" />
 
-          {/* ---- front: colonnade ---- */}
-          <rect
-            x={F.colX0} y={F.colTop} width={F.colSpan} height={F.colBot - F.colTop}
-            fill="var(--g-shadow)"
-          />
-          {FRONT_COLS.map((x, i) => (
-            <g key={i}>
-              {/* shaft */}
-              <rect x={x} y={F.colTop + 3.2} width={COL_W} height={F.colBot - F.colTop - 3.2}
-                fill="var(--g-stone)" />
-              {/* cylindrical turn: lit left arris, shaded right return */}
-              <rect x={x} y={F.colTop + 3.2} width={1.5} height={F.colBot - F.colTop - 3.2}
-                fill="var(--g-stone-hi)" />
-              <rect x={x + COL_W - 2.1} y={F.colTop + 3.2} width={2.1} height={F.colBot - F.colTop - 3.2}
-                fill="var(--g-stone-shade)" />
-              {/* a single flute, enough to say "fluted" at this size */}
-              <rect x={x + COL_W * 0.46} y={F.colTop + 5} width={0.7} height={F.colBot - F.colTop - 6}
-                fill="var(--g-stone-shade)" opacity="0.75" />
-              {/* echinus + abacus */}
-              <rect x={x - 1.1} y={F.colTop} width={COL_W + 2.2} height={3.4}
-                fill="var(--g-stone-hi)" />
-              <rect x={x - 1.1} y={F.colTop + 2.6} width={COL_W + 2.2} height={0.8}
-                fill="var(--g-stone-shade)" opacity="0.8" />
-            </g>
-          ))}
+          {/* ---- front colonnade ---- */}
+          <rect x={T.col.x} y={T.col.top} width={T.col.span} height={T.col.bot - T.col.top}
+            fill="var(--g-gap)" />
+          {FRONT_COLS.map((x, i) => {
+            const h = T.col.bot - T.col.top - 3;
+            return (
+              <g key={i}>
+                <rect x={x} y={T.col.top + 3} width={COL_W} height={h} fill="var(--g-stone)" />
+                <rect x={x} y={T.col.top + 3} width={1.3} height={h} fill="var(--g-stone-hi)" />
+                <rect x={x + COL_W - 1.9} y={T.col.top + 3} width={1.9} height={h}
+                  fill="var(--g-stone-shade)" />
+                {/* echinus + abacus */}
+                <rect x={x - 1} y={T.col.top} width={COL_W + 2} height={3.2}
+                  fill="var(--g-stone-hi)" />
+                <rect x={x - 1} y={T.col.top + 2.4} width={COL_W + 2} height={0.8}
+                  fill="var(--g-stone-shade)" opacity="0.75" />
+              </g>
+            );
+          })}
 
-          {/* ---- front: entablature ---- */}
-          <rect x={F.archX0} y={F.archY} width={F.archX1 - F.archX0} height={F.archH}
+          {/* ---- entablature ---- */}
+          <rect x={T.arch.x} y={T.arch.y} width={T.arch.w} height={T.arch.h}
             fill="var(--g-stone)" />
-          <rect x={F.archX0} y={F.archY} width={F.archX1 - F.archX0} height={1.2}
+          <rect x={T.arch.x} y={T.arch.y} width={T.arch.w} height="1.1"
             fill="var(--g-stone-hi)" />
-          {/* Doric frieze */}
           <g fill="var(--g-stone-shade)">
             {TRIGLYPHS.map((tx, i) => (
-              <rect key={i} x={tx - 0.9} y={F.archY + 4.6} width={1.8} height={5.2} />
+              <rect key={i} x={tx - 0.85} y={T.arch.y + 3.4} width="1.7" height="3.8" />
             ))}
           </g>
-          <rect x={F.archX0} y={F.archY + F.archH - 1} width={F.archX1 - F.archX0} height={1}
+          <rect x={T.arch.x} y={T.arch.y + T.arch.h - 0.9} width={T.arch.w} height="0.9"
             fill="var(--g-stone-shade)" opacity="0.7" />
 
-          {/* ---- front: cornice ---- */}
-          <rect x={F.left} y={F.corniceY} width={F.right - F.left} height={F.corniceH}
+          {/* ---- cornice ---- */}
+          <rect x={T.corn.x} y={T.corn.y} width={T.corn.w} height={T.corn.h}
             fill="var(--g-stone)" />
-          <rect x={F.left} y={F.corniceY} width={F.right - F.left} height={1.4}
+          <rect x={T.corn.x} y={T.corn.y} width={T.corn.w} height="1.3"
             fill="var(--g-stone-hi)" />
 
           {/* ---- pediment ---- */}
           <path
-            d={`M${F.left} ${F.corniceY}L${F.apexX} ${F.apexY}L${F.right} ${F.corniceY}Z`}
+            d={`M${T.corn.x} ${T.corn.y}L${T.apexX} ${T.apexY}`
+              + `L${T.corn.x + T.corn.w} ${T.corn.y}Z`}
             fill="var(--g-stone)"
           />
-          {/* tympanum, recessed into shade */}
           <path
-            d={`M${F.left + 9} ${F.corniceY - 2.5}L${F.apexX} ${F.apexY + 5.4}`
-              + `L${F.right - 9} ${F.corniceY - 2.5}Z`}
-            fill="var(--g-stone-shade)"
+            d={`M${T.corn.x + 7} ${T.corn.y - 1.4}L${T.apexX} ${T.apexY + 4.2}`
+              + `L${T.corn.x + T.corn.w - 7} ${T.corn.y - 1.4}Z`}
+            fill="var(--g-stone-mid)"
           />
-          {/* three figures in the tympanum, barely there */}
-          <g fill="var(--g-stone-dark)" opacity="0.85">
-            <ellipse cx="227" cy="96" rx="2" ry="3.6" />
-            <ellipse cx="214" cy="99" rx="1.7" ry="2.6" />
-            <ellipse cx="240" cy="99" rx="1.7" ry="2.6" />
-            <ellipse cx="203" cy="101.4" rx="1.5" ry="1.6" />
-            <ellipse cx="251" cy="101.4" rx="1.5" ry="1.6" />
-          </g>
-          {/* raking cornice, lit on the left rake */}
-          <path
-            d={`M${F.left - 1} ${F.corniceY + 0.6}L${F.apexX} ${F.apexY - 1.6}`}
-            stroke="var(--g-stone-hi)" strokeWidth="2.6" strokeLinecap="round" fill="none"
-          />
-          <path
-            d={`M${F.apexX} ${F.apexY - 1.6}L${F.right + 1} ${F.corniceY + 0.6}`}
-            stroke="var(--g-stone)" strokeWidth="2.6" strokeLinecap="round" fill="none"
-          />
-          <circle cx={F.apexX} cy={F.apexY - 3.4} r="1.9" fill="var(--g-stone-hi)" />
+          {/* the tympanum's own floor catches a little bounced light */}
+          <rect x={T.corn.x + 7} y={T.corn.y - 2.2} width={T.corn.w - 14} height="0.9"
+            fill="var(--g-stone-hi)" opacity="0.55" />
+          {/* the lit rake and the shaded rake */}
+          <path d={`M${T.corn.x - 1} ${T.corn.y + 0.5}L${T.apexX} ${T.apexY - 1.4}`}
+            stroke="var(--g-stone-hi)" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+          <path d={`M${T.apexX} ${T.apexY - 1.4}L${T.corn.x + T.corn.w + 1} ${T.corn.y + 0.5}`}
+            stroke="var(--g-stone)" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+          <circle cx={T.apexX} cy={T.apexY - 3} r="1.7" fill="var(--g-stone-hi)" />
 
-          {/* ---- stylobate: three steps, front faces lit, returns shaded ---- */}
-          {[
-            { x0: 179, x1: 275, y: 157 },
-            { x0: 176, x1: 278, y: 161 },
-            { x0: 173, x1: 281, y: 165 },
-          ].map((s, i) => (
+          {/* ---- stylobate: three steps, treads lit, returns shaded ---- */}
+          {T.steps.map((s, i) => (
             <g key={i}>
-              <path d={slab(s.x1, s.y, V.x, 4)} fill="var(--g-stone-shade)" />
-              <path
-                d={`M${s.x1} ${s.y}L${s.x1 + V.x} ${s.y + V.y}`}
-                stroke="var(--g-stone-hi)" strokeWidth="0.9" opacity="0.7"
-              />
-              <rect x={s.x0} y={s.y} width={s.x1 - s.x0} height="4" fill="var(--g-stone)" />
-              <rect x={s.x0} y={s.y} width={s.x1 - s.x0} height="1" fill="var(--g-stone-hi)" />
+              <path d={slab(s.x + s.w, s.y, V.x, T.stepH)} fill="var(--g-stone-shade)" />
+              <path d={`M${s.x + s.w} ${s.y}L${s.x + s.w + V.x} ${s.y + V.y}`}
+                stroke="var(--g-stone-hi)" strokeWidth="0.8" opacity="0.6" fill="none" />
+              <rect x={s.x} y={s.y} width={s.w} height={T.stepH} fill="var(--g-stone)" />
+              <rect x={s.x} y={s.y} width={s.w} height="0.9" fill="var(--g-stone-hi)" />
             </g>
           ))}
         </g>
@@ -472,31 +485,23 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
           5 — THE CYPRESS
           ============================================================ */}
       <motion.g
-        initial={reduce ? undefined : { opacity: 0, scaleY: 0.42 }}
+        initial={reduce ? undefined : { opacity: 0, scaleY: 0.4 }}
         animate={{ opacity: 1, scaleY: 1 }}
-        transition={reduce ? { duration: 0 } : { ...surface, delay: 0.56 }}
-        style={{ transformOrigin: '368px 160px' }}
+        transition={reduce ? { duration: 0 } : { ...surface, delay: 0.58 }}
+        style={{ transformOrigin: '372px 148px' }}
       >
         <g clipPath="url(#gd-rock-clip)">
-          <path d="M368 158l24 6-30 6-14-6Z" fill="var(--g-green-deep)" opacity="0.42" />
+          <path d="M372 146l24 7-30 6-14-6Z" fill="var(--g-green-deep)" opacity="0.4" />
         </g>
         <g filter="url(#gd-grain)">
-          <rect x="366.6" y="140" width="2.8" height="20" fill="var(--g-green-deep)" />
+          <rect x="370.7" y="128" width="2.6" height="20" fill="var(--g-green-deep)" />
           <path
-            d="M368 62c9.5 24 13 52 10.4 76-1.8 16.6-19 16.6-20.8 0C354.9 114 358.5 86 368 62Z"
+            d="M372 56c9.8 25 13.4 54 10.8 78.6-1.9 17.2-19.7 17.2-21.6 0C358.6 110 362.2 81 372 56Z"
             fill="var(--g-green-deep)"
           />
-          {/* the sun rakes its left flank */}
           <path
-            d="M368 62c-5.4 14-8.6 31-9.6 47-.8 12-.4 22 .7 30-3.8-25-1.6-56 8.9-77Z"
-            fill="var(--g-green)" opacity="0.85"
-          />
-        </g>
-        {/* a low shrub keeping it company */}
-        <g filter="url(#gd-grain)">
-          <path
-            d="M316 158c3.6-9 8-9 11.6 0 2 5-1.6 8-5.8 8s-7.8-3-5.8-8Z"
-            fill="var(--g-green-deep)"
+            d="M372 56c-5.6 14.4-8.9 32-9.9 48.6-.8 12.4-.4 22.7.7 31-3.9-25.8-1.7-58 9.2-79.6Z"
+            fill="var(--g-green)" opacity="0.9"
           />
         </g>
       </motion.g>
@@ -505,13 +510,13 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
           6 — THE GULL
           ============================================================ */}
       <motion.g
-        initial={reduce ? undefined : { opacity: 0, x: -16, y: 6 }}
+        initial={reduce ? undefined : { opacity: 0, x: -14, y: 5 }}
         animate={{ opacity: 1, x: 0, y: 0 }}
         transition={reduce ? { duration: 0 } : { ...fade, delay: 0.95, duration: 0.9 }}
         stroke="var(--g-sea)" fill="none" strokeLinecap="round"
       >
-        <path d="M110 96c4.6-5.4 9.2-5.4 11.6 0 2.4-5.4 7-5.4 11.6 0" strokeWidth="1.7" />
-        <path d="M152 79c2.6-3.1 5.2-3.1 6.6 0 1.4-3.1 4-3.1 6.6 0" strokeWidth="1.2" opacity="0.55" />
+        <path d="M118 90c3.9-4.6 7.8-4.6 9.9 0 2.1-4.6 6-4.6 9.9 0" strokeWidth="1.5" />
+        <path d="M155 76c2.2-2.7 4.4-2.7 5.6 0 1.2-2.7 3.4-2.7 5.6 0" strokeWidth="1.1" opacity="0.5" />
       </motion.g>
     </svg>
   );

@@ -19,8 +19,10 @@
   --g-stone-hi:    var(--on-ink);
   --g-stone:       var(--paper);
   --g-stone-shade: color-mix(in srgb, var(--paper) 74%, var(--ink) 26%);
+  --g-stone-mid:   color-mix(in srgb, var(--paper) 62%, var(--ink) 38%);
   --g-stone-dark:  color-mix(in srgb, var(--paper) 46%, var(--ink) 54%);
   --g-shadow:      var(--ink-deep);
+  --g-gap:         var(--ink);
   --g-roof:        var(--ink);
   --g-roof-lit:    var(--ink-lift);
   --g-foam:        color-mix(in srgb, var(--paper) 72%, var(--ink-lift) 28%);
@@ -57,7 +59,7 @@
 
 .goal__title {
   display: block;
-  margin-top: 9px;
+  margin-top: 7px;
   /* optical: the G's bowl indents — carry it back out to the gutter */
   margin-left: -1.5px;
   font-family: var(--font-display);
@@ -71,7 +73,7 @@
 
 .goal__figure {
   display: block;
-  margin-top: 25px;
+  margin-top: 22px;
   /* optical: the ₹ has a heavy left bearing — pull it to the margin */
   margin-left: -2.5px;
   font-size: 41px;
@@ -99,7 +101,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-top: 20px;
+  margin-top: 19px;
 }
 
 .goal__track {
@@ -134,7 +136,8 @@
 
 .goal__meta {
   display: block;
-  margin-top: 15px;
+  margin-top: 14px;
+  white-space: nowrap;
   font-family: var(--font-sans);
   font-size: var(--t-caption);
   font-weight: 500;
@@ -154,11 +157,11 @@
   position: absolute;
   left: var(--gutter);
   right: var(--gutter);
-  bottom: 34px;
+  bottom: 40px;
   z-index: 20;
 }
 
-.goal__cta.btn { height: 58px; }
+.goal__cta.btn { height: 60px; }
 
 .goal__cta.btn--full .btn__label {
   font-size: 13px;

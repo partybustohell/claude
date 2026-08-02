@@ -41,9 +41,11 @@
 
 .txn__illo {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: 364px;
+  /* the still life runs a little past the gutters — only the drawing is
+     allowed to break them */
+  left: -4%;
+  width: 108%;
+  top: 348px;
   z-index: 1;
   pointer-events: none;
 }
@@ -116,7 +118,7 @@
   /* Two passes through the press: a cream plate laid a hair up-and-left of
      the red one. Without it the red sits at 1.5:1 on the pine and dies. */
   text-shadow:
-    -1.3px -1.5px 0 rgba(250, 242, 225, 0.4),
+    -1.3px -1.5px 0 rgba(250, 242, 225, 0.34),
     1px 1.2px 0 rgba(30, 78, 49, 0.3);
 }
 
