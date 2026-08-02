@@ -179,3 +179,29 @@
   flex: none;
   opacity: 0.92;
 }
+
+/* The second door. Cream on cobalt, quiet enough that the pill above
+   still reads as the one thing to press, loud enough to find at night. */
+.welcome__signin {
+  display: block;
+  width: 100%;
+  margin-top: 18px;
+  padding: 6px 0;
+  font-family: var(--font-sans);
+  font-size: var(--t-small);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: color-mix(in srgb, var(--on-ink) 84%, transparent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.2px;
+  text-decoration-color: color-mix(in srgb, var(--on-ink) 40%, transparent);
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    color var(--dur-1) var(--ease-out),
+    text-decoration-color var(--dur-1) var(--ease-out);
+}
+.welcome__signin:hover {
+  color: var(--on-ink);
+  text-decoration-color: var(--on-ink);
+}

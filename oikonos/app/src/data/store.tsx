@@ -10,6 +10,7 @@ import { SEED, YTD, CATEGORIES } from './seed';
 /* ---------------------------------------------------------------- */
 
 export type Action =
+  | { type: 'user/set'; user: AppState['user'] }
   | { type: 'txn/add'; txn: Omit<Txn, 'id'> }
   | { type: 'txn/remove'; id: string }
   | { type: 'txn/note'; id: string; note: string }
@@ -32,6 +33,11 @@ export type Action =
 
 function reducer(s: AppState, a: Action): AppState {
   switch (a.type) {
+    /* Whoever is signed in owns the greeting, the avatar and the handle. */
+    case 'user/set':
+      return s.user.name === a.user.name && s.user.handle === a.user.handle
+        ? s
+        : { ...s, user: a.user };
     case 'txn/add': {
       const id = `t${Math.random().toString(36).slice(2, 9)}`;
       return { ...s, txns: [{ ...a.txn, id }, ...s.txns] };

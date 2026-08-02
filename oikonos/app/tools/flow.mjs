@@ -3,10 +3,10 @@
  * Interaction smoke test.
  *
  * Screenshots prove a screen renders; they say nothing about whether the
- * thing is usable. This drives the app the way a person would — welcome
- * through every tab, into a transaction, into a goal, through the add
- * sheet — and fails on any console error, unhandled rejection, or control
- * that does not do what its label promises.
+ * thing is usable. This drives the app the way a person would — sign up,
+ * sign out, sign back in, every tab, into a transaction, into a goal,
+ * through the add sheet — and fails on any console error, unhandled
+ * rejection, or control that does not do what its label promises.
  */
 import { chromium } from 'playwright';
 import net from 'node:net';
@@ -65,14 +65,109 @@ async function main() {
     }
   };
 
-  // ---- Welcome → Home ----
+  /* A pushed screen and the one it is covering both sit in the DOM
+     while the spring runs, so "Email" can match twice for half a
+     second. Wait the transition out before touching a field. */
+  const settle = async () => {
+    await page
+      .waitForFunction(() => document.querySelectorAll('.app-page').length === 1,
+        null, { timeout: 5000 })
+      .catch(() => {});
+    await page.waitForTimeout(120);
+  };
+
+  /* A run must start from a device nobody has signed in on, or the
+     second run finds the first run's account already there. */
+  await page.goto(BASE, { waitUntil: 'networkidle' });
+  await page.evaluate(() => window.localStorage.clear());
+
+  // ---- The guard ----
+  await page.goto(`${BASE}/?screen=accounts`, { waitUntil: 'networkidle' });
+  check('signed out, a deep link to a private screen lands on welcome',
+    await waitFor(/O\s*I\s*K\s*O\s*N\s*O\s*S/));
+  check('and the private screen never rendered',
+    !/Total balance|HDFC/i.test(await text()));
+
+  // ---- Welcome → sign up ----
   await page.goto(BASE, { waitUntil: 'networkidle' });
   // each letter is its own span, so match with the gaps allowed
   check('welcome shows the wordmark', await waitFor(/O\s*I\s*K\s*O\s*N\s*O\s*S/));
 
   await page.getByRole('button', { name: /get started/i }).click();
-  check('get started lands on home', await waitFor(/Arjun/));
+  check('get started opens sign-up', await waitFor(/Create your account/i));
+  await settle();
+
+  // an empty submit must say what is missing rather than doing nothing
+  await page.getByRole('button', { name: /^create account$/i }).click();
+  check('empty sign-up reports every missing field',
+    await waitFor(/Tell us what to call you/i)
+    && await waitFor(/An email address is needed/i)
+    && await waitFor(/Pick a password/i));
+
+  await page.getByLabel('Your name', { exact: true }).fill('Priya');
+  await page.getByLabel('Email', { exact: true }).fill('priya@example.com');
+  await page.getByLabel('Password', { exact: true }).fill('short');
+  check('a short password is refused', await waitFor(/at least 8 characters/i));
+  check('the strength gauge calls it too short', await waitFor(/Too short/i));
+
+  await page.getByLabel('Password', { exact: true }).fill('olivegrove7');
+  check('a good password clears the error', !/at least 8 characters/i.test(await text()));
+
+  await page.getByRole('button', { name: /^create account$/i }).click();
+  check('signing up lands on home', await waitFor(/Priya/));
   check('home shows net worth', await waitFor(/8,74,350/));
+
+  // ---- The session survives a reload ----
+  await page.reload({ waitUntil: 'networkidle' });
+  check('the session survives a reload', await waitFor(/Priya/));
+
+  // ---- Sign out → sign in ----
+  await page.goto(`${BASE}/?screen=settings`, { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /^sign out/i }).click();
+  check('signing out returns to welcome',
+    await waitFor(/O\s*I\s*K\s*O\s*N\s*O\s*S/));
+
+  await page.getByRole('button', { name: /already have an account/i }).click();
+  check('sign-in opens from welcome', await waitFor(/Welcome back/i));
+  await settle();
+
+  await page.getByLabel('Email', { exact: true }).fill('priya@example.com');
+  await page.getByLabel('Password', { exact: true }).fill('not-the-password');
+  await page.getByRole('button', { name: /^sign in$/i }).click();
+  check('a wrong password is rejected', await waitFor(/does not match/i));
+
+  await page.getByLabel('Email', { exact: true }).fill('nobody@example.com');
+  await page.getByLabel('Password', { exact: true }).fill('olivegrove7');
+  await page.getByRole('button', { name: /^sign in$/i }).click();
+  check('an unknown email is rejected', await waitFor(/No account here uses that email/i));
+
+  // ---- Forgot password, end to end ----
+  await page.getByRole('button', { name: /forgot your password/i }).click();
+  check('reset asks for the email', await waitFor(/Reset your password/i));
+  await settle();
+  await page.getByLabel('Email', { exact: true }).fill('priya@example.com');
+  await page.getByRole('button', { name: /send a code/i }).click();
+  check('a code is issued', await waitFor(/Your code is \d{6}/));
+  await settle();
+
+  const issued = (await text()).match(/Your code is (\d{6})/)?.[1] ?? '';
+  await page.getByLabel('Six-digit code', { exact: true }).fill(issued === '000000' ? '111111' : '000000');
+  await page.getByLabel('New password', { exact: true }).fill('newolive9');
+  await page.getByRole('button', { name: /set new password/i }).click();
+  check('a wrong code is refused', await waitFor(/code is not right/i));
+
+  await page.getByLabel('Six-digit code', { exact: true }).fill(issued);
+  await page.getByRole('button', { name: /set new password/i }).click();
+  check('the right code resets the password and signs in', await waitFor(/Priya/));
+
+  // ---- Back to the seeded ledger, which is Arjun's ----
+  await page.goto(`${BASE}/?screen=settings`, { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /^sign out/i }).click();
+  await page.getByRole('button', { name: /already have an account/i }).click();
+  await settle();
+  await page.getByRole('button', { name: /use the demo/i }).click();
+  await page.getByRole('button', { name: /^sign in$/i }).click();
+  check('the demo account signs in', await waitFor(/Arjun/));
 
   // ---- Tabs ----
   for (const [tab, expect] of [

@@ -82,7 +82,26 @@ label on every icon-only control, visible focus (already themed), and
 4.5:1 contrast on body text. `--fg-faint` on cream is for decoration
 only, never for information.
 
-## 6. Verification
+## 6. Accounts
+
+The app is behind a sign-up / sign-in flow (`src/screens/auth/`, state in
+`src/data/auth.tsx`). Three rules for anything that touches it:
+
+- **The guard is real.** Only `welcome`, `signup`, `signin`, `forgot` and
+  `reset` render without a session — including via `?screen=`. New
+  screens are private by default; add them to `PUBLIC_ROUTES` in
+  `nav.tsx` only if they genuinely belong before the account.
+- **Never claim what the build cannot do.** There is no server here. The
+  reset flow shows you the code and says why, rather than pretending to
+  have posted it.
+- **Errors are sentences.** Every rule lives in `src/lib/validate.ts` and
+  returns copy the user can act on, not a boolean. Fields go vermilion
+  only after a submit, never mid-typing.
+
+Demo account, for signing in without signing up: `arjun@oikonos.app` /
+`aegean2024`.
+
+## 7. Verification
 
 ```bash
 export PW_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome
@@ -91,5 +110,10 @@ node tools/shoot.mjs home    # must print ✓ with no runtime errors
 ```
 
 Screens are addressable for capture via `?screen=<name>&id=<id>` — the
-router reads it in `App.tsx`. Look at your own screenshot before you
+router reads it in `App.tsx`. The harness signs in through the form
+before its first shot, because the guard turns a deep link to a private
+screen into the welcome screen. Look at your own screenshot before you
 claim you are done. If you did not open the PNG, you are not done.
+
+`node tools/flow.mjs` drives the whole thing — sign up, sign out, sign
+in, reset, then the app itself — against a running dev server.

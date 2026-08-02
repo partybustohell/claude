@@ -11,7 +11,7 @@ const WORD = 'OIKONOS';
 const ECLIPSE_AT = 3;
 
 export function Welcome() {
-  const { reset } = useNav();
+  const { push } = useNav();
   const reduce = useReducedMotion();
 
   const letter = {
@@ -74,10 +74,19 @@ export function Welcome() {
           full
           style={{ boxShadow: 'var(--w-cta-shadow)' }}
           trailing={<ArrowRight size={21} />}
-          onClick={() => reset({ name: 'home' })}
+          onClick={() => push({ name: 'signup' })}
         >
           Get started
         </Button>
+
+        {/* The returning visitor is the common case after day one, so the
+            way back in is a first-class control, not a footnote. */}
+        <button
+          className="welcome__signin"
+          onClick={() => push({ name: 'signin' })}
+        >
+          I already have an account
+        </button>
       </motion.div>
     </Screen>
   );
