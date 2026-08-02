@@ -127,8 +127,27 @@ interface NavState { stack: Route[]; dir: number }
 export function NavProvider({
   initial, initialSheet, children,
 }: { initial?: Route; initialSheet?: Sheet; children: ReactNode }) {
-  const [{ stack, dir }, setNav] = useState<NavState>({
-    stack: [initial ?? { name: 'welcome' }], dir: 1,
+  const [{ stack, dir }, setNav] = useState<NavState>(() => {
+    const r = initial ?? { name: 'welcome' };
+    /*
+     * A pushed screen needs something under it.
+     *
+     * The capture harness addresses any screen directly, and seeding the
+     * stack with just that screen puts the app in a state it can never
+     * reach by use: a detail screen at the BOTTOM of the stack, where
+     * `back`'s length guard makes its own back button inert. The whole
+     * app audit found it on thirty-four screens at once, which is the
+     * shape of a harness fault rather than a drawing of one — but the
+     * screens really were unleavable in that state, and a harness that
+     * can only reach impossible states proves nothing about real ones.
+     *
+     * Tabs and welcome are roots and stand alone. Everything else was
+     * pushed from somewhere, so it gets home beneath it.
+     */
+    const stack0 = isTab(r) || r.name === 'welcome'
+      ? [r]
+      : [{ name: 'home' } as Route, r];
+    return { stack: stack0, dir: 1 };
   });
   const [sheet, setSheet] = useState<Sheet>(initialSheet ?? null);
 

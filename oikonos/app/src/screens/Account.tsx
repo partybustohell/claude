@@ -45,6 +45,21 @@ export function Account({ id }: { id: string }) {
       .slice(0, 5);
   }, [acct]);
 
+  /* A plausible balance history: walk today's balance backwards through the
+     month deltas so the curve is the account's own, not the portfolio's.
+
+     It sits ABOVE the not-found return, and has to. Below it, this hook ran
+     on the found path and not on the missing one, so a render that went from
+     one to the other would change the hook count and React would throw
+     "rendered more hooks than during the previous render". Today the route
+     key carries the account id, so switching accounts remounts and hides it;
+     that is luck, not a guarantee. */
+  const curve = useMemo(() => {
+    if (!acct) return [];
+    const scale = Math.abs(acct.balance) / Math.max(1, history[history.length - 1].netWorth);
+    return history.map((h) => Math.round(h.netWorth * scale));
+  }, [acct, history]);
+
   if (!acct) {
     return (
       <Screen>
@@ -56,13 +71,6 @@ export function Account({ id }: { id: string }) {
 
   const Icon = KIND_ICON[acct.kind];
   const debt = isDebt(acct.kind);
-
-  /* A plausible balance history: walk today's balance backwards through the
-     month deltas so the curve is the account's own, not the portfolio's. */
-  const curve = useMemo(() => {
-    const scale = Math.abs(acct.balance) / Math.max(1, history[history.length - 1].netWorth);
-    return history.map((h) => Math.round(h.netWorth * scale));
-  }, [acct.balance, history]);
 
   return (
     <Screen>
