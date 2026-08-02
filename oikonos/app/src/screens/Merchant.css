@@ -1,0 +1,258 @@
+/* ============================================================
+   Merchant — one place's whole history
+   ============================================================ */
+
+.mer__pane { padding-bottom: 40px; }
+
+/* ---- Identity ---- */
+
+.mer__catchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 4px 10px 4px 4px;
+  margin-left: -4px;
+  border-radius: var(--r-pill);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  color: var(--fg-muted);
+  -webkit-tap-highlight-color: transparent;
+}
+.mer__catchev { color: var(--fg-faint); }
+
+.mer__name {
+  font-size: var(--t-h2);
+  color: var(--ink);
+  margin-top: 12px;
+  line-height: 1.08;
+}
+.mer__place {
+  font-size: var(--t-small);
+  color: var(--fg-muted);
+  margin-top: 7px;
+}
+
+/* ---- Ledger card ---- */
+
+.mer__life {
+  display: block;
+  font-size: 42px;
+  color: var(--on-ink);
+  margin-top: 10px;
+}
+.mer__lifemeta {
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+  margin-top: 9px;
+}
+
+.mer__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.mer__stat {
+  padding: 15px 0 2px;
+  min-width: 0;
+}
+.mer__stat:nth-child(2n+1) {
+  padding-right: 16px;
+  border-right: 1px solid var(--hairline-ink);
+}
+.mer__stat:nth-child(2n) { padding-left: 18px; }
+.mer__stat:nth-child(n+3) {
+  border-top: 1px solid var(--hairline-ink);
+  padding-top: 15px;
+}
+.mer__statlabel {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--on-ink-muted);
+  margin-bottom: 7px;
+}
+.mer__statvalue {
+  display: block;
+  font-size: var(--t-lead);
+  color: var(--on-ink);
+}
+
+/* ---- Budget impact ---- */
+
+.mer__impact {
+  margin-top: 12px;
+  display: grid;
+  gap: 18px;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.mer__bar { display: grid; gap: 9px; }
+.mer__barhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 14px;
+}
+.mer__barlabel {
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+}
+.mer__barpct {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 110;
+  letter-spacing: var(--tr-tighter);
+  font-size: var(--t-h4);
+  color: var(--ink);
+  flex: none;
+}
+.mer__barfoot {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+.mer__impactnote {
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+/* ---- Section heads ---- */
+
+.mer__sechead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+}
+.mer__secmeta {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+/* ---- Month bars ---- */
+
+.mbars {
+  display: flex;
+  align-items: flex-end;
+  gap: 9px;
+}
+.mbars__slot {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+.mbars__val {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--fg-muted);
+  letter-spacing: 0.01em;
+}
+.mbars__track {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 36px;
+  height: 106px;
+  border-radius: 5px;
+  background: var(--paper-deep);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  overflow: hidden;
+  isolation: isolate;
+}
+.mbars__fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: bottom center;
+  border-radius: 5px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.mbars__label {
+  font-size: var(--t-label);
+  font-weight: 600;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+}
+.mbars__slot--now .mbars__label,
+.mbars__slot--now .mbars__val { color: var(--ink); }
+
+.mer__chartnote {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  padding-top: 14px;
+  line-height: 1.5;
+}
+
+/* ---- Reading ---- */
+
+.mer__notes {
+  display: grid;
+  gap: 12px;
+  padding-top: 14px;
+}
+.mer__note {
+  display: grid;
+  grid-template-columns: 6px 1fr;
+  gap: 12px;
+  align-items: start;
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+.mer__notedot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  margin-top: 7px;
+}
+
+/* ---- Transaction rows ---- */
+
+.mer__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 0;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.mer__rowbody { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.mer__rowtop { display: flex; align-items: center; gap: 9px; }
+.mer__rowdate {
+  font-size: var(--t-body);
+  font-weight: 500;
+  color: var(--ink);
+}
+.mer__rowtime { font-size: var(--t-caption); color: var(--fg-muted); }
+.mer__rowtag {
+  display: inline-grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--ink-wash);
+  color: var(--ink);
+}
+.mer__rowsub {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mer__rowamt { font-size: var(--t-lead); flex: none; }
+.mer__rowchev { color: var(--fg-faint); flex: none; margin-right: -4px; }
+
+.mer__foot {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  text-align: center;
+}

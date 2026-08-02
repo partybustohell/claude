@@ -1,0 +1,36 @@
+.help__scroll { padding-bottom: calc(var(--safe-bottom) + 30px); }
+
+.help__faq {
+  background: var(--paper-warm);
+  border-radius: var(--r-lg);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  overflow: hidden;
+}
+
+.help__q {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 16px;
+  text-align: left;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  line-height: 1.35;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.help__chev { color: var(--fg-faint); flex: none; margin-top: 1px; }
+
+.help__a { overflow: hidden; }
+.help__a p {
+  padding: 0 16px 16px;
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}

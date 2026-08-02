@@ -1,0 +1,73 @@
+.note__scroll { padding-bottom: calc(var(--safe-bottom) + 30px); }
+
+.note {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  padding: 15px 4px 15px 0;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.note__icon {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-sm);
+  display: grid;
+  place-items: center;
+  flex: none;
+  color: var(--on-ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+.note__icon > svg { position: relative; z-index: 2; }
+
+.note__body { flex: 1; min-width: 0; display: grid; gap: 4px; }
+
+.note__meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.note__when {
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--fg-faint);
+  text-transform: none;
+}
+
+.note__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  color: var(--ink);
+  line-height: 1.3;
+}
+.note__text {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  line-height: 1.45;
+}
+
+/* Read notices step back without going grey — the ink simply thins. */
+.note--read .note__icon { opacity: 0.55; }
+.note--read .note__title { color: var(--fg-muted); }
+
+.note__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  flex: none;
+  margin-top: 20px;
+}

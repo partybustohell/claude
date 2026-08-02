@@ -1,0 +1,39 @@
+.about__scroll { padding-bottom: calc(var(--safe-bottom) + 30px); }
+
+.about__mark {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 18px 0 30px;
+  text-align: center;
+}
+.about__word {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 120;
+  font-size: 34px;
+  letter-spacing: 0.12em;
+  color: var(--ink);
+  padding-left: 0.12em;
+}
+.about__tag {
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.about__body {
+  font-size: var(--t-body);
+  line-height: 1.65;
+  color: var(--fg-muted);
+  padding-bottom: 16px;
+}
+.about__body i { color: var(--ink); font-style: italic; }
+
+.about__foot {
+  display: grid;
+  justify-items: center;
+  padding: 28px 0 4px;
+}

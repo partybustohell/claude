@@ -1,0 +1,260 @@
+.bills__title {
+  font-size: var(--t-h2);
+  color: var(--ink);
+  margin-top: 8px;
+}
+
+/* ---- Month summary ---- */
+
+.bills__hero {
+  font-size: 40px;
+  color: var(--on-ink);
+  margin-top: 10px;
+}
+
+.bills__split { margin-top: 18px; }
+
+.bills__splitrow {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 9px;
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+}
+.bills__splitrow b {
+  color: var(--on-ink);
+  font-weight: 600;
+}
+
+.bills__autoline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bills__autochip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--on-ink);
+  background: rgba(253, 248, 236, 0.13);
+  box-shadow: inset 0 0 0 1px var(--hairline-ink);
+  border-radius: var(--r-pill);
+  padding: 6px 12px 6px 10px;
+}
+.bills__autoamt {
+  font-size: var(--t-small);
+  color: var(--on-ink-muted);
+}
+
+.bills__note {
+  margin-top: 13px;
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--on-ink-muted);
+}
+.bills__note b { color: var(--on-ink); font-weight: 600; }
+
+/* ---- Group heads ---- */
+
+.bills__grouphead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 2px 10px;
+}
+.bills__gh {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.bills__count {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0;
+  color: var(--fg-muted);
+  background: var(--paper-deep);
+  border-radius: var(--r-pill);
+  min-width: 17px;
+  height: 17px;
+  padding: 0 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.bills__grouptotal {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  flex: none;
+}
+
+.bills__group {
+  background: var(--paper-warm);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+
+/* ---- Row ---- */
+
+.brow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 14px;
+}
+.brow__link {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.brow__link:active { background: rgba(13, 57, 150, 0.035); }
+
+/* Overdue: a printed rail, a glyph and the word — never colour alone. */
+.brow--over { padding-left: 20px; }
+.brow--over::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--vermilion);
+  z-index: 1;
+}
+
+.brow__body {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+
+.brow__name {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brow__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.brow__when,
+.brow__paid {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+.brow__when--over {
+  color: var(--vermilion-deep);
+  font-weight: 600;
+}
+.brow__paid { color: var(--olive); }
+
+.brow__auto {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 8px 0 6px;
+  border-radius: var(--r-pill);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+  background: var(--paper-deep);
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.brow__auto--on {
+  color: var(--olive);
+  background: var(--olive-wash);
+}
+
+.brow__right {
+  flex: none;
+  display: grid;
+  justify-items: end;
+  gap: 7px;
+}
+.brow__amt {
+  font-size: var(--t-lead);
+  color: var(--ink);
+}
+.brow__amt--paid { color: var(--fg-muted); }
+
+.brow__pay {
+  position: relative;
+  z-index: 1;
+  height: 27px;
+  padding: 0 14px;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--on-ink);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  box-shadow: 0 2px 5px rgba(9, 32, 88, 0.2);
+  -webkit-tap-highlight-color: transparent;
+}
+.brow__pay--over {
+  background: var(--vermilion);
+  box-shadow: 0 2px 5px rgba(160, 40, 22, 0.24);
+}
+
+/* ---- All clear ---- */
+
+.bills__clear {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  text-align: center;
+  padding: 30px 24px 34px;
+  background: var(--olive-wash);
+  border-radius: var(--r-lg);
+}
+.bills__clearmark {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--olive);
+  color: var(--on-olive);
+  margin-bottom: 4px;
+}
+.bills__cleartitle { font-size: var(--t-h4); color: var(--ink); }
+.bills__clearbody {
+  font-size: var(--t-small);
+  color: var(--fg-muted);
+  max-width: 26ch;
+}
+
+.bills__foot {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-faint);
+}
