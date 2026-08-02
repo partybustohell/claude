@@ -41,10 +41,15 @@ function monthName(iso: string): string {
   return monthLabel(iso).split(' ')[0];
 }
 
-/** Add n whole months to an ISO first-of-month and label it. */
+/** Add n whole months to an ISO first-of-month and label it. Built as a
+ *  date string rather than round-tripped through UTC, which can roll a
+ *  first-of-month back into the month before. */
 function monthAfter(iso: string, n: number): string {
   const d = new Date(iso);
-  return monthLabel(new Date(d.getFullYear(), d.getMonth() + n, 1).toISOString());
+  const total = d.getFullYear() * 12 + d.getMonth() + n;
+  const y = Math.floor(total / 12);
+  const m = total % 12;
+  return monthLabel(`${y}-${String(m + 1).padStart(2, '0')}-01T00:00:00`);
 }
 
 export function NetWorth() {

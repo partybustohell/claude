@@ -250,9 +250,9 @@ export function Report() {
             </div>
             <p className="rep__ratefoot">
               The mark is the six-month average, {Math.round(book.avgRate * 100)}%.{' '}
-              {book.streak >= 1
-                ? `The rate has climbed ${book.streak === 1 ? 'for a second month' : `${book.streak} months`} running.`
-                : `Down ${Math.abs(Math.round((book.rate - book.prevRate) * 100))} points on ${monthName(prev.month)}.`}
+              {book.streak >= 2
+                ? `The rate has climbed ${book.streak} months running.`
+                : `${book.streak === 1 ? 'Up' : 'Down'} ${Math.abs(Math.round((book.rate - book.prevRate) * 100))} points on ${monthName(prev.month)}.`}
             </p>
           </Rise>
 
@@ -303,9 +303,9 @@ export function Report() {
                   <span className="rep__bigfoot">
                     <span className="rep__bigmeta">
                       {shortDate(ledger.biggest.at)}
-                      {ledger.biggest.recurring ? ' · standing order' : ''}
-                      {' · '}
-                      {pctOf(-ledger.biggest.amount, ledger.total)}% alone
+                      {ledger.biggest.recurring
+                        ? ' · standing order'
+                        : ` · ${pctOf(-ledger.biggest.amount, ledger.total)}% alone`}
                     </span>
                     <span className="rep__bigamt figure">
                       {inr(-ledger.biggest.amount)}

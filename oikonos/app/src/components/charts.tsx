@@ -1,6 +1,6 @@
 import { useId, useMemo, useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { INK_VAR, INK_HEX, type Ink } from './ui';
+import { INK_VAR, INK_HEX, INK_WASH_HEX, type Ink } from './ui';
 import { surface, gentle, reveal } from '../lib/motion';
 import { compactINR } from '../lib/format';
 import './charts.css';
@@ -83,9 +83,11 @@ export function Sparkline({
     <svg ref={ref} viewBox={`0 0 ${width} ${height}`} width="100%" height={height}
       fill="none" aria-hidden preserveAspectRatio="xMidYMid meet">
       <defs>
+        {/* Starts from the tinted wash, not from the ink at low alpha —
+            fading cobalt toward transparent over cream lands on grey. */}
         <linearGradient id={`sg-${uid}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={c} stopOpacity="0.20" />
-          <stop offset="100%" stopColor={c} stopOpacity="0" />
+          <stop offset="0%" stopColor={INK_WASH_HEX[ink]} stopOpacity="0.95" />
+          <stop offset="100%" stopColor={INK_WASH_HEX[ink]} stopOpacity="0" />
         </linearGradient>
       </defs>
 

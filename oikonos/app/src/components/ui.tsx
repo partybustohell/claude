@@ -24,7 +24,19 @@ const INK_HEX: Record<Ink, string> = {
   vermilion: '#ef422d', paper: '#faf2e1',
 };
 
-export { INK_VAR, INK_WASH, INK_HEX };
+/**
+ * Tinted washes, opaque.
+ *
+ * Fading a saturated ink to transparent over cream does NOT give a pale
+ * version of that ink — cobalt at 20% over #faf2e1 resolves to
+ * rgb(203,205,210), which is grey, and grey is not in this palette. Any
+ * area fill or soft ground must start from one of these instead.
+ */
+const INK_WASH_HEX: Record<Ink, string> = {
+  ink: '#c9d6f0', olive: '#c8ded0', vermilion: '#f8d5cb', paper: '#efe3ca',
+};
+
+export { INK_VAR, INK_WASH, INK_HEX, INK_WASH_HEX };
 export type { Ink };
 
 /* ================================================================
