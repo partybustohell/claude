@@ -161,19 +161,95 @@ streaks scored across bare rock.
   drawing behind a camera frame is clutter.
 - **Search** carries its plate on the resting state only. Once there is
   a query the pane is a list of answers and must stay dense.
-- The **settings cluster** takes the colophon at 0.55 opacity rather
-  than a landscape. These screens are about the app, not about a place,
-  and a headland behind a list of toggles is decoration for its own
-  sake.
+- The **settings cluster** takes the colophon rather than a landscape.
+  These screens are about the app, not about a place, and a headland
+  behind a list of toggles is decoration for its own sake.
+  (Its discs run at 0.55 — which is not the pale-wash trap described
+  below, because they MULTIPLY a full-strength ink rather than tinting
+  one. Measured over cream: rgb(120,139,174), 31% saturation. Multiply
+  keeps chroma as it darkens; a plain alpha tint sheds it.)
 
-## Still open
+---
 
-- The olive grove's terrace walls read a little chalky at full crop —
-  the stone highlight could come down a step.
-- The mosaic's lattice reads as alternating rows rather than the
-  intended diamonds, because the column count changes per row and
-  breaks the diagonal. It works as a pavement; it is not the figure
-  that was drawn.
-- The amphorae shelf still has more dead cream below it than the other
-  plates, on tab screens, where the scroll's bottom padding sits
-  between the plate and the tab bar.
+# Round 2b — the three open items, closed
+
+### The olive grove's terrace walls were chalky
+
+They were painted in the whitewash values, and whitewash is what a
+BUILDING is. A dry-stone terrace in a grove is warm rubble weathered by
+sun; in cream it read as chalk streaks scored across the hill. There is
+now a `--g-wall` family mixed from `--sand` — which is in the palette
+for exactly this and is already what the goal-cover thumbnails use as
+ground, for exactly this reason. Face in the grove's own shadow, coping
+in the sun, far rows losing contrast rather than width.
+
+While re-pulling it: the trees had **no trunks**. The trunk path ran
+from `y + 0.26r` upward, and the canopy's lowest lobe reaches
+`y + 0.34r` — so every trunk was drawn perfectly inside its own canopy
+and the grove was a row of bushes. Trunks now clear the foliage and the
+cast shadow sits at the foot of the trunk rather than under the canopy.
+
+### The mosaic's lattice sheared into stripes
+
+Two causes, one structural and one arithmetic.
+
+The arithmetic: the column count changed per row, so a diagonal computed
+from the column index landed at a different physical x in every row.
+Column count is constant now, which also draws the floor more correctly
+— this floor spans the full plate width at every depth, so a tile should
+keep its WIDTH going away from you and lose its HEIGHT. Constant columns
+plus row height from `rowY()` gives that foreshortening for free.
+
+The structural one is that **crossed diagonals cannot survive this
+floor** at all. The rows compress with depth, so a line stepping one
+column per row has a steep slope at the front and a nearly flat one at
+the back; it bends. Two crossing diagonals were also laying down 44%
+coverage, when the whole point was a cream ground with a figure in it.
+Replaced with a rosette — four cobalt arms about a clay heart — which is
+a closed figure, keeps its shape whatever the row spacing does, and sits
+at about a quarter coverage. The motif drops out past the fourth row,
+because distance eats detail before it eats colour.
+
+### The amphorae shelf had dead cream under it
+
+A tab screen's scroll reserves the tab bar's height at its foot so no
+ROW ends up underneath the bar. A plate is not a row — it is the end of
+the page — and stopping it a bar's height short left a band of bare
+cream between the drawing and the chrome that read as the plate having
+failed to load. `plate-foot--tabbar` pulls that reservation back.
+Measured after: plate bottom 769, tab bar top 769, gap **0** on all three
+tab screens, with the lowest line of text still clearing the bar by
+200px or more.
+
+---
+
+## And a fourth, found while fixing the third
+
+**The grey came back — through opacity this time.**
+
+The token fix in round 2 corrected the ink values. It did not catch that
+the same failure arrives just as easily through `opacity`, because a
+pale wash of ANY ink over cream trends to neutral. Three of them had
+been introduced:
+
+| where | composited | saturation |
+| --- | --- | --- |
+| amphorae shelf face, `--g-stone-shade` @ 0.62 | rgb(204,207,216) | 5.6% |
+| mosaic grout, `--g-stone-shade` @ 0.42 | rgb(219,218,219) | **0.5%** |
+| mosaic depth haze, `--g-stone-mid` @ 0.34 | rgb(214,215,218) | 1.8% |
+
+The grout is the worst of the three: half a percent is a dead neutral,
+and it showed in every joint of the floor.
+
+- The shelf face is full opacity now. A plane turned away from the sun
+  is a plane, not a wash; lightening it was the wrong instinct.
+- The grout is warm lime mortar, which is what a mosaic is actually
+  bedded in.
+- The depth haze is **deleted rather than replaced**. A pale film over
+  cream cannot be anything but neutral, and the floor already carries
+  its depth honestly through foreshortening and the motif dropping out.
+  Nothing needed to take its place.
+
+The rule, stated properly this time: **no pale wash over cream, whatever
+ink it starts from.** Depth and shade are carried by dither coverage or
+by a fully-opaque derived value — never by turning an ink down.

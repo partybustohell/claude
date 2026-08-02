@@ -29,6 +29,19 @@
   pointer-events: none;
 }
 
+/* A tab screen's scroll body reserves the tab bar's height at its foot
+   so no ROW can end up underneath the bar. A plate is not a row — it is
+   the end of the page — and stopping it short of the bar left a band of
+   bare cream between the drawing and the chrome that read as the plate
+   having failed to load.
+   Pulling that reservation back puts the plate's bottom edge exactly on
+   the top of the tab bar. The art is anchored to the bottom of its crop
+   box, so the ground line lands just above the bar rather than under it,
+   and every row above still clears the bar as before. */
+.plate-foot--tabbar {
+  margin-bottom: calc((var(--tabbar-h) + var(--safe-bottom)) * -1);
+}
+
 /* When a screen's scroll body has no side padding, there is nothing
    to pull out of. */
 .pane:not(.pane--pad) > .plate-foot,

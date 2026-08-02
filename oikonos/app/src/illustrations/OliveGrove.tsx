@@ -116,32 +116,53 @@ export function OliveGrove({ className = '' }: { className?: string }) {
       {/* ---- 3. the terraces and the trees, back to front ---- */}
       {ROWS.map((row, i) => (
         <motion.g key={i} {...layer(14, 0.1 + i * 0.06)}>
-          {/* the dry-stone wall holding this terrace up */}
+          {/* The dry-stone wall holding this terrace up.
+              Warm rubble, not whitewash — in the cream stone values
+              these read as chalk streaks scored across the hill. The
+              face sits in the grove's own shadow, the coping takes the
+              sun, and the far rows lose contrast rather than width so
+              the near wall stays the heaviest. */}
           <g filter={ink(ID, 'grain-fine')}>
+            <path d={wall(row.y + row.r * 0.36 + 1)} fill="none"
+              stroke="var(--g-wall-deep)" strokeWidth={5 + i * 1.6}
+              opacity={0.5 + i * 0.08} />
             <path d={wall(row.y + row.r * 0.36)} fill="none"
-              stroke="var(--g-stone-shade)" strokeWidth={5 + i * 1.6} opacity="0.85" />
+              stroke="var(--g-wall)" strokeWidth={3.4 + i * 1.2}
+              opacity={0.62 + i * 0.07} />
             <path d={wall(row.y + row.r * 0.36 - (2 + i * 0.7))} fill="none"
-              stroke="var(--g-stone-hi)" strokeWidth={1.6 + i * 0.4} opacity="0.8" />
+              stroke="var(--g-wall-lit)" strokeWidth={1.4 + i * 0.35}
+              opacity={0.5 + i * 0.09} />
           </g>
 
           {TREES.filter((t) => t.row === i).map((t, j) => (
             <g key={j}>
-              {/* the shadow it throws, right and downslope */}
-              <ellipse cx={t.x + t.r * 0.5} cy={t.y + t.r * 0.3}
-                rx={t.r * 0.86} ry={t.r * 0.2}
+              {/* the shadow it throws, right and downslope — it sits at
+                  the FOOT of the trunk, not under the canopy, or the
+                  tree reads as floating on its own shade */}
+              <ellipse cx={t.x + t.r * 0.5} cy={t.y + t.r * 0.62}
+                rx={t.r * 0.8} ry={t.r * 0.16}
                 fill="var(--g-green-deep)" opacity="0.24" />
               <g filter={ink(ID, 'grain')}>
-                {/* the trunk — the near rows only; distance eats it first */}
+                {/* The trunk — near rows only; distance eats it first.
+                    It has to clear the canopy, whose lowest lobe reaches
+                    y + 0.34r. Drawn inside that, as it was, a trunk is
+                    perfectly hidden and the grove is a row of bushes. */}
                 {i >= 2 && (
                   <>
                     <path
-                      d={`M${t.x - t.r * 0.12} ${t.y + t.r * 0.26}`
-                        + `q${t.r * 0.06} ${-t.r * 0.3} ${t.r * 0.02} ${-t.r * 0.5}`
-                        + `h${t.r * 0.2}q${t.r * 0.04} ${t.r * 0.2} ${t.r * 0.1} ${t.r * 0.5}Z`}
+                      d={`M${t.x - t.r * 0.11} ${t.y + t.r * 0.62}`
+                        + `C${t.x - t.r * 0.09} ${t.y + t.r * 0.46} ${t.x - t.r * 0.13} ${t.y + t.r * 0.4} ${t.x - t.r * 0.08} ${t.y + t.r * 0.2}`
+                        + `h${t.r * 0.17}`
+                        + `C${t.x + t.r * 0.14} ${t.y + t.r * 0.4} ${t.x + t.r * 0.1} ${t.y + t.r * 0.46} ${t.x + t.r * 0.13} ${t.y + t.r * 0.62}Z`}
                       fill="var(--g-green-deep)"
                     />
-                    <path d={`M${t.x - t.r * 0.12} ${t.y + t.r * 0.26}q${t.r * 0.06} ${-t.r * 0.3} ${t.r * 0.02} ${-t.r * 0.5}`}
-                      stroke="var(--g-lime)" strokeWidth="1.2" fill="none" opacity="0.5" />
+                    {/* lit on its left, like everything else in the app */}
+                    <path
+                      d={`M${t.x - t.r * 0.1} ${t.y + t.r * 0.6}`
+                        + `C${t.x - t.r * 0.08} ${t.y + t.r * 0.44} ${t.x - t.r * 0.12} ${t.y + t.r * 0.38} ${t.x - t.r * 0.07} ${t.y + t.r * 0.24}`}
+                      stroke="var(--g-wall)" strokeWidth={t.r * 0.05}
+                      fill="none" opacity="0.55" strokeLinecap="round"
+                    />
                   </>
                 )}
                 <path d={canopy(t)} fill="var(--g-green-deep)" />

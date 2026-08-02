@@ -18,9 +18,9 @@ import { Plate, Press, ink, useLayer, mulberry32 } from './press';
  *     narrower, its grout tighter, so the field reads as a surface
  *     going away from you rather than as wallpaper.
  *   · A MOTIF. The coloured chips are not scattered, they sit on a
- *     lattice — a repeating diamond, cobalt with a clay heart. A real
- *     pavement is mostly its ground colour with a figure laid into it,
- *     and the ground here is cream by a wide margin.
+ *     lattice — a repeating rosette, four cobalt arms about a clay
+ *     heart. A real pavement is mostly its ground colour with a figure
+ *     laid into it, and the ground here is cream by a wide margin.
  *
  * The jitter that remains is small and is only there because tesserae
  * are bedded by hand: enough to kill the graph paper, not enough to
@@ -40,10 +40,38 @@ const H = 210;
 const ROWS = 11;
 const FAR = 42;           // the far edge of the floor — the border sits here
 
+/**
+ * The column count is CONSTANT, and that is the whole reason the motif
+ * works.
+ *
+ * The first floor narrowed each row's column count with depth, on the
+ * reasoning that nearer rows hold fewer, larger chips. It does not
+ * survive contact with a pattern: with a different divisor per row, a
+ * diagonal computed from the column index lands at a different physical
+ * x in every row, so the diamonds sheared into plain alternating
+ * stripes. Holding the count fixed makes (column, row) a real lattice.
+ *
+ * It is also the more correct drawing. This floor spans the full plate
+ * width at every depth — it recedes, but it does not converge to a
+ * vanishing point at the sides. So a tile keeps its WIDTH going away
+ * from you and loses its HEIGHT, which is exactly what foreshortening
+ * does to a square. Constant columns with row height falling out of
+ * rowY() gives that for free: the far chips are letterbox-thin, the
+ * near ones nearly square.
+ */
+const COLS = 20;
+const CW = (W + 40) / COLS;
+
+/** Rows from here forward carry the motif; behind it, distance has
+ *  taken the pattern and left only the ground and a little colour. */
+const NEAR = 4;
+
 /** Rows bunch toward the far edge. Depth is the whole illusion. */
 function rowY(i: number) {
   const t = i / ROWS;
-  return FAR + (H - FAR) * Math.pow(t, 1.42);
+  /* 1.42 threw so much depth into the last two rows that the front of
+     the floor was three chips tall and the back was a smear. */
+  return FAR + (H - FAR) * Math.pow(t, 1.24);
 }
 
 const INKS = {
@@ -63,22 +91,36 @@ const CHIPS: Chip[] = (() => {
     const y0 = rowY(r);
     const y1 = rowY(r + 1);
     const h = (y1 - y0) * 0.82;
-    /* nearer rows hold fewer, larger chips */
-    const cols = Math.round(26 - r * 1.1);
-    const cw = (W + 40) / cols;
 
-    for (let c = 0; c < cols; c++) {
-      const x = -20 + c * cw + (rnd() - 0.5) * 1.6;
+    for (let c = 0; c < COLS; c++) {
+      const x = -20 + c * CW + (rnd() - 0.5) * 1.6;
       const y = y0 + (rnd() - 0.5) * 1.2;
 
-      /* the lattice: a diamond every four chips, offset row by row */
-      const m = (c * 2 + r) % 8;
+      /* THE MOTIF — a rosette: a clay centre with four cobalt arms,
+         repeating every five columns and every three rows.
+         Crossed diagonals were tried first and do not survive this
+         floor. The rows compress hard with depth, so a line stepping
+         one column per row has a steep slope at the front and a nearly
+         flat one at the back; the "diamonds" bent into scattered
+         alternation. A rosette is a closed figure — it keeps its shape
+         whatever the row spacing does, and it leaves the cream ground
+         dominant at about a quarter coverage rather than the 44% two
+         crossing diagonals were laying down. */
       let set = INKS.ground;
-      if (m === 0) set = INKS.figure;
-      else if (m === 4) set = INKS.heart;
-      else if (m === 2 && r % 3 === 0) set = INKS.leaf;
+      if (r >= NEAR) {
+        const px = c % 5;
+        const py = (r - NEAR) % 3;
+        if (px === 2 && py === 1) set = INKS.heart;
+        else if ((px === 1 || px === 3) && py === 1) set = INKS.figure;
+        else if (px === 2 && (py === 0 || py === 2)) set = INKS.figure;
+        else if (px === 0 && py === 0) set = INKS.leaf;
+      } else if ((c * 3 + r * 5) % 11 === 0) {
+        /* Distance eats detail before it eats colour. The far field
+           keeps a scatter of single chips and drops the figure. */
+        set = c % 2 ? INKS.figure : INKS.leaf;
+      }
 
-      out.push({ x, y, w: cw * 0.84, h, fill: set.fill, hi: set.hi });
+      out.push({ x, y, w: CW * 0.84, h, fill: set.fill, hi: set.hi });
     }
   }
   return out;
@@ -107,19 +149,19 @@ export function Mosaic({ className = '' }: { className?: string }) {
     >
       <defs>
         <Press id={ID} seed={37} />
-        {/* the far end of the floor loses light, as a floor does */}
-        <linearGradient id={`${ID}-depth`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="var(--g-stone-mid)" stopOpacity="0.5" />
-          <stop offset="0.42" stopColor="var(--g-stone-mid)" stopOpacity="0" />
-        </linearGradient>
       </defs>
 
       {/* ============================================================
           1 — THE BEDDING
           ============================================================ */}
       <motion.g {...layer(6, 0.02)}>
+        {/* The mortar the chips are bedded in, and it shows in every
+            grout line, so its colour is not a detail. It was the cobalt
+            stone at 0.42, which composites to rgb(219,218,219) — a dead
+            neutral, and a floor grouted in grey is a floor with grey in
+            it. Lime mortar is warm. */}
         <rect x="0" y={FAR} width={W} height={H - FAR}
-          fill="var(--g-stone-shade)" opacity="0.42" filter={ink(ID, 'grain')} />
+          fill="var(--g-wall-lit)" filter={ink(ID, 'grain')} />
       </motion.g>
 
       {/* ============================================================
@@ -142,8 +184,11 @@ export function Mosaic({ className = '' }: { className?: string }) {
             </g>
           ))}
         </g>
-        {/* distance takes the light out of the far rows */}
-        <rect x="0" y={FAR} width={W} height={H - FAR} fill={`url(#${ID}-depth)`} />
+        {/* There was a haze gradient here to take the light out of the
+            far rows. It composited to rgb(214,215,218) — grey again, and
+            a pale film over cream cannot be anything else. Depth is
+            already carried honestly: the rows foreshorten, and the motif
+            drops out past NEAR. Nothing needed to replace it. */}
       </motion.g>
 
       {/* ============================================================

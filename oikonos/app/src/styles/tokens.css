@@ -170,6 +170,19 @@
   --g-roof:        var(--ink);
   --g-roof-lit:    var(--ink-lift);
 
+  /* Dry stone: field walls, terrace retaining, anything stacked without
+     mortar and never whitewashed. This is NOT --g-stone. Whitewash is
+     cream and reads as a building; a terrace wall in a grove is warm
+     rubble weathered by sun, and painting it in the whitewash values
+     made the olive terraces read chalky — pale streaks scored across
+     the hillside. --sand is the palette's own answer to that, and the
+     reason it exists: the goal-cover thumbnails already use it as
+     ground precisely because a light tint of cobalt in cream
+     desaturates to grey. */
+  --g-wall:        var(--sand);
+  --g-wall-lit:    color-mix(in srgb, var(--paper) 52%, var(--sand) 48%);
+  --g-wall-deep:   color-mix(in srgb, var(--sand) 58%, var(--olive-deep) 42%);
+
   /* fired clay: the warm ink, for tile, terracotta, awnings, fruit */
   --g-clay:        var(--vermilion);
   --g-clay-deep:   var(--vermilion-deep);

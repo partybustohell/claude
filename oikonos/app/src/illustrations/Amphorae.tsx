@@ -216,8 +216,13 @@ export function Amphorae({ className = '' }: { className?: string }) {
         <g filter={ink(ID, 'grain-fine')}>
           <rect x="0" y={SHELF} width="390" height={SHELF_FACE - SHELF}
             fill="var(--g-stone-hi)" />
+          {/* Full opacity, deliberately. Dropping this to 0.62 to lighten
+              it composited to rgb(204,207,216) — 5.6% saturation, a grey,
+              which is the same defect the token layer was fixed for. The
+              rule applies to OPACITY as well as to fills: any pale wash
+              over cream trends to neutral whatever ink it started from. */}
           <rect x="0" y={SHELF_FACE} width="390" height={236 - SHELF_FACE}
-            fill="var(--g-stone-shade)" opacity="0.62" />
+            fill="var(--g-stone-shade)" />
           <rect x="0" y={SHELF} width="390" height="1.8" fill="var(--g-stone-hi)" />
           {/* the shadow the lip throws on its own face */}
           <rect x="0" y={SHELF_FACE} width="390" height="2.4"

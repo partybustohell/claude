@@ -69,7 +69,7 @@ export function Goals() {
             </Rise>
           ))}
           {/* The screen runs out and the world begins. */}
-          <PlateFoot plate="ascent" height={214} />
+          <PlateFoot plate="ascent" height={214} tabbar />
         </Stack>
       </div>
     </Screen>

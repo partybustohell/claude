@@ -160,7 +160,7 @@ export function Activity() {
             </div>
             {/* The ledger runs out and the street it was spent on begins.
                 This pane has no side padding, so the plate is already flush. */}
-            <PlateFoot plate="shopfront" height={196} flush />
+            <PlateFoot plate="shopfront" height={196} flush tabbar />
           </Stack>
         )}
       </div>

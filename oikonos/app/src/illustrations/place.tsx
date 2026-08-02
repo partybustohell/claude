@@ -56,18 +56,24 @@ export type PlateName = keyof typeof PLATES;
  * a screen with 200.
  */
 export function PlateFoot({
-  plate, height = 200, flush = false, tone = 'paper', label,
+  plate, height = 200, flush = false, tabbar = false, tone = 'paper', label,
 }: {
   plate: PlateName;
   height?: number;
   flush?: boolean;
+  /** Set on the four tab screens, whose scroll reserves the tab bar's
+   *  height at the foot. Without it the plate stops a bar's height short
+   *  and leaves a band of bare cream under the drawing. */
+  tabbar?: boolean;
   tone?: 'paper' | 'ink';
   label?: string;
 }): ReactElement {
   const P = PLATES[plate];
   return (
     <div
-      className={`plate-foot ${flush ? 'plate-foot--flush' : ''} ${tone === 'ink' ? 'plate-foot--ink' : ''}`}
+      className={`plate-foot ${flush ? 'plate-foot--flush' : ''}`
+        + `${tabbar ? ' plate-foot--tabbar' : ''}`
+        + `${tone === 'ink' ? ' plate-foot--ink' : ''}`}
       style={{ height }}
       aria-hidden={label ? undefined : true}
     >

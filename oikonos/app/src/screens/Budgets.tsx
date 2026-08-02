@@ -153,7 +153,7 @@ export function Budgets() {
             </p>
           </Rise>
           {/* The screen runs out and the world begins. */}
-          <PlateFoot plate="amphorae" height={206} />
+          <PlateFoot plate="amphorae" height={206} tabbar />
         </Stack>
       </div>
     </Screen>
