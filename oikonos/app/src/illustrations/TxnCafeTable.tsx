@@ -1,21 +1,19 @@
 /**
  * TRANSACTION DETAIL — "One o'clock, table for one"
  *
- * A café still life printed in three inks on the pine field: cream for the
+ * A café still life printed in two inks on the pine field: cream for the
  * terrazzo bistro top and the glassware, cobalt for everything the light
  * cannot reach — the splayed pedestal, the pool on the floor, the espresso
- * in the cup — and vermilion for the bentwood chair pushed in against it.
+ * in the cup. Vermilion appears only as aggregate in the stone.
+ *
+ * The table stands alone. An earlier version tucked a bentwood chair in
+ * front of it, which occluded the pedestal and left the top apparently
+ * floating; with the chair gone the four splayed legs carry the whole
+ * structure and the object finally sits on its own floor.
  *
  * The light comes from the upper left. Every shade therefore falls to the
- * lower right: the pool is pushed right of the table's axis, the contact
- * shadows on the stone trail right of their objects, and the cobalt pass
- * sits a hair right-and-down of the cream pass so the two plates read as
- * two runs through the press.
- *
- * The chair is drawn twice from one path set — once in cobalt, once in
- * vermilion two units up and left of it — so every bentwood member carries
- * a shadowed edge without a single extra path. That deliberate
- * misregistration is the whole trick of the drawing.
+ * lower right: the pool is pushed right of the table's axis and the
+ * contact shadows on the stone trail right of their objects.
  *
  * Grain: an alpha-punching feTurbulence lets the green show through the ink
  * in a fine mottle, plus deterministic stipple fields (seeded PRNG, emitted
@@ -35,13 +33,10 @@ const TRY = 16;
 const SLAB = 6;      // stone thickness
 
 /* ---- floor ---- */
-const SX = 206;      // pool centre, pushed right of the table axis
-const SY = 292;
-const SRX = 120;     // solid core
-const SRY = 15;
-
-/* ---- chair ---- */
-const CX = 196;
+const SX = 201;      // pool centre, pushed right of the table axis
+const SY = 293;
+const SRX = 66;      // solid core — the pedestal's own footprint
+const SRY = 10.5;
 
 /* ================================================================
    Deterministic noise
@@ -128,63 +123,6 @@ const UNDER_D = buildUnderTable();
 const FLECK_INK_D = buildFlecks(0x51a7, 38, 0.9);
 const FLECK_RED_D = buildFlecks(0xbe11, 13, 0.8);
 
-/* ================================================================
-   The chair — one path set, printed twice
-   ================================================================ */
-
-const SEAT_D = 'M141 250A55 12.5 0 0 1 251 250A55 12.5 0 0 1 141 250Z';
-
-const CHAIR: { d: string; cap?: number }[] = [
-  /* back legs, behind everything */
-  { d: taper(172, 250, 7, 158, 290, 4.5) },
-  { d: taper(220, 250, 7, 234, 290, 4.5) },
-  /* the hoop that is the whole back — one steamed length of beech */
-  { d: 'M154 254C150 202 164 161 196 161C228 161 242 202 238 254L230 254C234 205 220 170 196 170C172 170 158 205 162 254Z' },
-  /* the cross slat */
-  { d: 'M162 197C178 203 214 203 230 197L230 208.5C214 214.5 178 214.5 162 208.5Z' },
-  /* arms — a short bentwood sweep out of the hoop, dropped onto the seat
-     by a stub post, so the window under them stays small and the chair
-     never reads as a basket */
-  { d: 'M165 210C151 209.6 142 214 135.5 222.5', cap: 6 },
-  { d: 'M227 210C241 209.6 250 214 256.5 222.5', cap: 6 },
-  { d: taper(136, 221, 6.4, 143, 248, 5.4) },
-  { d: taper(256, 221, 6.4, 249, 248, 5.4) },
-  /* ring stretcher */
-  { d: 'M152 282C172 293 220 293 240 282', cap: 4.5 },
-  /* the round seat */
-  { d: SEAT_D },
-  /* seat rim */
-  { d: 'M141 250A55 12.5 0 0 0 251 250L251 255.5A55 12.5 0 0 1 141 255.5Z' },
-  /* front legs */
-  { d: taper(163, 254, 8.5, 139, 304, 5.5) },
-  { d: taper(229, 254, 8.5, 253, 304, 5.5) },
-];
-
-/** Cane weave inside the seat, as one path. */
-function buildCane(): string {
-  const out: string[] = [];
-  for (let k = -16; k <= 16; k++) {
-    const x = CX + k * 6.5;
-    out.push(`M${x - 10} 234L${x + 8} 268`);
-    out.push(`M${x + 10} 234L${x - 8} 268`);
-  }
-  return out.join('');
-}
-const CANE_D = buildCane();
-
-function ChairPlate({ ink }: { ink: string }) {
-  return (
-    <g>
-      {CHAIR.map((m, i) =>
-        m.cap
-          ? <path key={i} d={m.d} fill="none" stroke={ink} strokeWidth={m.cap}
-              strokeLinecap="round" strokeLinejoin="round" />
-          : <path key={i} d={m.d} fill={ink} />,
-      )}
-    </g>
-  );
-}
-
 /* ---- crockery paths shared with their clip regions ---------------- */
 
 const CUP_D = 'M99 148.4C96.4 141.4 94 133.4 92.6 127.5L123.4 127.5C122 133.4 119.6 141.4 117 148.4C115 151.2 101 151.2 99 148.4Z';
@@ -210,7 +148,7 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
       viewBox={`0 0 ${W} ${H}`}
       width="100%"
       role="img"
-      aria-label="A round terrazzo café table set with an espresso cup and a water bottle, a red bentwood armchair tucked in front of it"
+      aria-label="A round terrazzo café table on a splayed pedestal, set with an espresso cup on a saucer and a tall water bottle"
       style={{ display: 'block', height: 'auto', overflow: 'visible' }}
     >
       <defs>
@@ -265,7 +203,6 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
         <clipPath id="tc-topclip">
           <ellipse cx={TX} cy={TY} rx={TRX} ry={TRY} />
         </clipPath>
-        <clipPath id="tc-seatclip"><path d={SEAT_D} /></clipPath>
         <clipPath id="tc-cupclip"><path d={CUP_D} /></clipPath>
         <clipPath id="tc-bottleclip"><path d={BOTTLE_D} /></clipPath>
       </defs>
@@ -380,41 +317,6 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
         </g>
       </motion.g>
 
-      {/* ---------------- the chair ----------------
-           pushed right of the table's axis so the still life is composed,
-           not mirrored, and the pedestal reads through the hoop */}
-      <motion.g {...rise(0.4, 22)}>
-       <g transform="translate(14 0)">
-        {/* the cobalt plate, printed a hair low and right */}
-        <g transform="translate(2.6 1.9)" opacity="0.8" filter="url(#tc-ink)">
-          <ChairPlate ink="var(--ink)" />
-        </g>
-        <g filter="url(#tc-ink)">
-          <ChairPlate ink="var(--vermilion)" />
-        </g>
-        {/* cane weave */}
-        <g clipPath="url(#tc-seatclip)">
-          <path d={CANE_D} fill="none" stroke="var(--ink)" strokeWidth="1" opacity="0.2" />
-          <path d={CANE_D} fill="none" stroke="#ffbdad" strokeWidth="0.7" opacity="0.3"
-            transform="translate(-1.1 -0.8)" />
-        </g>
-        {/* light rakes the left face of every upright */}
-        {/* the light rakes the left flank of the hoop and the near legs */}
-        {/* the light rakes the left flank of the hoop and the near leg */}
-        <g fill="none" stroke="#ffab96" strokeLinecap="round" opacity="0.6">
-          <path d="M156.4 250C152.6 204 167 165.4 196 164.4" strokeWidth="2.2" />
-        </g>
-        <g fill="#ff9179" opacity="0.5">
-          <path d={taper(160.6, 256, 2.5, 137, 303, 2)} />
-          <path d={taper(231.6, 256, 1.5, 255, 303, 1.3)} />
-        </g>
-        {/* the seat turns away from the light along its far rim */}
-        <g clipPath="url(#tc-seatclip)">
-          <ellipse cx={214} cy={258} rx={55} ry={12.5} fill="var(--ink)" opacity="0.13" />
-          <ellipse cx={174} cy={243} rx={38} ry={7.6} fill="#ffbcac" opacity="0.22" />
-        </g>
-       </g>
-      </motion.g>
     </svg>
   );
 }

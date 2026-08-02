@@ -2,8 +2,31 @@
    HOME — the cream dashboard
    ============================================================ */
 
+/* ---- The sheet -----------------------------------------------
+   A real substrate. Two tooth scales blended together and laid over
+   the whole screen in `overlay`, so cream ground, cobalt card and
+   illustration all carry the same paper — grain belongs to the sheet,
+   not to the shapes printed on it.
+   --------------------------------------------------------------- */
+
+.home__sheet {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  background-image: url('/tex/paper.png'), url('/tex/paper.png');
+  background-size: 57px 57px, 171px 171px;
+  background-position: 19px 31px, 0 0;
+  background-blend-mode: overlay;
+  mix-blend-mode: overlay;
+  opacity: 0.92;
+}
+
 .home__scroll {
-  padding-bottom: var(--s-8);
+  padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom));
+  /* the fold is a dissolve, not a cut: the list runs out of sheet */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
 }
 
 /* the scroll body is a flex column — nothing in it may be squeezed */
@@ -13,14 +36,16 @@
 
 .home__stage {
   position: relative;
-  height: 330px;
+  height: 344px;
 }
 
+/* Places the waterline (local y 150) at 344px from the top of the pane,
+   which leaves the reflection dying 8px clear of the OVERVIEW eyebrow. */
 .home__art {
   position: absolute;
   left: 0;
   right: 0;
-  top: 130px;
+  top: 133px;
   z-index: 0;
   pointer-events: none;
 }
@@ -46,12 +71,15 @@
   color: var(--ink-lift);
 }
 
+/* The name is the book cut of the same face. The figure below it is the
+   only bold thing in the header, so the pair reads as a name and a
+   number rather than two competing display lines. */
 .home__name {
   font-size: var(--t-h2);
-  font-weight: 600;
+  font-weight: 400;
   font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 120;
   line-height: 1.1;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.022em;
   color: var(--ink);
   margin-top: 3px;
   /* optical: the diagonal of the A sits proud of the gutter */
@@ -62,19 +90,30 @@
 
 /* ---- Net worth ---------------------------------------------- */
 
-.home__worth { margin-top: 34px; }
+.home__worth { margin-top: 42px; }
 
-.home__figure {
-  display: block;
+.home__fig {
+  display: flex;
+  align-items: baseline;
   margin-top: 9px;
   /* optical: the ₹ bar has a fat left bearing — pull it back to the gutter */
   margin-left: -3px;
+}
+
+.home__rupee,
+.home__figure {
   font-size: 46px;
   font-weight: 600;
   font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
   letter-spacing: -0.044em;
   line-height: 1.02;
   color: var(--ink);
+}
+
+/* optical sidebearing: the ₹ crossbar must not touch the 8's bowl */
+.home__rupee {
+  letter-spacing: 0;
+  margin-right: 0.028em;
 }
 
 .home__delta { display: block; margin-top: 13px; }
@@ -87,9 +126,9 @@
   padding: 0 var(--gutter);
 }
 
-.home__sec + .home__sec { margin-top: 30px; }
+.home__sec + .home__sec { margin-top: 24px; }
 
-.home__cardwrap { margin-top: 14px; }
+.home__cardwrap { margin-top: 12px; }
 
 /* ---- Overview rows ------------------------------------------- */
 
@@ -99,7 +138,7 @@
   gap: 14px;
 }
 
-.ov__row + .ov__row { margin-top: 15px; }
+.ov__row + .ov__row { margin-top: 13px; }
 
 .ov__body {
   flex: 1;
@@ -165,7 +204,7 @@
   align-items: center;
   gap: 14px;
   width: 100%;
-  padding: 10px 0;
+  padding: 13px 0;
   text-align: left;
   -webkit-tap-highlight-color: transparent;
 }
@@ -182,14 +221,16 @@
 
 .txnrow__body { flex: 1; min-width: 0; }
 
+/* A list row, not a headline: the merchant is the book cut and sits
+   below the section eyebrow in weight, so the eyebrow keeps the band. */
 .txnrow__merchant {
   display: block;
   font-family: var(--font-display);
-  font-size: var(--t-lead);
-  font-weight: 600;
-  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 90;
-  letter-spacing: -0.018em;
-  line-height: 1.2;
+  font-size: 16.5px;
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 72;
+  letter-spacing: -0.012em;
+  line-height: 1.22;
   color: var(--ink);
   white-space: nowrap;
   overflow: hidden;
@@ -208,8 +249,8 @@
 
 .txnrow__amount {
   flex: none;
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 600;
-  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 96;
-  letter-spacing: -0.03em;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 84;
+  letter-spacing: -0.026em;
 }

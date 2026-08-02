@@ -84,24 +84,42 @@ export function Welcome() {
 }
 
 /**
- * The eclipse living in the counter of the fourth letter: a cream disc
- * that a cobalt shadow slides across until only a crescent is left.
+ * The eclipse living in the counter of the fourth letter.
+ *
+ * It is cut, not pasted: the disc is an ellipse the size of the O's own
+ * counter (12.27 × 17.17 at this size) grown by half a pixel so its back
+ * fuses with the inner edge of the bowl, and the cobalt shadow that
+ * crosses it is the same ellipse offset by 7.4 — one stem's width. The
+ * lune that remains is therefore thickest at the equator and tapers to
+ * cusps at the hairlines, which is exactly the O's own stroke modulation,
+ * and it is lit from the left like everything else on this screen.
  */
 function Eclipse({ reduce }: { reduce: boolean }) {
+  const RX = 12.85;
+  const RY = 17.45;
+  const OFF = 7.4;
   return (
-    <svg className="welcome__eclipse" viewBox="0 0 24 24" aria-hidden focusable="false">
+    <svg
+      className="welcome__eclipse"
+      viewBox="-16 -21 32 42"
+      aria-hidden
+      focusable="false"
+    >
       <defs>
         <mask id="welcome-eclipse-mask">
-          <ellipse cx="12" cy="12" rx="8.4" ry="10.6" fill="#fff" />
+          <ellipse cx="0" cy="0" rx={RX} ry={RY} fill="#fff" />
           <motion.ellipse
-            cy="12" rx="8.4" ry="10.6" fill="#000"
-            initial={{ cx: reduce ? 5.1 : -10 }}
-            animate={{ cx: 5.1 }}
+            cy="0" rx={RX} ry={RY} fill="#000"
+            initial={{ cx: reduce ? OFF : OFF + RX * 2.1 }}
+            animate={{ cx: OFF }}
             transition={reduce ? { duration: 0 } : { duration: 1.7, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
           />
         </mask>
       </defs>
-      <ellipse cx="12" cy="12" rx="8.4" ry="10.6" fill="var(--on-ink)" mask="url(#welcome-eclipse-mask)" />
+      <ellipse
+        cx="0" cy="0" rx={RX} ry={RY}
+        fill="var(--on-ink)" mask="url(#welcome-eclipse-mask)"
+      />
     </svg>
   );
 }

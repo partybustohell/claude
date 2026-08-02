@@ -42,11 +42,12 @@ export function Home() {
   const totals = useTotals();
   const recent = useTxnsSorted().slice(0, 4);
 
-  /* Each meter reads as a share of what came in — income is the whole,
-     the other two are the parts of it that left and the part that stayed. */
-  const base = totals.income || 1;
+  /* All three meters are scaled against one common maximum, with headroom,
+     so the largest bar reads as the largest quantity rather than as a
+     track that has run out. Nothing is ever pinned at 100%. */
+  const base = Math.max(totals.income, totals.expenses, totals.savings, 1) * 1.55;
   const rows = [
-    { key: 'income',   label: 'Income',   value: totals.income,   ratio: 1,
+    { key: 'income',   label: 'Income',   value: totals.income,   ratio: totals.income / base,
       ink: 'olive' as Ink, glyph: <IcRise size={20} /> },
     { key: 'expenses', label: 'Expenses', value: totals.expenses, ratio: totals.expenses / base,
       ink: 'vermilion' as Ink, glyph: <IcFall size={20} /> },
@@ -56,6 +57,11 @@ export function Home() {
 
   return (
     <Screen>
+      {/* The sheet. One substrate under everything — illustration, card
+          and type all sit on the same grain instead of floating on a
+          mathematically clean surface. */}
+      <span className="home__sheet" aria-hidden />
+
       <Stack gap={0} delay={0.04} className="pane scroll-y home__scroll">
 
         {/* ---------- hero stage ---------- */}
@@ -77,11 +83,18 @@ export function Home() {
 
             <Rise className="home__worth">
               <Eyebrow tone="var(--ink)" style={{ opacity: 0.86 }}>Net worth</Eyebrow>
-              <Amount
-                value={totals.netWorth}
-                className="home__figure"
-                duration={1650}
-              />
+              {/* The rupee is set as its own glyph so it can carry an
+                  optical sidebearing against the first digit — at 46px
+                  the ₹ crossbar otherwise fuses with the bowl of the 8. */}
+              <span className="home__fig">
+                <span className="home__rupee figure">₹</span>
+                <Amount
+                  value={totals.netWorth}
+                  prefix=""
+                  className="home__figure"
+                  duration={1650}
+                />
+              </span>
               <span className="home__delta">
                 <Delta value={totals.changePct} suffix="vs last month" />
               </span>
@@ -94,7 +107,7 @@ export function Home() {
           <SectionHead title="Overview" tone="var(--ink)" />
           <div className="home__cardwrap">
             <Card
-              tone="ink" pad={17} radius="var(--r-lg)" elevation={3}
+              tone="ink" pad={16} radius="var(--r-lg)" elevation={1}
               onClick={() => push({ name: 'insights' })}
             >
               {rows.map((r, i) => (
