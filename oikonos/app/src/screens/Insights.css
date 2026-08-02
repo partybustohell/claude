@@ -1,0 +1,133 @@
+.insights__title {
+  font-size: var(--t-h2);
+  color: var(--ink);
+  margin-top: 8px;
+}
+
+/* ---- Savings rate ---- */
+
+.insights__rate {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.insights__ratebody { min-width: 0; }
+.insights__ratenum {
+  font-size: 40px;
+  color: var(--on-ink);
+  margin-top: 6px;
+}
+.insights__ratemeta {
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+  margin-top: 6px;
+}
+.insights__ratenote {
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--on-ink-muted);
+}
+
+/* the ring's track needs to read on cobalt, not on paper */
+.insights__rate .ring circle:first-of-type {
+  stroke: rgba(253, 248, 236, 0.20);
+}
+.insights__rate .ring__center { color: var(--on-ink); }
+
+/* ---- Legend ---- */
+
+.insights__legend {
+  display: flex;
+  gap: 16px;
+  padding: 12px 0 16px;
+}
+.insights__legenditem {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+.insights__swatch {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+}
+
+/* ---- Category rows ---- */
+
+.insights__cat {
+  display: grid;
+  grid-template-columns: 38px 1fr auto auto;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 0;
+}
+.insights__catname {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.insights__catshare {
+  font-size: var(--t-caption);
+  font-weight: 700;
+  color: var(--fg-faint);
+  min-width: 34px;
+  text-align: right;
+}
+.insights__catamt {
+  font-size: var(--t-body);
+  color: var(--ink);
+  min-width: 76px;
+  text-align: right;
+}
+
+/* ---- Merchants ---- */
+
+.insights__merchants { padding-top: 8px; }
+.insights__merchant {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: baseline;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--hairline-soft);
+}
+.insights__merchant:last-child { border-bottom: 0; }
+.insights__rank {
+  font-family: var(--font-display);
+  font-size: var(--t-caption);
+  color: var(--fg-faint);
+}
+.insights__mname {
+  font-size: var(--t-body);
+  color: var(--ink);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.insights__mamt {
+  font-size: var(--t-body);
+  color: var(--ink);
+}
+
+/* ---- Net worth ---- */
+
+.insights__nw {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+}
+.insights__nwnum {
+  font-size: 30px;
+  color: var(--ink);
+}

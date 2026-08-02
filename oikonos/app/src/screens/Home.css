@@ -3,9 +3,11 @@
    ============================================================ */
 
 .home__scroll {
-  display: block;
   padding-bottom: var(--s-8);
 }
+
+/* the scroll body is a flex column — nothing in it may be squeezed */
+.home__scroll > * { flex: none; }
 
 /* ---- Hero stage: text over a bleeding horizon ---------------- */
 

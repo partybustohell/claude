@@ -1,0 +1,144 @@
+/* ============================================================
+   WELCOME — ink on paper. A cobalt field, a logotype, a cliff.
+   ============================================================ */
+
+.welcome {
+  /* Illustration inks, all derived from the four pigments. Whitewash
+     picks up the cobalt of the sky in its shaded returns. */
+  --w-white:      var(--on-ink);
+  --w-cream:      var(--paper);
+  --w-shade:      color-mix(in srgb, var(--ink-wash) 84%, var(--ink) 16%);
+  --w-open:       var(--ink-deep);
+  --w-green:      var(--olive);
+  --w-green-lit:  var(--olive-lift);
+  --w-green-deep: var(--olive-deep);
+
+  --w-cta-shadow:
+    0 2px 4px color-mix(in srgb, var(--ink-deep) 34%, transparent),
+    0 10px 26px color-mix(in srgb, var(--ink-deep) 46%, transparent);
+}
+
+/* ---- The field is not dead flat: light gathers top-left, the ink
+        lays down heavier toward the bottom edge. ---- */
+.welcome__tone {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(128% 58% at 14% -6%,
+      color-mix(in srgb, var(--ink-lift) 62%, transparent) 0%,
+      color-mix(in srgb, var(--ink-lift) 16%, transparent) 44%,
+      transparent 72%),
+    linear-gradient(179deg,
+      transparent 0%,
+      transparent 40%,
+      color-mix(in srgb, var(--ink-deep) 40%, transparent) 78%,
+      color-mix(in srgb, var(--ink-deep) 82%, transparent) 100%);
+}
+
+/* ---- Illustration: bleeds off the bottom and right ---- */
+.welcome__illo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 420px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Logotype
+   ============================================================ */
+
+.welcome__head {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  top: 168px;
+  z-index: 1;
+}
+
+.welcome__mark {
+  /* the round left terminal of the O optically indents — pull it back */
+  margin-left: -3px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 47px;
+  line-height: 1;
+  letter-spacing: 0.132em;
+  color: var(--on-ink);
+  white-space: nowrap;
+  /* the logotype prints slightly heavier than body copy */
+  text-shadow: 0 1px 0 color-mix(in srgb, var(--ink-deep) 55%, transparent);
+}
+
+.welcome__ltr {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* The eclipse letter owns its own box so the crescent can be centred
+   on the counter rather than on the advance-plus-tracking. */
+.welcome__ltr--eclipse {
+  position: relative;
+  letter-spacing: 0;
+  margin-right: 0.132em;
+}
+
+.welcome__eclipse {
+  position: absolute;
+  left: 50%;
+  top: 45.5%;
+  width: 21px;
+  height: 21px;
+  transform: translate(-50%, -50%);
+  overflow: visible;
+}
+
+.welcome__tag {
+  margin-top: 21px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.168em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--on-ink) 84%, transparent);
+}
+
+/* ============================================================
+   Call to action
+   ============================================================ */
+
+.welcome__foot {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 44px;
+  z-index: 5;
+}
+
+.welcome__cta.btn {
+  height: 60px;
+  padding: 0 24px;
+}
+
+/* Optically centre the label in the pill and pin the arrow to the
+   trailing edge — the kit's two auto margins would split the difference. */
+.welcome__cta.btn--full .btn__label {
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.19em;
+}
+
+.welcome__cta .btn__trailing {
+  position: absolute;
+  right: 24px;
+  margin-left: 0;
+  opacity: 0.92;
+}

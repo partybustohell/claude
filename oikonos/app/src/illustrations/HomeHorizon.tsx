@@ -42,36 +42,40 @@ const gauss = (t: number) => Math.exp(-t * t);
 
 /* ---- the sea: cobalt ------------------------------------------- */
 
+const REACH = 84;          // how far the reflection can fall before it dies
+
 function buildSea(): string {
   const rnd = mulberry32(0x0d3996);
   const out: string[] = [];
 
   // Reflection + haze below the waterline.
-  for (let y = Y0 + 0.4; y < H + 26; y += 1.95) {
+  for (let y = Y0 + 0.4; y < Y0 + REACH; y += 1.75) {
     const d = y - Y0;
     // gentle horizontal striation — water, not static
-    const band = 0.78 + 0.34 * Math.sin(d * 0.62 + 0.4);
-    for (let x = -8; x < W + 16; x += 1.95) {
-      const spread = 17 + d * 0.92;
-      const plume = 1.02 * Math.exp(-d / 23) * gauss((x - BX) / spread);
-      const haze = 0.66 * Math.exp(-d / 10.5) * gauss((x - BX) / 205);
-      // a faint far-left drift so the dither reaches the gutter
-      const drift = 0.1 * Math.exp(-d / 5.5) * gauss((x - 60) / 170);
-      const p = (plume + haze + drift) * band;
-      if (p <= 0.012) continue;
+    const band = 0.82 + 0.26 * Math.sin(d * 0.66 + 0.4);
+    // a clean death at the bottom so the drawing never reaches the type
+    const life = Math.min(1, Math.max(0, (REACH - d) / 30)) ** 1.6;
+    for (let x = -8; x < W + 16; x += 1.75) {
+      const spread = 13 + d * 0.86;
+      const plume = 1.35 * Math.exp(-d / 25) * gauss((x - BX) / spread);
+      // the waterline itself: dense everywhere, densest under the boat
+      const skin = 1.05 * Math.exp(-d / 6.4) * (0.3 + 0.7 * gauss((x - BX) / 215));
+      const haze = 0.34 * Math.exp(-d / 15) * gauss((x - BX) / 150);
+      const p = (plume + skin + haze) * band * life;
+      if (p <= 0.014) continue;
       if (rnd() > p) continue;
-      const s = 0.62 + 1.45 * Math.min(1, p) * (0.62 + 0.5 * rnd());
-      out.push(sq(x + (rnd() - 0.5) * 1.7, y + (rnd() - 0.5) * 1.7, s));
+      const s = 0.68 + 1.55 * Math.min(1, p) * (0.6 + 0.55 * rnd());
+      out.push(sq(x + (rnd() - 0.5) * 1.6, y + (rnd() - 0.5) * 1.6, s));
     }
   }
 
   // A whisper of atmosphere clinging to the line from above.
-  for (let y = Y0 - 15; y < Y0; y += 1.9) {
+  for (let y = Y0 - 13; y < Y0; y += 1.8) {
     const d = Y0 - y;
-    for (let x = -6; x < W + 12; x += 2.4) {
-      const p = 0.2 * Math.exp(-d / 4.6) * gauss((x - BX) / 235);
+    for (let x = -6; x < W + 12; x += 2.2) {
+      const p = 0.26 * Math.exp(-d / 4.2) * (0.3 + 0.7 * gauss((x - BX) / 220));
       if (rnd() > p) continue;
-      out.push(sq(x + (rnd() - 0.5) * 1.4, y + (rnd() - 0.5) * 1.4, 0.6 + rnd() * 0.7));
+      out.push(sq(x + (rnd() - 0.5) * 1.3, y + (rnd() - 0.5) * 1.3, 0.6 + rnd() * 0.75));
     }
   }
   return out.join('');
@@ -82,15 +86,16 @@ function buildSea(): string {
 function buildGlitter(): string {
   const rnd = mulberry32(0xef422d);
   const out: string[] = [];
-  for (let y = Y0 + 0.6; y < Y0 + 46; y += 2.1) {
+  for (let y = Y0 + 0.6; y < Y0 + 40; y += 1.9) {
     const d = y - Y0;
-    const band = 0.7 + 0.44 * Math.sin(d * 0.78);
-    for (let x = SUN_CX - 90; x < SUN_CX + 90; x += 2.1) {
-      const col = 0.72 * Math.exp(-d / 12) * gauss((x - SUN_CX) / (8 + d * 0.62));
-      const wash = 0.2 * Math.exp(-d / 5.2) * gauss((x - SUN_CX) / 74);
-      const p = (col + wash) * band;
+    const band = 0.66 + 0.48 * Math.sin(d * 0.8);
+    const life = Math.min(1, (40 - d) / 14);
+    for (let x = SUN_CX - 86; x < SUN_CX + 86; x += 1.9) {
+      const col = 0.9 * Math.exp(-d / 11) * gauss((x - SUN_CX) / (7 + d * 0.58));
+      const wash = 0.3 * Math.exp(-d / 5) * gauss((x - SUN_CX) / 68);
+      const p = (col + wash) * band * life;
       if (rnd() > p) continue;
-      out.push(sq(x + (rnd() - 0.5) * 1.6, y + (rnd() - 0.5) * 1.6, 0.6 + 1.15 * p));
+      out.push(sq(x + (rnd() - 0.5) * 1.5, y + (rnd() - 0.5) * 1.5, 0.62 + 1.2 * p));
     }
   }
   return out.join('');
@@ -102,17 +107,17 @@ function buildSunEdge(): string {
   const rnd = mulberry32(0xc96a3f);
   const out: string[] = [];
   const R = SUN_R;
-  for (let y = SUN_CY - R - 16; y < SUN_CY + R + 18; y += 1.7) {
-    for (let x = SUN_CX - R - 16; x < SUN_CX + R + 18; x += 1.7) {
+  for (let y = SUN_CY - R - 9; y < SUN_CY + R + 11; y += 1.3) {
+    for (let x = SUN_CX - R - 9; x < SUN_CX + R + 11; x += 1.3) {
       const dx = x - SUN_CX;
       const dy = y - SUN_CY;
       const rad = Math.hypot(dx, dy);
-      if (rad <= R + 0.4) continue;
+      if (rad <= R - 0.2) continue;
       // heavier below: the ink pools away from the light
-      const bias = 0.24 + 0.76 * Math.min(1, Math.max(0, dy / R + 0.55));
-      const p = 0.92 * Math.exp(-(rad - R) / 4.2) * bias;
+      const bias = 0.16 + 0.84 * Math.min(1, Math.max(0, dy / R + 0.5));
+      const p = 0.8 * Math.exp(-(rad - R) / 2.3) * bias;
       if (rnd() > p) continue;
-      out.push(sq(x + (rnd() - 0.5) * 1.4, y + (rnd() - 0.5) * 1.4, 0.6 + 1.2 * p));
+      out.push(sq(x + (rnd() - 0.5) * 1.1, y + (rnd() - 0.5) * 1.1, 0.55 + 1.0 * p));
     }
   }
   return out.join('');
@@ -138,14 +143,14 @@ export function HomeHorizon({ className = '' }: { className?: string }) {
         {/* Riso ink lay-down: paper-coloured specks knocked out of the field. */}
         <filter id="hz-riso" x="-6%" y="-6%" width="112%" height="112%"
           colorInterpolationFilters="sRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="0.58" numOctaves="4"
+          <feTurbulence type="fractalNoise" baseFrequency="1.45" numOctaves="3"
             seed="11" result="n" />
           <feColorMatrix
             in="n" type="matrix" result="sp"
             values="0 0 0 0 0.980
                     0 0 0 0 0.949
                     0 0 0 0 0.882
-                    2.35 0 0 0 -1.42" />
+                    1.85 0 0 0 -1.30" />
           <feComposite in="sp" in2="SourceAlpha" operator="in" result="spc" />
           <feMerge>
             <feMergeNode in="SourceGraphic" />
@@ -172,10 +177,10 @@ export function HomeHorizon({ className = '' }: { className?: string }) {
 
         {/* The horizon rule thins as it runs away from the boat. */}
         <linearGradient id="hz-line" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--ink)" stopOpacity="0.16" />
-          <stop offset="0.34" stopColor="var(--ink)" stopOpacity="0.30" />
-          <stop offset="0.86" stopColor="var(--ink)" stopOpacity="0.44" />
-          <stop offset="1" stopColor="var(--ink)" stopOpacity="0.24" />
+          <stop offset="0" stopColor="var(--ink)" stopOpacity="0.26" />
+          <stop offset="0.32" stopColor="var(--ink)" stopOpacity="0.46" />
+          <stop offset="0.85" stopColor="var(--ink)" stopOpacity="0.64" />
+          <stop offset="1" stopColor="var(--ink)" stopOpacity="0.4" />
         </linearGradient>
       </defs>
 
@@ -194,9 +199,9 @@ export function HomeHorizon({ className = '' }: { className?: string }) {
       <path d={SEA_D} fill="var(--ink)" />
 
       {/* ---- a far sail, for depth ---- */}
-      <g transform={`translate(96 ${Y0})`} fill="var(--ink)" opacity="0.3">
-        <path d="M0 -11.5 L0 -2 L6.6 -2 C4.4 -6 2 -9.4 0 -11.5 Z" />
-        <path d="M-5 -1.6 L7.6 -1.6 C6 1 3.2 2 0.6 2 C-2 2 -4 1 -5 -1.6 Z" />
+      <g transform={`translate(104 ${Y0})`} fill="var(--ink)" opacity="0.42">
+        <path d="M0 -9 L0 -1.6 L4.8 -1.6 C3.2 -4.6 1.5 -7.3 0 -9 Z" />
+        <path d="M-3.6 -1.3 L5.6 -1.3 C4.4 0.7 2.4 1.4 0.5 1.4 C-1.4 1.4 -2.9 0.7 -3.6 -1.3 Z" />
       </g>
 
       {/* ---- sloop: cobalt overprinting the sun ---- */}

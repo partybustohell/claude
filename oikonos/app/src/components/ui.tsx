@@ -18,7 +18,13 @@ const INK_WASH: Record<Ink, string> = {
   vermilion: 'var(--vermilion-wash)', paper: 'var(--paper-deep)',
 };
 
-export { INK_VAR, INK_WASH };
+/** Literal values, for SVG attributes where var() does not resolve. */
+const INK_HEX: Record<Ink, string> = {
+  ink: '#0d3996', olive: '#2e7349',
+  vermilion: '#ef422d', paper: '#faf2e1',
+};
+
+export { INK_VAR, INK_WASH, INK_HEX };
 export type { Ink };
 
 /* ================================================================

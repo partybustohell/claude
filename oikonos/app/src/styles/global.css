@@ -142,6 +142,9 @@ a { color: inherit; text-decoration: none; }
 
 .display {
   font-family: var(--font-display);
+  /* Book weight, always. The reference sets every serif head at regular —
+     a heading element's default bold reads as a different typeface. */
+  font-weight: 400;
   font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 90;
   letter-spacing: var(--tr-tight);
   line-height: var(--lh-snug);
@@ -150,6 +153,7 @@ a { color: inherit; text-decoration: none; }
 /* Financial figures: tabular so digits never shimmer while animating */
 .figure {
   font-family: var(--font-display);
+  font-weight: 400;
   font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 110;
   font-variant-numeric: tabular-nums lining-nums;
   letter-spacing: var(--tr-tighter);

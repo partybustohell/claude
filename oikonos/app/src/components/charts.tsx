@@ -1,6 +1,6 @@
 import { useId, useMemo, useRef } from 'react';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
-import { INK_VAR, type Ink } from './ui';
+import { INK_VAR, INK_HEX, type Ink } from './ui';
 import { surface, gentle, reveal } from '../lib/motion';
 import { compactINR } from '../lib/format';
 import './charts.css';
@@ -62,24 +62,26 @@ export function Sparkline({
     const lo = Math.min(...values);
     const hi = Math.max(...values);
     const span = hi - lo || 1;
-    const padY = 10;
+    const padY = 12;
+    const padX = 6;   // keeps the end dot's stroke inside the viewBox
+    const plotW = width - padX * 2;
     const pts = values.map((v, i) => [
-      (i / (values.length - 1)) * width,
+      padX + (i / (values.length - 1)) * plotW,
       height - padY - ((v - lo) / span) * (height - padY * 2),
     ] as [number, number]);
     const line = catmullRom(pts);
     return {
       line,
-      area: `${line} L${width},${height} L0,${height} Z`,
+      area: `${line} L${width - padX},${height} L${padX},${height} Z`,
       last: pts[pts.length - 1],
     };
   }, [values, width, height]);
 
-  const c = INK_VAR[ink];
+  const c = INK_HEX[ink];
 
   return (
     <svg ref={ref} viewBox={`0 0 ${width} ${height}`} width="100%" height={height}
-      fill="none" aria-hidden preserveAspectRatio="none">
+      fill="none" aria-hidden preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id={`sg-${uid}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={c} stopOpacity="0.20" />
@@ -208,9 +210,22 @@ export function Ring({
    Share bar — one stacked rule showing category proportions
    ================================================================ */
 
+/**
+ * Adjacent segments printed in the same ink would read as one block, so a
+ * caller can hand each segment an explicit tone. `tintScale` derives that
+ * ladder by stepping the ink toward paper.
+ */
+export function tintScale(ink: Ink, index: number, total: number): string {
+  const mix = total <= 1 ? 0 : Math.round((index / (total - 1)) * 42);
+  return `color-mix(in oklab, ${INK_VAR[ink]} ${100 - mix}%, var(--paper))`;
+}
+
 export function ShareBar({
   parts, height = 12,
-}: { parts: { id: string; share: number; ink: Ink }[]; height?: number }) {
+}: {
+  parts: { id: string; share: number; ink: Ink; color?: string }[];
+  height?: number;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, amount: 0.5 });
   const reduce = useReducedMotion();
@@ -221,7 +236,7 @@ export function ShareBar({
         <motion.span
           key={p.id}
           className="sharebar__seg tex-ink"
-          style={{ background: INK_VAR[p.ink] }}
+          style={{ background: p.color ?? INK_VAR[p.ink] }}
           initial={{ flexGrow: 0, opacity: 0 }}
           animate={{
             flexGrow: inView || reduce ? Math.max(0.004, p.share) : 0,
