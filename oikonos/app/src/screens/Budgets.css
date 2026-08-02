@@ -1,0 +1,148 @@
+.bud__scroll {
+  padding-bottom: calc(var(--tabbar-h) + var(--safe-bottom));
+}
+
+.bud__headrow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 4px;
+}
+
+.bud__title {
+  font-size: var(--t-h2);
+  color: var(--ink);
+  margin-top: 8px;
+}
+
+/* ---- Glance card ---- */
+
+.bud__glance {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.bud__glancebody { min-width: 0; }
+.bud__glancenum {
+  font-size: 34px;
+  color: var(--on-ink);
+  margin-top: 6px;
+}
+.bud__glancemeta {
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+  margin-top: 5px;
+}
+
+/* the ring's track must read on cobalt, not on paper */
+.bud__glance .ring circle:first-of-type { stroke: rgba(253, 248, 236, 0.20); }
+
+.bud__pace {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--hairline-ink);
+}
+.bud__pace p {
+  font-size: var(--t-small);
+  line-height: 1.5;
+  color: var(--on-ink-muted);
+}
+.bud__pacedot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+  margin-top: 6px;
+}
+.bud__pacedot--hot { background: var(--vermilion); }
+.bud__pacedot--cool { background: var(--olive-lift); }
+.bud__pacedot--even { background: var(--on-ink-muted); }
+
+/* ---- Flags ---- */
+
+.bud__flags { display: flex; flex-wrap: wrap; gap: 7px; }
+.bud__flag {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--r-pill);
+}
+.bud__flag--over { background: var(--vermilion-wash); color: var(--vermilion-deep); }
+.bud__flag--tight { background: var(--paper-deep); color: var(--fg-muted); }
+
+/* ---- Envelope row ---- */
+
+.bud__row {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 15px 0 18px;
+  border-bottom: 1px solid var(--hairline-soft);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bud__rowtop {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-bottom: 12px;
+}
+
+.bud__rowname { flex: 1; min-width: 0; display: grid; gap: 3px; }
+
+.bud__cat {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bud__sub {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+.bud__roll {
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-faint);
+}
+.bud__roll::before { content: '·'; margin-right: 8px; }
+
+.bud__amounts {
+  display: grid;
+  justify-items: end;
+  gap: 3px;
+  flex: none;
+}
+.bud__spent { font-size: var(--t-body); color: var(--ink); }
+.bud__limit { font-size: 11px; color: var(--fg-faint); }
+
+/* today's position in the month, drawn over the meter */
+.bud__pacemark {
+  position: absolute;
+  bottom: 18px;
+  width: 1.5px;
+  height: 13px;
+  background: var(--ink);
+  opacity: 0.5;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+
+.bud__note {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-faint);
+}

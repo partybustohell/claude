@@ -48,18 +48,31 @@ async function main() {
     if (m.type() === 'error') errors.push(`console: ${m.text()}`);
   });
 
-  const text = () => page.locator('.device__screen').innerText();
+  /* innerText inserts a newline between inline spans, so the wordmark comes
+     back as "OIKO\nNOS". Collapse all whitespace before matching. */
+  const text = async () =>
+    (await page.locator('.device__screen').innerText()).replace(/\s+/g, ' ');
+
+  /* Hero figures count up over ~1.5s, so an assertion made too early sees a
+     partial number. Poll instead of guessing a sleep. */
+  const waitFor = async (re, ms = 6000) => {
+    const t0 = Date.now();
+    for (;;) {
+      const t = await text();
+      if (re.test(t)) return true;
+      if (Date.now() - t0 > ms) return false;
+      await page.waitForTimeout(150);
+    }
+  };
 
   // ---- Welcome → Home ----
   await page.goto(BASE, { waitUntil: 'networkidle' });
-  await page.waitForTimeout(900);
-  check('welcome shows the wordmark', (await text()).includes('OIKONOS'));
+  // each letter is its own span, so match with the gaps allowed
+  check('welcome shows the wordmark', await waitFor(/O\s*I\s*K\s*O\s*N\s*O\s*S/));
 
   await page.getByRole('button', { name: /get started/i }).click();
-  await page.waitForTimeout(1100);
-  const home = await text();
-  check('get started lands on home', /Arjun/.test(home));
-  check('home shows net worth', /8,74,350/.test(home));
+  check('get started lands on home', await waitFor(/Arjun/));
+  check('home shows net worth', await waitFor(/8,74,350/));
 
   // ---- Tabs ----
   for (const [tab, expect] of [
@@ -69,42 +82,37 @@ async function main() {
     ['Home', /Arjun/],
   ]) {
     await page.getByRole('button', { name: new RegExp(`^${tab}$`, 'i') }).click();
-    await page.waitForTimeout(850);
-    check(`${tab} tab renders`, expect.test(await text()));
+    check(`${tab} tab renders`, await waitFor(expect));
   }
 
   // ---- Home → transaction detail → back ----
   await page.getByText('Good Earth', { exact: false }).first().click();
-  await page.waitForTimeout(1000);
-  const txn = await text();
-  check('transaction detail opens', /Good Earth/.test(txn) && /2,850/.test(txn));
+  check('transaction detail opens',
+    (await waitFor(/Good Earth/)) && (await waitFor(/2,850/)));
 
   await page.getByRole('button', { name: /^back$/i }).click();
-  await page.waitForTimeout(900);
-  check('back returns to home', /Arjun/.test(await text()));
+  check('back returns to home', await waitFor(/Arjun/));
 
   // ---- Goals → goal detail → contribute ----
   await page.getByRole('button', { name: /^goals$/i }).click();
   await page.waitForTimeout(800);
   await page.getByText('Greek Summer').first().click();
-  await page.waitForTimeout(1000);
-  check('goal detail opens', /1,25,000/.test(await text()));
+  check('goal detail opens', await waitFor(/1,25,000/));
 
   const addMoney = page.getByRole('button', { name: /add money/i });
   if (await addMoney.count()) {
     await addMoney.first().click();
-    await page.waitForTimeout(800);
-    check('contribute sheet opens', /Add to Greek Summer/i.test(await text()));
+    check('contribute sheet opens', await waitFor(/Add to Greek Summer/i));
 
-    await page.getByRole('button', { name: '5' }).first().click();
-    await page.getByRole('button', { name: '00' }).first().click();
-    await page.getByRole('button', { name: '00' }).first().click();
-    await page.waitForTimeout(400);
-    check('keypad enters an amount', /5,000/.test(await text()));
+    // '00' appends TWO zeros — 5,00,00 would be fifty thousand, not five
+    const pad = page.locator('.sheet');
+    await pad.getByRole('button', { name: '5', exact: true }).click();
+    await pad.getByRole('button', { name: '00', exact: true }).click();
+    await pad.getByRole('button', { name: '0', exact: true }).click();
+    check('keypad enters an amount', await waitFor(/₹5,000\b/));
 
-    await page.getByRole('button', { name: /^add ₹5,000$/i }).click();
-    await page.waitForTimeout(1000);
-    check('contribution lands on the goal', /1,30,000/.test(await text()));
+    await pad.getByRole('button', { name: /^add ₹5,000$/i }).click();
+    check('contribution lands on the goal', await waitFor(/1,30,000/));
   } else {
     check('goal detail has an add-money action', false, 'button not found');
   }
@@ -112,16 +120,17 @@ async function main() {
   // ---- Add-transaction sheet ----
   await page.goto(`${BASE}/?screen=home&sheet=add`, { waitUntil: 'networkidle' });
   await page.waitForTimeout(900);
-  await page.getByRole('button', { name: '3' }).first().click();
-  await page.getByRole('button', { name: '00' }).first().click();
-  await page.getByLabel('Merchant').fill('Kala Ghoda Cafe');
-  await page.waitForTimeout(300);
-  const addBtn = page.getByRole('button', { name: /add expense/i });
+  // scope to the sheet: the stack behind it is still in the accessibility tree
+  const sheet = page.locator('.sheet');
+  await sheet.getByRole('button', { name: '3', exact: true }).click();
+  await sheet.getByRole('button', { name: '00', exact: true }).click();
+  await sheet.getByLabel('Merchant').fill('Kala Ghoda Cafe');
+  await page.waitForTimeout(250);
+  const addBtn = sheet.getByRole('button', { name: /add expense/i });
   check('save is enabled once amount and merchant are set',
     await addBtn.isEnabled());
   await addBtn.click();
-  await page.waitForTimeout(1000);
-  check('new transaction appears on home', /Kala Ghoda Cafe/.test(await text()));
+  check('new transaction appears on home', await waitFor(/Kala Ghoda Cafe/));
 
   // ---- Accessibility spot-checks ----
   const unlabelled = await page.locator('.device__screen button:not([aria-label])')

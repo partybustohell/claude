@@ -7,7 +7,7 @@ import { More } from '../components/icons';
 import { GoalAcropolis } from '../illustrations/GoalAcropolis';
 import { useNav } from '../nav';
 import { useGoal, useActions } from '../data/store';
-import { inr, monthLabel, clamp } from '../lib/format';
+import { inr, monthLabel, clamp, pctOf } from '../lib/format';
 import { gentle, snap } from '../lib/motion';
 import './GoalDetail.css';
 
@@ -28,7 +28,8 @@ export function GoalDetail({ id }: { id: string }) {
 
   const ratio = clamp(goal.saved / goal.target, 0, 1);
   /* Floor, never round: a goal is only as far along as it has actually got. */
-  const percent = Math.floor(ratio * 100);
+  // shared with the goals list so one number never renders two ways
+  const percent = pctOf(goal.saved, goal.target);
 
   const addMoney = () => {
     setMenu(false);

@@ -48,6 +48,25 @@ function trim(v: number): string {
   return v >= 10 ? String(Math.round(v)) : v.toFixed(1).replace(/\.0$/, '');
 }
 
+/**
+ * Progress percentage.
+ *
+ * Always floors. 62.5% of a goal must not read as 63% on the list and 62%
+ * on the detail screen — and a goal that is one rupee short of its target
+ * must never round up to 100.
+ */
+export function pctOf(part: number, whole: number): number {
+  if (whole <= 0) return 0;
+  const raw = (part / whole) * 100;
+  return raw >= 100 ? 100 : Math.floor(raw);
+}
+
+/** Sep 2024 */
+export function monthYearShort(iso: string): string {
+  const d = new Date(iso);
+  return `${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+}
+
 export function pct(n: number, digits = 1): string {
   return `${n >= 0 ? '' : '−'}${Math.abs(n).toFixed(digits)}%`;
 }

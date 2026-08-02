@@ -255,7 +255,10 @@ export function Meter({
     <div
       ref={ref}
       className="meter"
-      style={{ height, borderRadius: r, background: track ?? 'rgba(13,57,150,0.12)' }}
+      /* A translucent cobalt track desaturates to neutral grey over cream,
+         which this palette does not permit. The default track is warm
+         paper; callers on a saturated field pass their own. */
+      style={{ height, borderRadius: r, background: track ?? 'var(--paper-deep)' }}
       role="progressbar"
       aria-valuenow={Math.round(pct * 100)}
       aria-valuemin={0}

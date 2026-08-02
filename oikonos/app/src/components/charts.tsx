@@ -191,7 +191,7 @@ export function Ring({
       <svg ref={ref} width={size} height={size} aria-hidden
         style={{ transform: 'rotate(-90deg)' }}>
         <circle cx={size / 2} cy={size / 2} r={r} fill="none"
-          stroke="var(--hairline)" strokeWidth={stroke} />
+          stroke="var(--paper-deep)" strokeWidth={stroke} />
         <motion.circle
           cx={size / 2} cy={size / 2} r={r} fill="none"
           stroke={INK_VAR[ink]} strokeWidth={stroke} strokeLinecap="round"
