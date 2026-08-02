@@ -26,6 +26,10 @@ const BASE = `http://127.0.0.1:${PORT}`;
 /** name -> query string */
 export const SCREENS = {
   welcome:  'screen=welcome',
+  signup:   'screen=signup',
+  signin:   'screen=signin',
+  forgot:   'screen=forgot',
+  reset:    'screen=reset',
   home:     'screen=home',
   activity: 'screen=activity',
   budgets:  'screen=budgets',
@@ -120,6 +124,25 @@ async function main() {
   page.on('console', (m) => {
     if (m.type() === 'error') failures.push(m.text());
   });
+
+  /* Everything past the account screens is behind a session, and a
+     deep link does not get to skip that. So the harness signs in the
+     way a person does — once, through the form — and the session rides
+     along in this context's localStorage for every shot after it. */
+  await page.goto(`${BASE}/?screen=signin`, { waitUntil: 'networkidle' });
+  await page.getByRole('button', { name: /use the demo/i }).click();
+  await page.getByRole('button', { name: /^sign in$/i }).click();
+  const signedIn = await page
+    .waitForFunction(() => {
+      const raw = window.localStorage.getItem('oikonos.session.v1');
+      return Boolean(raw && JSON.parse(raw));
+    }, null, { timeout: 8000 })
+    .then(() => true)
+    .catch(() => false);
+  if (!signedIn) {
+    failures.push('could not sign in — every protected screen will show welcome');
+    process.stdout.write('✗ sign-in failed\n');
+  }
 
   for (const name of targets) {
     const q = SCREENS[name] ?? `screen=${name}`;

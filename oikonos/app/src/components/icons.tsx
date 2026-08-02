@@ -53,6 +53,43 @@ export const Filter = (p: P) => (
   <S {...p}><path d="M3 6h18M6 12h12M10 18h4" /></S>
 );
 
+/* ---- Account ---- */
+export const IcEye = (p: P) => (
+  <S {...p}>
+    <path d="M2.5 12s3.6-6 9.5-6 9.5 6 9.5 6-3.6 6-9.5 6-9.5-6-9.5-6Z" />
+    <circle cx="12" cy="12" r="2.9" />
+  </S>
+);
+export const IcEyeOff = (p: P) => (
+  <S {...p}>
+    <path d="M4 5.5 20 18.5" />
+    <path d="M9.6 7.1A9.6 9.6 0 0 1 12 6c5.9 0 9.5 6 9.5 6a17 17 0 0 1-3 3.4" />
+    <path d="M17.2 16.6A9.7 9.7 0 0 1 12 18c-5.9 0-9.5-6-9.5-6a17.3 17.3 0 0 1 4.2-4.4" />
+    <path d="M10 10.2a2.9 2.9 0 0 0 4 4.1" />
+  </S>
+);
+/** A closed padlock — the shackle sits high enough to read at 17px. */
+export const IcLock = (p: P) => (
+  <S {...p}>
+    <rect x="4.6" y="10.4" width="14.8" height="9.6" rx="2.4" />
+    <path d="M8.3 10.4V7.9a3.7 3.7 0 0 1 7.4 0v2.5" />
+    <path d="M12 14.2v2.2" />
+  </S>
+);
+export const IcMail = (p: P) => (
+  <S {...p}>
+    <rect x="3" y="5.4" width="18" height="13.2" rx="2.4" />
+    <path d="m3.8 7.2 7.1 5.2a1.9 1.9 0 0 0 2.2 0l7.1-5.2" />
+  </S>
+);
+export const IcExit = (p: P) => (
+  <S {...p}>
+    <path d="M14.5 4.5h3.4A1.6 1.6 0 0 1 19.5 6.1v11.8a1.6 1.6 0 0 1-1.6 1.6h-3.4" />
+    <path d="M11 8.2 14.8 12 11 15.8" />
+    <path d="M14.4 12H4.5" />
+  </S>
+);
+
 /* ---- Tab bar ---- */
 export const TabHome = ({ active, ...p }: P & { active?: boolean }) => (
   <S {...p}>

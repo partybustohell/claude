@@ -28,6 +28,35 @@ reaches them:
 /?screen=goal&id=g1&sheet=contribute
 ```
 
+A deep link does not get past the account guard: with no session, every
+screen but `welcome`, `signup`, `signin`, `forgot` and `reset` renders
+the welcome screen instead. Sign in first — the harnesses do.
+
+## Accounts
+
+Oikonos keeps the ledger on the device, so it keeps the account there
+too. `src/data/auth.tsx` owns the whole of it:
+
+- **Sign up** writes `{name, email, salted SHA-256 hash}` to
+  localStorage and opens a session.
+- **Sign in** re-hashes against the stored salt and compares.
+- **The session** is a pointer to that record, so it survives a reload
+  and the app opens on home rather than the welcome screen.
+- **Reset** issues a six-digit code held in memory. Nothing mails it —
+  the screen shows you the code and says why.
+- **Sign out** lives at the bottom of Settings and clears the session
+  only; the ledger stays.
+
+The hash is the right shape but deliberately not a slow KDF: a
+device-local store gains nothing from one, and a real service would
+verify server-side with Argon2 or scrypt. None of it should be lifted
+into a product with a back end.
+
+The seeded ledger is Arjun's, so a seeded account comes with it —
+`arjun@oikonos.app` / `aegean2024`, offered by a button on the sign-in
+screen. Signing up as somebody else changes the greeting, not the
+transactions.
+
 ## The design system
 
 Everything visual resolves through four files. Nothing outside them

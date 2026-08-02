@@ -1,9 +1,10 @@
 import { useApp, useSettings, useNotices } from '../data/store';
+import { useAuth } from '../data/auth';
 import { useNav } from '../nav';
 import { Screen, TopBar, PageHead, Group, Row, Stack, Rise } from '../components/ui';
 import {
   IcUser, IcBank, IcCard, IcSpark, IcRepeat, IcBolt, IcCoin, IcBook,
-  IcLeaf, IcSwap,
+  IcLeaf, IcSwap, IcExit,
 } from '../components/icons';
 import './Settings.css';
 
@@ -11,10 +12,16 @@ const CURRENCY_LABEL = { INR: 'Indian rupee', EUR: 'Euro', USD: 'US dollar' } as
 const TEXTURE_LABEL = { full: 'Full texture', subtle: 'Subtle', off: 'Plain' } as const;
 
 export function Settings() {
-  const { back, push } = useNav();
+  const { back, push, reset } = useNav();
   const { user, accounts, connected } = useApp();
+  const { user: account, signOut } = useAuth();
   const s = useSettings();
   const { unread } = useNotices();
+
+  const leave = () => {
+    signOut();
+    reset({ name: 'welcome' });
+  };
 
   const onCount = Object.values(s.notifications).filter(Boolean).length;
 
@@ -32,7 +39,9 @@ export function Settings() {
               </span>
               <span className="set__mebody">
                 <span className="set__mename">{user.name}</span>
-                <span className="set__mesub">{user.handle} · View profile</span>
+                <span className="set__mesub">
+                  {account ? account.email : user.handle} · View profile
+                </span>
               </span>
             </button>
           </Rise>
@@ -88,6 +97,18 @@ export function Settings() {
                 onClick={() => push({ name: 'notifications' })} />
               <Row title="About Oikonos" value="1.4.0" chevron
                 onClick={() => push({ name: 'about' })} />
+            </Group>
+          </Rise>
+
+          <Rise>
+            <Group caption="Signing out closes the session. Nothing is deleted.">
+              <Row
+                icon={<IcExit size={17} />}
+                title="Sign out"
+                sub={account?.email}
+                danger
+                onClick={leave}
+              />
             </Group>
           </Rise>
 

@@ -95,7 +95,7 @@ export function SectionHead({
 
 export function Button({
   children, variant = 'primary', ink = 'ink', full, icon, trailing,
-  onClick, disabled, style, className = '',
+  onClick, disabled, style, className = '', type = 'button',
 }: {
   children: ReactNode;
   variant?: 'primary' | 'ghost' | 'outline' | 'quiet';
@@ -107,6 +107,8 @@ export function Button({
   disabled?: boolean;
   style?: CSSProperties;
   className?: string;
+  /** `submit` for the one button that commits a <form>; everything else stays a plain button */
+  type?: 'button' | 'submit';
 }) {
   const solid = variant === 'primary';
   const bg = solid ? INK_VAR[ink] : variant === 'quiet' ? INK_WASH[ink] : 'transparent';
@@ -116,6 +118,7 @@ export function Button({
 
   return (
     <motion.button
+      type={type}
       className={`btn btn--${variant} ${full ? 'btn--full' : ''} ${className}`}
       style={{
         background: bg,
@@ -146,6 +149,7 @@ export function IconButton({
 }: { children: ReactNode; onClick?: () => void; tone?: string; bordered?: boolean; label: string }) {
   return (
     <motion.button
+      type="button"
       className="iconbtn"
       aria-label={label}
       onClick={onClick}
@@ -156,6 +160,96 @@ export function IconButton({
     >
       {children}
     </motion.button>
+  );
+}
+
+/* ================================================================
+   Text field
+   ----------------------------------------------------------------
+   One field, so the label rhythm, the focus rule and the way an error
+   is announced cannot drift between the account screens.
+   ================================================================ */
+
+export function Field({
+  id, label, value, onChange, type = 'text', placeholder, error, hint,
+  autoComplete, inputMode, maxLength, name, trailing, spellCheck = false,
+  disabled, className = '',
+}: {
+  id: string;
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  type?: 'text' | 'email' | 'password' | 'tel';
+  placeholder?: string;
+  /** A sentence the user can act on. Paints the field and is read out. */
+  error?: string | null;
+  /** Quiet help, shown only while there is no error. */
+  hint?: ReactNode;
+  autoComplete?: string;
+  inputMode?: 'text' | 'email' | 'numeric';
+  maxLength?: number;
+  name?: string;
+  /** Control parked inside the box — the show/hide eye, typically. */
+  trailing?: ReactNode;
+  spellCheck?: boolean;
+  disabled?: boolean;
+  className?: string;
+}) {
+  const msgId = `${id}-msg`;
+  return (
+    <div className={`tfield ${className}`}>
+      <label className="tfield__label eyebrow" htmlFor={id}>{label}</label>
+      <div className={`tfield__box ${error ? 'tfield__box--err' : ''}`}>
+        <input
+          id={id}
+          name={name ?? id}
+          className="tfield__input"
+          type={type}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          autoComplete={autoComplete}
+          inputMode={inputMode}
+          maxLength={maxLength}
+          spellCheck={spellCheck}
+          disabled={disabled}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error || hint ? msgId : undefined}
+        />
+        {trailing && <span className="tfield__trailing">{trailing}</span>}
+      </div>
+      {(error || hint) && (
+        <span
+          id={msgId}
+          className={`tfield__msg ${error ? 'tfield__msg--err' : ''}`}
+          role={error ? 'alert' : undefined}
+        >
+          {error ?? hint}
+        </span>
+      )}
+    </div>
+  );
+}
+
+/**
+ * Form-level message — the things that are true of the whole submit
+ * rather than of one field ("that password does not match").
+ */
+export function Banner({
+  tone = 'vermilion', children,
+}: { tone?: 'vermilion' | 'olive' | 'ink'; children: ReactNode }) {
+  const reduce = useReducedMotion();
+  return (
+    <motion.p
+      className="banner"
+      role="status"
+      style={{ background: INK_WASH[tone], color: INK_VAR[tone] }}
+      initial={reduce ? undefined : { opacity: 0, y: -6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={reduce ? { duration: 0 } : snap}
+    >
+      {children}
+    </motion.p>
   );
 }
 

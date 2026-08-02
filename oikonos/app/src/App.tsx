@@ -1,12 +1,20 @@
+import { useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { PhoneFrame, StatusBar, HomeIndicator } from './components/PhoneFrame';
 import { TabBar } from './components/TabBar';
-import { NavProvider, useNav, routeKey, isTab, type Route, type Sheet } from './nav';
+import {
+  NavProvider, useNav, routeKey, isTab, isPublic, type Route, type Sheet,
+} from './nav';
 import { StoreProvider } from './data/store';
+import { AuthProvider, useAuth } from './data/auth';
 import { pageVariants } from './lib/motion';
 import './App.css';
 
 import { Welcome } from './screens/Welcome';
+import { SignUp } from './screens/auth/SignUp';
+import { SignIn } from './screens/auth/SignIn';
+import { Forgot } from './screens/auth/Forgot';
+import { Reset } from './screens/auth/Reset';
 import { Merchant } from './screens/Merchant';
 import { Search } from './screens/Search';
 import { Recurring } from './screens/Recurring';
@@ -61,6 +69,10 @@ const DARK_ROUTES: Record<string, 'ink' | 'olive'> = {
 function renderRoute(r: Route) {
   switch (r.name) {
     case 'welcome':  return <Welcome />;
+    case 'signup':   return <SignUp />;
+    case 'signin':   return <SignIn />;
+    case 'forgot':   return <Forgot />;
+    case 'reset':    return <Reset email={r.email} code={r.code} />;
     case 'home':     return <Home />;
     case 'activity': return <Activity />;
     case 'budgets':  return <Budgets />;
@@ -105,8 +117,24 @@ function renderRoute(r: Route) {
   }
 }
 
+const WELCOME: Route = { name: 'welcome' };
+
 function Shell() {
-  const { route, dir, sheet } = useNav();
+  const { route: requested, dir, sheet, reset } = useNav();
+  const { user } = useAuth();
+
+  /**
+   * The guard is the render, not just a redirect: a signed-out visitor
+   * who deep-links to `?screen=accounts` must never see a frame of it.
+   * The effect then straightens the stack out behind the substitution.
+   */
+  const locked = !user && !isPublic(requested);
+  const route = locked ? WELCOME : requested;
+
+  useEffect(() => {
+    if (locked) reset(WELCOME);
+  }, [locked, reset]);
+
   const tone = DARK_ROUTES[route.name];
   const dark = Boolean(tone);
   const showTabs = isTab(route);
@@ -134,7 +162,7 @@ function Shell() {
       {showTabs && <TabBar />}
       {!showTabs && <HomeIndicator tone={dark ? 'paper' : 'ink'} />}
 
-      <SheetHost sheet={sheet} />
+      <SheetHost sheet={locked ? null : sheet} />
     </div>
   );
 }
@@ -160,16 +188,34 @@ function deepLink(): { route?: Route; sheet?: Sheet } {
   return { route, sheet: sheet ?? undefined };
 }
 
-export default function App() {
+/**
+ * A stored session is the whole point of a session: with one, the app
+ * opens on home rather than making you walk past the welcome screen
+ * again. A deep link still wins — the guard in `Shell` decides whether
+ * it is allowed to render.
+ */
+function Routed() {
+  const { user } = useAuth();
   const { route, sheet } = deepLink();
+  const initial = route ?? (user ? { name: 'home' as const } : { name: 'welcome' as const });
 
   return (
+    <NavProvider initial={initial} initialSheet={sheet}>
+      <PhoneFrame>
+        <Shell />
+      </PhoneFrame>
+    </NavProvider>
+  );
+}
+
+export default function App() {
+  return (
     <StoreProvider>
-      <NavProvider initial={route} initialSheet={sheet}>
-        <PhoneFrame>
-          <Shell />
-        </PhoneFrame>
-      </NavProvider>
+      {/* auth sits inside the store so the signed-in name reaches the
+          ledger's greeting, and outside the nav so the guard can read it */}
+      <AuthProvider>
+        <Routed />
+      </AuthProvider>
     </StoreProvider>
   );
 }

@@ -1,0 +1,174 @@
+/* ============================================================
+   ACCOUNT SCREENS — sign up, sign in, reset.
+
+   Cream and cobalt, no illustration: these are the two minutes
+   before the app proper, and a headland behind a password field
+   would be scenery in the way. The weight comes from the Fraunces
+   head and from the recessed fields underneath it.
+   ============================================================ */
+
+.auth__scroll { padding-bottom: calc(var(--safe-bottom) + 34px); }
+
+.auth__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 26px;
+}
+
+/* A banner is a reply to a submit, not a field — it sits tighter to
+   whatever follows it. */
+.auth__banner { padding-bottom: 2px; }
+
+.auth__codenum {
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* The code is the only field in the flow that is figures, so it is set
+   in tabular numerals and spaced like a keypad entry. */
+.auth__codefield .tfield__input {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.28em;
+  font-weight: 600;
+}
+.auth__codefield .tfield__input::placeholder { letter-spacing: 0.28em; }
+
+/* ---- The eye ---- */
+
+.auth__eye {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--fg-muted);
+  -webkit-tap-highlight-color: transparent;
+  transition: color var(--dur-1) var(--ease-out);
+}
+.auth__eye:hover { color: var(--ink); }
+.auth__eye[aria-pressed='true'] { color: var(--ink); }
+
+/* ---- Password strength ---- */
+
+.auth__gauge {
+  padding: 2px 2px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.auth__gaugehead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.auth__gaugeword {
+  font-size: var(--t-caption);
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+}
+
+.auth__rules {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  margin-top: 2px;
+}
+.auth__rule {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  transition: color var(--dur-2) var(--ease-out);
+}
+.auth__rule--met { color: var(--olive); font-weight: 500; }
+
+.auth__rulemark {
+  width: 15px;
+  height: 15px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  flex: none;
+  background: var(--paper-deep);
+  color: var(--on-ink);
+  transition: background var(--dur-2) var(--ease-out);
+}
+.auth__rule--met .auth__rulemark { background: var(--olive); }
+.auth__ruledot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--fg-faint);
+}
+
+/* ---- Commit and its neighbours ---- */
+
+.auth__commit { padding-top: 6px; }
+
+.auth__aside {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -6px;
+}
+
+.auth__link {
+  font-size: var(--t-small);
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.2px;
+  text-decoration-color: color-mix(in srgb, var(--ink) 36%, transparent);
+  -webkit-tap-highlight-color: transparent;
+  transition: text-decoration-color var(--dur-1) var(--ease-out);
+}
+.auth__link:hover { text-decoration-color: var(--ink); }
+
+.auth__legal {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding: 0 2px;
+}
+
+.auth__switch {
+  padding: 6px 2px 0;
+  font-size: var(--t-small);
+  color: var(--fg-muted);
+}
+
+/* ---- Demo shortcut ---- */
+
+.auth__demo {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: var(--r-md);
+  background: var(--ink-wash);
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.auth__demolabel {
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink-deep);
+  white-space: nowrap;
+}
+.auth__demoaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-caption);
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink);
+  white-space: nowrap;
+}

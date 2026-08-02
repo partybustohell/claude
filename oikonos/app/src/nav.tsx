@@ -7,8 +7,14 @@ import {
 export type Tab = 'home' | 'activity' | 'budgets' | 'goals';
 
 export type Route =
-  /* tabs */
+  /* account — reachable signed out */
   | { name: 'welcome' }
+  | { name: 'signup' }
+  | { name: 'signin' }
+  | { name: 'forgot' }
+  /* the code is handed over in the route because nothing mails it */
+  | { name: 'reset'; email?: string; code?: string }
+  /* tabs */
   | { name: 'home' }
   | { name: 'activity' }
   | { name: 'budgets' }
@@ -57,7 +63,8 @@ export type Route =
 
 /** Every route name, for the capture harness and for exhaustiveness checks. */
 export const ROUTE_NAMES = [
-  'welcome', 'home', 'activity', 'budgets', 'goals',
+  'welcome', 'signup', 'signin', 'forgot', 'reset',
+  'home', 'activity', 'budgets', 'goals',
   'txn', 'merchant', 'search', 'recurring', 'transfer', 'payee',
   'bills', 'bill', 'scan',
   'accounts', 'account', 'addAccount',
@@ -73,6 +80,18 @@ export const TABS: Tab[] = ['home', 'activity', 'budgets', 'goals'];
 
 export function isTab(r: Route): r is Route & { name: Tab } {
   return (TABS as string[]).includes(r.name);
+}
+
+/**
+ * The only screens reachable without an account. Everything else shows
+ * somebody's money, so the shell sends a signed-out visitor back to the
+ * welcome screen rather than rendering it — including when the screen
+ * was deep-linked.
+ */
+export const PUBLIC_ROUTES = ['welcome', 'signup', 'signin', 'forgot', 'reset'] as const;
+
+export function isPublic(r: Route): boolean {
+  return (PUBLIC_ROUTES as readonly string[]).includes(r.name);
 }
 
 interface Nav {

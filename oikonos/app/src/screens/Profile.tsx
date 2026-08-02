@@ -1,4 +1,5 @@
 import { useApp, useTotals, useMerchants } from '../data/store';
+import { useAuth } from '../data/auth';
 import { useNav } from '../nav';
 import {
   Screen, TopBar, Group, Row, Stack, Rise, Card, Eyebrow, Amount,
@@ -11,10 +12,12 @@ import './Profile.css';
 export function Profile() {
   const { back, push } = useNav();
   const { user, accounts, goals, txns, history } = useApp();
+  const { user: account } = useAuth();
   const totals = useTotals();
   const merchants = useMerchants();
 
-  const since = '2021-08-14';
+  /* An account made ten minutes ago has not been keeping books since 2021. */
+  const since = account?.createdAt ?? '2021-08-14';
   const saved = goals.reduce((n, g) => n + g.saved, 0);
   const top = merchants[0];
 
