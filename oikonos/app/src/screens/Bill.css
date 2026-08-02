@@ -1,0 +1,220 @@
+.bill__pane { padding-bottom: 22px; }
+
+.bill__missing {
+  font-size: var(--t-h4);
+  color: var(--fg-muted);
+  padding-top: 40px;
+}
+
+/* ---- Hero ---- */
+
+.bill__head {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding-top: 2px;
+}
+.bill__headtext { min-width: 0; }
+.bill__name {
+  font-size: var(--t-h3);
+  color: var(--ink);
+  margin-top: 5px;
+  line-height: 1.1;
+}
+
+.bill__amount {
+  font-size: var(--t-hero);
+  color: var(--ink);
+  margin-top: 20px;
+}
+
+.bill__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.bill__status,
+.bill__auto {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 13px 0 11px;
+  border-radius: var(--r-pill);
+  font-size: var(--t-caption);
+  font-weight: 600;
+}
+.bill__status--due  { background: var(--ink-wash);       color: var(--ink); }
+.bill__status--over { background: var(--vermilion-wash); color: var(--vermilion-deep); }
+.bill__status--paid { background: var(--olive-wash);     color: var(--olive-deep); }
+
+.bill__auto {
+  background: var(--paper-deep);
+  color: var(--fg-muted);
+}
+.bill__auto--on { background: var(--olive-wash); color: var(--olive-deep); }
+
+/* ---- Facts ---- */
+
+.bill__fact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 18px;
+  text-align: left;
+}
+.bill__fact--tap { -webkit-tap-highlight-color: transparent; }
+.bill__factkey {
+  font-size: var(--t-small);
+  color: var(--fg-muted);
+  flex: none;
+}
+.bill__factval {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bill__tail { color: var(--fg-muted); font-weight: 400; }
+.bill__chev { color: var(--fg-faint); flex: none; margin-right: -6px; }
+
+.bill__after { padding: 15px 18px 17px; }
+.bill__afterrow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.bill__afterval {
+  font-size: var(--t-h4);
+  color: var(--ink);
+}
+.bill__afternote {
+  margin-top: 10px;
+  font-size: var(--t-caption);
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+
+/* ---- Statement charges ---- */
+
+.bill__charges {
+  margin-top: 12px;
+  background: var(--paper-warm);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.bill__charge {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 16px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.bill__chargename {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--t-small);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bill__chargedate {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  flex: none;
+}
+.bill__chargeamt {
+  font-size: var(--t-small);
+  color: var(--ink);
+  flex: none;
+  min-width: 62px;
+  text-align: right;
+}
+.bill__chargenote {
+  padding: 11px 4px 0;
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+/* ---- History ---- */
+
+.bill__hist { margin-top: 12px; }
+.bill__histrow {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 2px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.bill__histdot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--olive);
+  flex: none;
+}
+.bill__histdate {
+  flex: 1;
+  font-size: var(--t-small);
+  color: var(--ink);
+}
+.bill__histamt {
+  font-size: var(--t-body);
+  color: var(--ink);
+  flex: none;
+}
+.bill__histnote {
+  padding-top: 12px;
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+.bill__nohistory {
+  margin-top: 12px;
+  padding: 24px 20px 26px;
+  border-radius: var(--r-lg);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.bill__nohistorytitle {
+  font-size: var(--t-h4);
+  color: var(--ink);
+}
+.bill__nohistorybody {
+  margin-top: 7px;
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+/* ---- Sticky action ---- */
+
+.bill__foot {
+  flex: none;
+  position: relative;
+  z-index: 6;
+  padding: 12px var(--gutter) 14px;
+  background: linear-gradient(to top, var(--paper) 62%, rgba(250, 242, 225, 0));
+}
+.bill__ctaamt {
+  font-size: var(--t-caption);
+  letter-spacing: 0.02em;
+  opacity: 0.82;
+}

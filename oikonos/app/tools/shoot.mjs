@@ -141,7 +141,26 @@ async function main() {
       await page.waitForTimeout(180);
     }
 
+    /* Vite renders its build error into a shadow-DOM overlay ON TOP of the
+       app, and the app's own DOM survives underneath — so the element query
+       still succeeds and the shot silently captures a stack trace. Check for
+       the overlay explicitly rather than trusting the element. */
+    const overlay = await page.locator('vite-error-overlay').count();
+    if (overlay > 0) {
+      const msg = await page.locator('vite-error-overlay')
+        .evaluate((el) => el.shadowRoot?.querySelector('.message')?.textContent ?? 'build error')
+        .catch(() => 'build error');
+      failures.push(`${name}: ${String(msg).trim().slice(0, 200)}`);
+      process.stdout.write(`✗ ${name} — build error\n`);
+      continue;
+    }
+
     const el = await page.$(bare ? '.device__screen' : '.device');
+    if (!el) {
+      failures.push(`${name}: screen did not mount`);
+      process.stdout.write(`✗ ${name} — did not mount\n`);
+      continue;
+    }
     await el.screenshot({ path: path.join(outDir, `${name}.png`), scale: 'device' });
     process.stdout.write(`✓ ${name}\n`);
   }
