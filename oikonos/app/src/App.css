@@ -1,0 +1,34 @@
+.app-root {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+/* The stack lives here. Each page is absolutely positioned so
+   push/pop siblings can cross-fade without reflowing. */
+.app-body {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  isolation: isolate;
+}
+
+.app-page {
+  position: absolute;
+  inset: 0;
+}
+
+/* Body content region shared by every screen */
+.pane {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+  z-index: 4;
+}
+
+.pane--pad {
+  padding: 0 var(--gutter) 28px;
+}

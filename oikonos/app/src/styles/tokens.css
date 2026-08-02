@@ -1,0 +1,143 @@
+/* ============================================================
+   OIKONOS — Design Tokens
+   A Mediterranean risograph editorial system.
+   Every value here is sampled from or derived for the master
+   reference. Do not introduce colors outside this file.
+   ============================================================ */
+
+:root {
+  /* ---- Core pigments (sampled from reference) ---- */
+  --paper:        #faf2e1;  /* primary cream surface       */
+  --paper-warm:   #f6ecd8;  /* recessed cream              */
+  --paper-deep:   #efe3ca;  /* pressed / divider cream     */
+  --paper-edge:   #e3d4b4;  /* hairline on cream           */
+
+  --ink:          #0d3996;  /* cobalt — primary brand      */
+  --ink-deep:     #092c78;  /* cobalt pressed / shade      */
+  --ink-lift:     #1c4cb4;  /* cobalt highlight            */
+  --ink-wash:     #d7dff2;  /* 12% cobalt on paper         */
+
+  --olive:        #2e7349;  /* Aegean pine green           */
+  --olive-deep:   #235a39;  /* green pressed / shade       */
+  --olive-lift:   #3d8d5b;  /* green highlight             */
+  --olive-wash:   #dbe7dd;  /* green tint on paper         */
+
+  --vermilion:    #ef422d;  /* riso red-orange accent      */
+  --vermilion-deep:#cf3220;
+  --vermilion-lift:#ff5b45;
+  --vermilion-wash:#fadfd8;
+
+  --sand:         #d9c9a3;  /* illustration mid-tone       */
+  --terracotta:   #c96a3f;  /* illustration warm accent    */
+
+  /* ---- Semantic ---- */
+  --bg:            var(--paper);
+  --fg:            var(--ink);
+  --fg-muted:      #5b6a92;   /* cobalt desaturated 62%    */
+  --fg-faint:      #8b95ae;
+  --on-ink:        #fdf8ec;   /* text on cobalt            */
+  --on-ink-muted:  rgba(253, 248, 236, 0.68);
+  --on-olive:      #f6f1e2;
+  --on-olive-muted:rgba(246, 241, 226, 0.72);
+
+  --positive:      var(--olive);
+  --negative:      var(--vermilion);
+
+  --hairline:      rgba(13, 57, 150, 0.14);
+  --hairline-soft: rgba(13, 57, 150, 0.08);
+  --hairline-ink:  rgba(253, 248, 236, 0.20);
+
+  /* ---- Type ---- */
+  --font-display: 'Fraunces', 'Iowan Old Style', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Fraunces variable axes — soft, low-contrast, editorial */
+  --wonk-off: 'WONK' 0;
+  --wonk-on:  'WONK' 1;
+
+  /* Modular scale, 1.25 minor third, 16px base */
+  --t-micro:  10px;
+  --t-label:  11px;
+  --t-caption:12px;
+  --t-small:  13px;
+  --t-body:   15px;
+  --t-lead:   17px;
+  --t-h4:     21px;
+  --t-h3:     27px;
+  --t-h2:     34px;
+  --t-h1:     42px;
+  --t-hero:   54px;
+  --t-mega:   64px;
+
+  --lh-tight: 1.02;
+  --lh-snug:  1.18;
+  --lh-body:  1.5;
+  --lh-loose: 1.65;
+
+  --tr-label: 0.15em;   /* uppercase eyebrow tracking */
+  --tr-caps:  0.22em;   /* wordmark tracking          */
+  --tr-tight: -0.02em;
+  --tr-tighter: -0.032em;
+
+  /* ---- Space (4pt grid) ---- */
+  --s-1: 4px;   --s-2: 8px;   --s-3: 12px;  --s-4: 16px;
+  --s-5: 20px;  --s-6: 24px;  --s-7: 32px;  --s-8: 40px;
+  --s-9: 48px;  --s-10: 64px; --s-11: 80px;
+
+  --gutter: 24px;   /* screen side padding */
+
+  /* ---- Radii ---- */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-pill: 999px;
+  --r-device: 46px;
+
+  /* ---- Elevation — warm, soft, never grey ---- */
+  --sh-0: none;
+  --sh-1: 0 1px 2px rgba(48, 36, 12, 0.05),
+          0 2px 6px rgba(48, 36, 12, 0.04);
+  --sh-2: 0 2px 4px rgba(48, 36, 12, 0.06),
+          0 6px 16px rgba(48, 36, 12, 0.07);
+  --sh-3: 0 4px 10px rgba(48, 36, 12, 0.08),
+          0 14px 34px rgba(48, 36, 12, 0.10);
+  --sh-4: 0 10px 24px rgba(48, 36, 12, 0.12),
+          0 30px 70px rgba(48, 36, 12, 0.16);
+  --sh-ink: 0 3px 8px rgba(9, 32, 88, 0.16),
+            0 12px 30px rgba(9, 32, 88, 0.18);
+  --sh-red: 0 3px 8px rgba(160, 40, 22, 0.22),
+            0 12px 28px rgba(160, 40, 22, 0.24);
+  /* inner letterpress for pressed states */
+  --sh-press: inset 0 1px 2px rgba(48, 36, 12, 0.16),
+              inset 0 -1px 0 rgba(255, 255, 255, 0.35);
+
+  /* ---- Texture opacities (tuned per surface) ---- */
+  --tex-paper: 0.055;
+  --tex-ink:   0.16;
+  --tex-card:  0.05;
+
+  /* ---- Motion ---- */
+  --dur-1: 120ms;   /* micro feedback   */
+  --dur-2: 220ms;   /* element enter    */
+  --dur-3: 380ms;   /* surface change   */
+  --dur-4: 620ms;   /* screen transition*/
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-emph: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---- Device ---- */
+  --device-w: 390px;
+  --device-h: 844px;
+  --safe-top: 54px;
+  --safe-bottom: 34px;
+  --tabbar-h: 76px;
+}
+
+/* Reduced-motion honours the token layer so components need no branch */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 1ms; --dur-2: 1ms; --dur-3: 1ms; --dur-4: 1ms;
+  }
+}

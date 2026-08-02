@@ -1,0 +1,217 @@
+/* ============================================================
+   UI kit
+   ============================================================ */
+
+.screen {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* ---- Section head ---- */
+
+.sectionhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.sectionhead__action {
+  color: var(--ink);
+  opacity: 0.9;
+  transition: opacity var(--dur-1) var(--ease-out);
+}
+.sectionhead__action:hover { opacity: 0.6; }
+
+/* ---- Buttons ---- */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 56px;
+  padding: 0 26px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid transparent;
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  overflow: hidden;
+  isolation: isolate;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn--full { width: 100%; }
+.btn:disabled { opacity: 0.42; cursor: not-allowed; }
+
+/* Ink lay-down grain on solid buttons */
+.btn__grain {
+  position: absolute;
+  inset: 0;
+  background-image: url('/tex/grain.png');
+  background-size: 190px 190px;
+  mix-blend-mode: overlay;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: -1;
+}
+.btn__label { position: relative; z-index: 1; }
+.btn__icon, .btn__trailing { position: relative; z-index: 1; display: grid; place-items: center; }
+.btn__trailing { margin-left: auto; }
+.btn--full .btn__label { margin-left: auto; margin-right: auto; }
+.btn--full:has(.btn__trailing) .btn__label { margin-right: 0; }
+
+.btn--ghost, .btn--quiet { height: 44px; padding: 0 18px; }
+.btn--outline { border-width: 1.5px; }
+
+/* ---- Icon button ---- */
+
+.iconbtn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1.4px solid;
+  display: grid;
+  place-items: center;
+  flex: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- Top bar ---- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px var(--gutter) 10px;
+  flex: none;
+  z-index: 30;
+}
+.topbar--sticky {
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(14px) saturate(1.2);
+}
+.topbar__btn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  margin-left: -9px;
+  border-radius: 50%;
+  flex: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.topbar__btn--end { margin-left: 0; margin-right: -9px; }
+.topbar__title {
+  font-size: var(--t-lead);
+  font-weight: 600;
+  flex: 1;
+  text-align: center;
+}
+
+/* ---- Card ---- */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  text-align: left;
+  width: 100%;
+  display: block;
+}
+.card--tap { -webkit-tap-highlight-color: transparent; cursor: pointer; }
+
+/* ---- Category badge ---- */
+
+.badge {
+  position: relative;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  flex: none;
+  overflow: hidden;
+  isolation: isolate;
+}
+.badge::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/tex/grain.png');
+  background-size: 120px 120px;
+  mix-blend-mode: overlay;
+  opacity: 0.2;
+  z-index: 1;
+}
+.badge > svg { position: relative; z-index: 2; }
+
+/* ---- Meter ---- */
+
+.meter {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+.meter__fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  overflow: hidden;
+  isolation: isolate;
+}
+.meter__fill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/tex/grain.png');
+  background-size: 90px 90px;
+  mix-blend-mode: overlay;
+  opacity: 0.22;
+}
+.meter__thumb {
+  position: absolute;
+  top: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 3px var(--paper), 0 2px 6px rgba(48, 36, 12, 0.22);
+}
+
+/* ---- Delta ---- */
+
+.delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  line-height: 1;
+}
+.delta__suffix {
+  color: var(--fg-muted);
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+/* ---- Rule ---- */
+
+.rule { height: 1px; width: auto; }
+
+/* ---- Empty ---- */
+
+.empty {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  padding: 56px 32px;
+  text-align: center;
+}
+.empty__icon { color: var(--fg-faint); margin-bottom: 4px; }
+.empty__title { font-size: var(--t-h4); color: var(--ink); }
+.empty__body { font-size: var(--t-small); color: var(--fg-muted); max-width: 24ch; }
