@@ -86,8 +86,25 @@ only, never for information.
 
 ```bash
 export PW_CHROMIUM=/opt/pw-browsers/chromium-1194/chrome-linux/chrome
-npx tsc -b --noEmit          # must be clean
-node tools/shoot.mjs home    # must print ✓ with no runtime errors
+npx tsc -b --noEmit             # must be clean
+node tools/shoot.mjs home       # must print ✓ with no runtime errors
+node tools/shoot.mjs --bare --foot   # most plates sit at the END of a
+                                #   scroll; the default shot never sees them
+node tools/proof.mjs            # each plate alone on its stock, plus a
+                                #   contact sheet — the only view that
+                                #   shows whether they share one hand
+node tools/flow.mjs             # interaction, incl. travel direction
+```
+
+Before publishing the Artifact:
+
+```bash
+npx vite build && node tools/bundle.mjs
+node tools/verify-bundle.mjs    # must be 10/10 — the Artifact CSP blocks
+                                #   every external host, so a bundle that
+                                #   still reaches for one font does not
+                                #   degrade, it fails, and only once it is
+                                #   already published
 ```
 
 Screens are addressable for capture via `?screen=<name>&id=<id>` — the
