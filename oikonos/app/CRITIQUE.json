@@ -437,5 +437,26 @@
       "the far ridge is a flat sage tint of pine with a soft fading left end",
       "the 12-blade rotor is fussy and unequal, outline-only against filled masses below"
     ]
+  },
+  "round7/windmill": {
+    "round": 7,
+    "duel": "x02 (and x01)",
+    "subject": "windmill",
+    "against": "horizon",
+    "result": "win",
+    "margin": "clear",
+    "note": "Drawn again from nothing. Two clear wins on different seeds and opposite side assignments: x01 on the first cut, x02 on the version recomposed to fit PlateFoot's 150-unit crop. Digest, not verbatim.",
+    "what_the_critics_measured": [
+      "x01: 'discrete full-strength pixels — cobalt (13,57,150) — scattered over cream at varying density, never a faded fill'",
+      "x02, by connected-blob analysis: ours gives '252 clusters of 9px+ whose peak ink reaches alpha 1.09 against cream... value turned purely by how many dots sit per unit area'",
+      "x02 on the REFERENCE plate: '4-8px blobs peak at median alpha 0.61... just 9 pixels in 37,600 reach full cobalt. Those are not dots of ink, they are a tint of ink, a half-strength drum no riso owns.' The hero plate now fails the exact test this one lost on for five rounds."
+    ],
+    "residual_faults": [
+      "the ruin reads as 'an illegible scribble of specks', its door 'an oversized solid blue slab', and it is 'pasted onto the ridge with no contact'",
+      "the wall at the bottom right is 'confetti'",
+      "the near mill's cast shadow and the cobalt-over-pine ground are near-identical in value, so the shadow stops reading as a shadow",
+      "the far ridge is one uniform coverage across its whole slope — decorative, not form",
+      "the poppies read as detached red dots: they have stems, but at 0.9 units the stems do not survive the screen"
+    ]
   }
 }
