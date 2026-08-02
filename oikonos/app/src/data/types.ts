@@ -75,6 +75,19 @@ export interface MonthPoint {
   netWorth: number;
 }
 
+/** A signed-in device. Not ledger state, but state all the same: the
+ *  security screen offers to sign these out, and an offer the app forgets
+ *  the moment you navigate away is not an offer. */
+export interface Session {
+  id: string;
+  device: string;
+  place: string;
+  /** ISO date of last use */
+  at: string;
+  /** the device you are reading this on; it cannot be signed out from here */
+  current: boolean;
+}
+
 export interface AppState {
   user: { name: string; handle: string };
   /** The app's notion of "now" — fixed so the seeded data reads correctly */
@@ -90,6 +103,7 @@ export interface AppState {
   payees: Payee[];
   notices: Notice[];
   connected: ConnectedApp[];
+  sessions: Session[];
   settings: Settings;
 }
 

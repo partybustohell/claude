@@ -59,8 +59,8 @@ export function About() {
 
           <Rise>
             <Group title="Legal">
-              <Row title="Privacy policy" chevron />
-              <Row title="Terms of use" chevron />
+              <Row title="Privacy policy" />
+              <Row title="Terms of use" />
               <Row title="Open-source licences" chevron
                 onClick={() => push({ name: 'help' })} />
             </Group>

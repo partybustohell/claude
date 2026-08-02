@@ -164,6 +164,14 @@ export const SEED: AppState = {
   payees: PAYEES,
   notices: NOTICES,
   connected: CONNECTED,
+
+  /* Device state. Seeded so the security screen has something true to
+     show, and so signing one out is a change you can see. */
+  sessions: [
+    { id: 'd1', device: 'iPhone 15 Pro', place: 'New Delhi', at: '2024-05-18', current: true },
+    { id: 'd2', device: 'iPad Air', place: 'New Delhi', at: '2024-05-14', current: false },
+    { id: 'd3', device: 'MacBook Pro', place: 'Goa', at: '2024-04-02', current: false },
+  ],
   settings: SETTINGS,
 
   history: [

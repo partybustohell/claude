@@ -104,10 +104,10 @@ export function Help() {
           <Rise style={{ paddingTop: 26 }}>
             <Group title="Reach us">
               <Row icon={<IcUser size={17} />} ink="ink" title="Message support"
-                sub="Usually answered within a day" chevron />
+                sub="Usually answered within a day" />
               <Row icon={<IcBook size={17} />} title="Guides"
-                sub="Envelopes, goals, and reading the pace marker" chevron />
-              <Row icon={<IcSpark size={17} />} title="Request a feature" chevron />
+                sub="Envelopes, goals, and reading the pace marker" />
+              <Row icon={<IcSpark size={17} />} title="Request a feature" />
             </Group>
           </Rise>
 

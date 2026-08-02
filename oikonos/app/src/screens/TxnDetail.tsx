@@ -28,9 +28,23 @@ export function TxnDetail({ id }: { id: string }) {
   const reduce = useReducedMotion();
 
   if (!txn) {
+    /* The not-found state had no way out of it: no bar, no back, and the
+       whole-app audit reached it with a stale id and could not leave. A
+       dead end is a worse fault than the missing record it reports. */
     return (
       <Screen tone="olive" className="txn">
         <div className="txn__tone" aria-hidden />
+        <div className="txn__bar">
+          <motion.button
+            className="txn__navbtn"
+            onClick={back}
+            aria-label="Back"
+            whileTap={{ scale: 0.86, x: -3 }}
+            transition={snap}
+          >
+            <ArrowLeft size={24} />
+          </motion.button>
+        </div>
         <p className="txn__missing display">That transaction is no longer here.</p>
       </Screen>
     );

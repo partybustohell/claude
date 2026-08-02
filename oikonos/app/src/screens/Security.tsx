@@ -8,18 +8,12 @@ import { longDate } from '../lib/format';
 import './Settings.css';
 import { PlateFoot } from '../illustrations/place';
 
-/** Sessions are device state, not ledger state, so they live here. */
-const SESSIONS = [
-  { id: 'd1', device: 'iPhone 15 Pro', place: 'New Delhi', at: '2024-05-18', current: true },
-  { id: 'd2', device: 'iPad Air', place: 'New Delhi', at: '2024-05-14', current: false },
-  { id: 'd3', device: 'MacBook Pro', place: 'Goa', at: '2024-04-02', current: false },
-];
-
 export function Security() {
   const { back, push } = useNav();
   const s = useSettings();
-  const { setSetting } = useActions();
-  const { connected } = useApp();
+  const { setSetting, signOutSession, signOutOthers } = useActions();
+  const { connected, sessions } = useApp();
+  const others = sessions.filter((d) => !d.current);
 
   return (
     <Screen>
@@ -42,8 +36,13 @@ export function Security() {
                   <Toggle label="Face ID" on={s.biometrics}
                     onChange={(v) => setSetting({ biometrics: v })} />
                 } />
-              <Row icon={<IcRepeat size={17} />} title="Change passcode"
-                sub="Six digits" chevron />
+              {/* A statement of state, not an offer. It carried a chevron
+                  and no handler, which promised a screen that does not
+                  exist — and because a row without onClick renders as a
+                  div, it was an arrow on something that was never
+                  tappable. */}
+              <Row icon={<IcRepeat size={17} />} title="Passcode"
+                sub="Six digits" value="Set" />
               <Row icon={<IcCard size={17} />} title="Connected apps"
                 value={String(connected.length)} chevron
                 onClick={() => push({ name: 'connected' })} />
@@ -56,7 +55,7 @@ export function Security() {
               caption="Signing out a device revokes its access immediately. It
                        does not delete anything held on that device."
             >
-              {SESSIONS.map((d) => (
+              {sessions.map((d) => (
                 <Row
                   key={d.id}
                   icon={<IcUser size={17} />}
@@ -64,14 +63,22 @@ export function Security() {
                   title={d.device}
                   sub={`${d.place} · ${d.current ? 'This device' : longDate(d.at)}`}
                   value={d.current ? undefined : 'Sign out'}
+                  onClick={d.current ? undefined : () => signOutSession(d.id)}
                 />
               ))}
             </Group>
           </Rise>
 
           <Rise style={{ paddingTop: 4 }}>
-            <Button variant="outline" ink="vermilion" full>
-              Sign out everywhere else
+            {/* It said this and did nothing. The caption above promises
+                that signing out revokes access immediately, and a button
+                under that promise has to keep it. */}
+            <Button variant="outline" ink="vermilion" full
+              disabled={others.length === 0}
+              onClick={signOutOthers}>
+              {others.length
+                ? `Sign out everywhere else (${others.length})`
+                : 'No other devices signed in'}
             </Button>
           </Rise>
           {/* The screen runs out and the world begins. */}

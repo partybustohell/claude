@@ -4,7 +4,7 @@ import {
 import { motion, useInView, useReducedMotion, type HTMLMotionProps } from 'framer-motion';
 import { gentle, snap, surface, easeOutExpo } from '../lib/motion';
 import { groupINR } from '../lib/format';
-import { CategoryGlyph, ArrowLeft, More, ChevronRight } from './icons';
+import { CategoryGlyph, ArrowLeft, ChevronRight } from './icons';
 import './ui.css';
 
 type Ink = 'ink' | 'olive' | 'vermilion' | 'paper';
@@ -178,12 +178,19 @@ export function TopBar({
         </motion.button>
       ) : <span className="topbar__btn" />}
       {title && <span className="topbar__title display">{title}</span>}
-      {right ?? (
-        <motion.button className="topbar__btn topbar__btn--end" aria-label="More"
-          whileTap={{ scale: 0.88 }} transition={snap}>
-          <More size={22} />
-        </motion.button>
-      )}
+      {/*
+        The end slot holds whatever the screen puts there, and NOTHING when
+        the screen has nothing to put there.
+
+        It used to default to an overflow button with no menu behind it —
+        `aria-label="More"`, no `onClick`, on every screen that did not pass
+        its own action. The whole-app audit found it dead on fourteen
+        screens at once, which is what a decorative control looks like from
+        the outside: the affordance is real, the promise is not. The spacer
+        keeps the title centred, which is the only job the button was
+        actually doing.
+      */}
+      {right ?? <span className="topbar__btn" aria-hidden />}
     </div>
   );
 }
@@ -475,7 +482,16 @@ export function Row({
       </span>
       {value !== undefined && <span className="row__value">{value}</span>}
       {trailing}
-      {chevron && <ChevronRight size={17} className="row__chev" />}
+      {/*
+        A chevron is a PROMISE OF SOMEWHERE TO GO, so it is drawn only when
+        the row can actually be tapped. Six rows across About, Help and
+        Security asked for one without an onClick — and because a row with
+        no onClick renders as a div rather than a button, they were not even
+        dead buttons: they were arrows on something that was never tappable
+        at all, which no click test can catch. Tying the two together here
+        means the component cannot make that promise again.
+      */}
+      {chevron && onClick && <ChevronRight size={17} className="row__chev" />}
     </Comp>
   );
 }

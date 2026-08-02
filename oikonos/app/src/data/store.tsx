@@ -27,6 +27,9 @@ export type Action =
   | { type: 'notice/read'; id: string }
   | { type: 'notice/readAll' }
   | { type: 'app/disconnect'; id: string }
+  | { type: 'account/add'; account: Omit<Account, 'id'> }
+  | { type: 'session/signOut'; id: string }
+  | { type: 'session/signOutOthers' }
   | { type: 'settings/set'; patch: Partial<Settings> }
   | { type: 'settings/notify'; key: keyof Settings['notifications']; on: boolean };
 
@@ -88,6 +91,16 @@ function reducer(s: AppState, a: Action): AppState {
       return { ...s, notices: s.notices.map((n) => ({ ...n, read: true })) };
     case 'app/disconnect':
       return { ...s, connected: s.connected.filter((c) => c.id !== a.id) };
+    /* A connected account starts at zero. Inventing a balance for it
+       would put a number on the net-worth line that came from nowhere. */
+    case 'account/add': {
+      const id = `a${Math.random().toString(36).slice(2, 8)}`;
+      return { ...s, accounts: [...s.accounts, { ...a.account, id }] };
+    }
+    case 'session/signOut':
+      return { ...s, sessions: s.sessions.filter((d) => d.id !== a.id || d.current) };
+    case 'session/signOutOthers':
+      return { ...s, sessions: s.sessions.filter((d) => d.current) };
     case 'settings/set':
       return { ...s, settings: { ...s.settings, ...a.patch } };
     case 'settings/notify':
@@ -245,6 +258,10 @@ export function useActions() {
     readNotice: useCallback((id: string) => d({ type: 'notice/read', id }), [d]),
     readAllNotices: useCallback(() => d({ type: 'notice/readAll' }), [d]),
     disconnectApp: useCallback((id: string) => d({ type: 'app/disconnect', id }), [d]),
+    addAccount: useCallback((account: Omit<Account, 'id'>) =>
+      d({ type: 'account/add', account }), [d]),
+    signOutSession: useCallback((id: string) => d({ type: 'session/signOut', id }), [d]),
+    signOutOthers: useCallback(() => d({ type: 'session/signOutOthers' }), [d]),
     setSetting: useCallback((patch: Partial<Settings>) =>
       d({ type: 'settings/set', patch }), [d]),
     setNotify: useCallback((key: keyof Settings['notifications'], on: boolean) =>

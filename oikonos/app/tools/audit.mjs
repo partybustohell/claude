@@ -181,7 +181,11 @@ const CONTROLS = `(() => {
          both, so the audit can tell them apart from a control that was
          simply never wired up. */
       current: el.getAttribute('aria-current') != null
-        || el.getAttribute('aria-selected') === 'true',
+        || el.getAttribute('aria-selected') === 'true'
+        /* A radio that is already the chosen one. NOT a switch or a
+           checkbox — those must flip, and a dead one is a real fault. */
+        || (el.getAttribute('role') === 'radio'
+            && el.getAttribute('aria-checked') === 'true'),
     });
   });
   return out;
@@ -418,19 +422,21 @@ async function auditScroll(browser) {
       const q = `screen=${name}${ROUTES[name] ? `&${ROUTES[name]}` : ''}`;
       await open(page, q);
       const r = await page.evaluate(`(() => {
-        const els = [...document.querySelectorAll('.app-page *')];
-        const over = els.filter((e) => e.scrollHeight - e.clientHeight > 8);
-        const scrollable = over.filter((e) => {
-          const o = getComputedStyle(e).overflowY;
-          return o === 'auto' || o === 'scroll';
-        });
         const page = document.querySelector('.app-page');
+        const scrollable = [...document.querySelectorAll('.app-page *')].filter((e) => {
+          const o = getComputedStyle(e).overflowY;
+          return (o === 'auto' || o === 'scroll') && e.scrollHeight - e.clientHeight > 8;
+        });
+        /* Only the PAGE overflowing matters. A clipped child that is not
+           meant to scroll — an illustration, a masked band — overflows by
+           design, and counting those made this fire on a screen that was
+           entirely reachable. */
         return {
           tall: page ? page.scrollHeight - page.clientHeight : 0,
-          over: over.length, scrollable: scrollable.length,
+          scrollable: scrollable.length,
         };
       })()`);
-      if (r.over > 0 && r.scrollable === 0) {
+      if (r.tall > 8 && r.scrollable === 0) {
         fail(`scroll:${name}`, `content overflows by ${r.tall}px with nothing scrollable`);
       }
     }
