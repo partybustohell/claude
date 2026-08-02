@@ -1,0 +1,205 @@
+/* ============================================================
+   CASHFLOW
+   ============================================================ */
+
+.cf__legend {
+  display: flex;
+  gap: 18px;
+  padding-bottom: 14px;
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+.cf__legend span { display: inline-flex; align-items: center; gap: 7px; }
+.cf__key {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  display: block;
+}
+.cf__key--in { background: var(--olive); }
+.cf__key--out { background: var(--vermilion); }
+
+/* ---- Table ---- */
+
+.cf__table { margin-top: 12px; }
+
+.cf__head,
+.cf__row {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.15fr) 34px;
+  align-items: center;
+  gap: 5px;
+  padding: 9px 6px;
+  border-radius: var(--r-xs);
+}
+.cf__head {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  padding-bottom: 5px;
+}
+.cf__r { text-align: right; }
+.cf__row + .cf__row { box-shadow: inset 0 1px 0 var(--hairline-soft); }
+
+.cf__mo {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.cf__cell { font-size: 12px; color: var(--ink); }
+.cf__net { font-size: 12.5px; }
+.cf__rate {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.cf__row--best { background: var(--olive-wash); box-shadow: none !important; }
+.cf__row--worst { background: var(--vermilion-wash); box-shadow: none !important; }
+.cf__row--total {
+  margin-top: 6px;
+  box-shadow: inset 0 1.5px 0 var(--hairline) !important;
+  border-radius: 0;
+  padding-top: 12px;
+}
+.cf__row--total .cf__mo,
+.cf__row--total .cf__cell { color: var(--ink); }
+.cf__row--total .cf__rate { color: var(--ink); }
+
+/* ---- Best / worst ---- */
+
+.cf__pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.cf__ex {
+  position: relative;
+  padding: 15px 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  min-width: 0;
+}
+.cf__ex::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+}
+.cf__ex--best::before { background: var(--olive); }
+.cf__ex--worst::before { background: var(--vermilion); }
+.cf__exmonth {
+  font-size: var(--t-h4);
+  color: var(--ink);
+  padding-top: 8px;
+}
+.cf__exnum {
+  font-size: var(--t-lead);
+  color: var(--ink);
+  padding-top: 4px;
+}
+.cf__exmeta {
+  font-size: var(--t-micro);
+  line-height: 1.5;
+  color: var(--fg-muted);
+  padding-top: 6px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Average rate ---- */
+
+.cf__ratehead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  padding-bottom: 12px;
+}
+.cf__ratenum { font-size: var(--t-h3); color: var(--ink); }
+.cf__ratefoot {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding-top: 12px;
+}
+
+/* ---- Runway ---- */
+
+.cf__runway {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 10px;
+}
+.cf__runwaynum {
+  font-size: var(--t-hero);
+  color: var(--on-ink);
+  line-height: 1;
+}
+.cf__runwayunit {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--on-ink-muted);
+  line-height: 1.3;
+  white-space: nowrap;
+}
+.cf__runwaysub {
+  font-family: var(--font-sans);
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--on-ink);
+  padding-top: 14px;
+}
+
+.cf__run {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 52px;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 0;
+}
+.cf__run + .cf__run { box-shadow: inset 0 1px 0 var(--hairline-ink); }
+.cf__runlabel {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cf__run--lead .cf__runlabel { color: var(--on-ink); font-weight: 600; }
+.cf__runval { font-size: var(--t-small); color: var(--on-ink); }
+.cf__runmo {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 700;
+  color: var(--on-ink);
+  text-align: right;
+}
+.cf__runwaynote {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  line-height: 1.6;
+  color: var(--on-ink-muted);
+}
+
+.cf__foot {
+  font-size: var(--t-caption);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}

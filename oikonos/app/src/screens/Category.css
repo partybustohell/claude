@@ -258,6 +258,7 @@
   color: var(--ink);
 }
 .cat__readlede b { font-weight: 600; }
+.cat__readlede + .cat__readnote { margin-top: 11px; }
 
 .cat__ba {
   display: flex;

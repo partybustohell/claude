@@ -129,25 +129,36 @@ export function Transfer() {
             <Rise style={{ paddingTop: 22 }}>
               <Rule />
               <p className="tr__donenote">
-                {acct.name} now holds {inr(Math.max(0, acct.balance))}. The entry is filed
-                under Transfer, so it will not count against a spending envelope.
+                {acct.name} is down to {inr(acct.balance - sent.amount)}. The entry is
+                filed under Transfer, so it will not count against a spending envelope.
               </p>
             </Rise>
-            <Rise style={{ paddingTop: 26 }}>
+            <Rise style={{ paddingTop: 24 }}>
               <div className="tr__doneacts">
                 <Button ink="ink" full onClick={back}>Done</Button>
-                {who && (
-                  <Button
-                    variant="outline"
-                    ink="ink"
-                    onClick={() => push({ name: 'payee', id: who.id })}
-                    style={{ flex: '0 0 auto' }}
-                  >
-                    {firstName(who.name)}
-                  </Button>
-                )}
+                <Button
+                  variant="outline"
+                  ink="ink"
+                  onClick={() => { setSent(null); setDigits(''); setNote(''); }}
+                  style={{ flex: '0 0 auto' }}
+                >
+                  Send more
+                </Button>
               </div>
             </Rise>
+            {who && (
+              <Rise style={{ paddingTop: 18 }}>
+                <motion.button
+                  className="tr__donelink"
+                  onClick={() => push({ name: 'payee', id: who.id })}
+                  whileTap={{ scale: 0.98 }}
+                  transition={snap}
+                >
+                  <span>Everything you have moved to {firstName(who.name)}</span>
+                  <ArrowRight size={15} />
+                </motion.button>
+              </Rise>
+            )}
           </Stack>
         </div>
       </Screen>
@@ -170,19 +181,18 @@ export function Transfer() {
 
           <Rise>
             <div className="tr__head">
-              <PageHead
-                eyebrow="Move money"
-                title="Send"
-                sub={payee
-                  ? `${acct.name} → ${payee.name}`
-                  : `${acct.name} → choose someone`}
-              />
+              {/* The route itself is printed under the button, live — a
+                  second copy up here would only cost the keypad room. */}
+              <PageHead eyebrow="Move money" title="Send" />
             </div>
           </Rise>
 
           {/* ---- Amount ---- */}
           <Rise>
-            <div className={`tr__amount ${over ? 'tr__amount--over' : ''}`}>
+            <div
+              className={`tr__amount ${over ? 'tr__amount--over' : ''} `
+                + `${digits === '' ? 'tr__amount--empty' : ''}`}
+            >
               <AmountDisplay digits={digits} tone={over ? 'vermilion' : 'ink'} />
             </div>
             <p className={`tr__helper ${over || isCard ? 'tr__helper--warn' : ''}`}>
@@ -210,7 +220,7 @@ export function Transfer() {
           </Rise>
 
           {/* ---- From ---- */}
-          <Rise style={{ paddingTop: 22 }}>
+          <Rise style={{ paddingTop: 14 }}>
             <div className="tr__sechead">
               <Eyebrow>From</Eyebrow>
               <span className="tr__secmeta num">{accounts.length} accounts</span>
@@ -230,8 +240,10 @@ export function Transfer() {
                     whileTap={{ scale: 0.97 }}
                     transition={snap}
                   >
-                    <span className="tr__acctico"><Icon size={15} /></span>
-                    <span className="tr__acctname">{a.name}</span>
+                    <span className="tr__accttop">
+                      <span className="tr__acctico"><Icon size={13} /></span>
+                      <span className="tr__acctname">{a.name}</span>
+                    </span>
                     <span className="tr__acctbal figure">{inr(a.balance)}</span>
                     <span className="tr__acctfoot">
                       ·{a.tail} · {KIND_NOTE[a.kind]}
@@ -254,7 +266,7 @@ export function Transfer() {
           </Rise>
 
           {/* ---- To ---- */}
-          <Rise style={{ paddingTop: 20 }}>
+          <Rise style={{ paddingTop: 13 }}>
             <div className="tr__sechead">
               <Eyebrow>To</Eyebrow>
               {payee && (
@@ -307,56 +319,58 @@ export function Transfer() {
             </label>
           </Rise>
 
-          {/* ---- Keypad ---- */}
-          <Rise style={{ paddingTop: 6 }}>
-            <Keypad onPress={(fn) => setDigits(fn)} compact max={7} />
-          </Rise>
-
-          <Rise style={{ paddingTop: 12 }}>
-            <Button
-              className="tr__send"
-              ink={over || isCard ? 'vermilion' : 'olive'}
-              full
-              disabled={!!block}
-              onClick={send}
-              icon={block ? undefined : <IcSwap size={18} />}
-              trailing={block ? undefined : <ArrowRight size={18} />}
-            >
-              {block ?? `Send ${inr(amount)}`}
-            </Button>
-            <AnimatePresence initial={false}>
-              {block && (
-                <motion.p
-                  key={block}
-                  className="tr__why"
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  transition={fade}
-                >
-                  {isCard
-                    ? 'Pick HDFC Savings, the UPI wallet or Zerodha as the source.'
-                    : over
-                      ? `${acct.name} holds ${inr(source)}.`
-                      : amount <= 0
-                        ? 'Tap a figure above or use the keypad.'
-                        : 'Choose a payee from the row above.'}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </Rise>
-
-          <Rise style={{ paddingTop: 18 }}>
+          <Rise style={{ paddingTop: 20 }}>
             <motion.p
               className="tr__foot"
               variants={{ hidden: { opacity: 0 }, show: { opacity: 1, transition: gentle } }}
             >
-              Transfers are filed under Transfer, never as spending — a SIP or a goal
-              deposit should not eat a month’s envelope.
+              Filed under Transfer, never as spending — a SIP or a goal deposit should
+              not eat a month’s envelope.
             </motion.p>
           </Rise>
         </Stack>
       </div>
+
+      {/* ---- The dock: keypad and the one button that commits ---- */}
+      <motion.div
+        className="tr__dock"
+        initial={{ y: 22, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ ...gentle, delay: 0.14 }}
+      >
+        <Keypad onPress={(fn) => setDigits(fn)} compact max={7} />
+        <Button
+          className="tr__send"
+          ink={over || isCard ? 'vermilion' : 'olive'}
+          full
+          disabled={!!block}
+          onClick={send}
+          icon={block ? undefined : <IcSwap size={18} />}
+          trailing={block ? undefined : <ArrowRight size={18} />}
+        >
+          {block ?? `Send ${inr(amount)}`}
+        </Button>
+        <AnimatePresence initial={false} mode="wait">
+          <motion.p
+            key={block ?? 'go'}
+            className="tr__why"
+            initial={{ opacity: 0, y: -3 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            transition={fade}
+          >
+            {isCard
+              ? 'Pick a source that holds money — HDFC, the wallet or Zerodha.'
+              : over
+                ? `${acct.name} holds ${inr(source)}.`
+                : amount <= 0
+                  ? 'Tap a figure or use the keypad.'
+                  : payee
+                    ? `${acct.name} → ${payee.handle}`
+                    : 'Choose a payee from the row above.'}
+          </motion.p>
+        </AnimatePresence>
+      </motion.div>
     </Screen>
   );
 }

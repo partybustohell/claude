@@ -1,12 +1,12 @@
-import { useMemo } from 'react';
-import { motion } from 'framer-motion';
+import { useMemo, useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useApp, usePayee } from '../data/store';
 import { useNav } from '../nav';
 import {
   Screen, TopBar, PageHead, Eyebrow, Stack, Rise, Card, Rule, Empty, Amount,
   Button, IconButton, INK_VAR, type Ink,
 } from '../components/ui';
-import { IcSwap, IcUser, IcBag, ChevronRight, ArrowRight } from '../components/icons';
+import { IcSwap, IcUser, IcBag, ChevronRight, ArrowRight, Check } from '../components/icons';
 import type { Txn } from '../data/types';
 import { inr, signedINR, shortDate, time, relativeDay, compactINR } from '../lib/format';
 import { snap } from '../lib/motion';
@@ -64,7 +64,10 @@ export function initialsOf(name: string): string {
 export function Initials({
   name, size = 48, selected = false, onDark = false,
 }: { name: string; size?: number; selected?: boolean; onDark?: boolean }) {
-  const ink = AVATAR_INKS[hash(name) % AVATAR_INKS.length];
+  /* The low bits of an FNV hash cluster badly on short names — three of
+     these five would print in the same ink. Shifting past them spreads
+     the book across all four plates. */
+  const ink = AVATAR_INKS[(hash(name) >>> 5) % AVATAR_INKS.length];
   const behind = AVATAR_BEHIND[ink];
   return (
     <span
@@ -135,6 +138,7 @@ export function Payee({ id }: { id: string }) {
   const p = usePayee(id);
   const { txns, payees, accounts, now } = useApp();
   const nowDate = useMemo(() => new Date(now), [now]);
+  const [requested, setRequested] = useState(false);
 
   const d = useMemo(() => {
     if (!p) return undefined;
@@ -195,7 +199,7 @@ export function Payee({ id }: { id: string }) {
   }
 
   const kindLabel = p.kind === 'person' ? 'Person' : 'Business';
-  const handleLabel = p.handle.includes('@') ? 'UPI handle' : 'Mobile number';
+  const handleLabel = p.handle.includes('@') ? 'UPI' : 'Mobile';
 
   /* Reading — the things the rows do not say out loud. */
   const notes: string[] = [];
@@ -264,24 +268,52 @@ export function Payee({ id }: { id: string }) {
                 icon={<IcSwap size={18} />}
                 onClick={() => push({ name: 'transfer' })}
               >
-                Send again
+                {d.items.length ? 'Send again' : 'Send money'}
               </Button>
-              <Button
-                variant="outline"
-                ink="ink"
-                onClick={() => push({ name: 'transfer' })}
-                style={{ flex: '0 0 auto' }}
-              >
-                Request
-              </Button>
+              {requested ? (
+                <motion.span
+                  className="pay__requested"
+                  initial={{ scale: 0.94, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={snap}
+                >
+                  <Check size={16} />
+                  Asked
+                </motion.span>
+              ) : (
+                <Button
+                  variant="outline"
+                  ink="ink"
+                  onClick={() => setRequested(true)}
+                  style={{ flex: '0 0 auto' }}
+                >
+                  Request
+                </Button>
+              )}
             </div>
+            <AnimatePresence initial={false}>
+              {requested && (
+                <motion.p
+                  className="pay__requestnote"
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={snap}
+                >
+                  An open request is on its way to {p.handle} — {firstName(p.name)} picks
+                  the amount. Nothing has left your accounts.
+                </motion.p>
+              )}
+            </AnimatePresence>
           </Rise>
 
           {/* ---- The ledger ---- */}
           <Rise>
             <Card tone="ink" pad={22}>
               <Eyebrow tone="var(--on-ink-muted)">
-                {d.items.length ? `Moved to ${firstName(p.name)}` : 'Moved through Oikonos'}
+                {d.items.length
+                  ? `Moved to ${railName(p.name, p.kind)}`
+                  : 'Moved through Oikonos'}
               </Eyebrow>
               <Amount value={d.total} className="pay__total" />
 

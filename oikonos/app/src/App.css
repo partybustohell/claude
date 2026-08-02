@@ -5,7 +5,13 @@
   flex-direction: column;
   background: var(--paper);
   overflow: hidden;
+  transition: background var(--dur-3) var(--ease-out);
 }
+
+/* An ink screen must own the safe area too, or a cream band sits above
+   the artwork where the status bar is. */
+.app-root[data-ground='ink']   { background: var(--ink); }
+.app-root[data-ground='olive'] { background: var(--olive); }
 
 /* The stack lives here. Each page is absolutely positioned so
    push/pop siblings can cross-fade without reflowing. */

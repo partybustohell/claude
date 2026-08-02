@@ -27,6 +27,9 @@ import './Category.css';
 
 const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+/* Charts get the abbreviation, prose gets the whole word. */
+const MONTH_FULL = ['January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December'];
 
 function daysLeft(nowIso: string): { left: number; total: number; day: number } {
   const d = new Date(nowIso);
@@ -127,6 +130,9 @@ export function Category({ id }: { id: string }) {
       };
     });
     const prev = series[series.length - 2];
+    const prevFull = history.length > 1
+      ? MONTH_FULL[new Date(history[history.length - 2].month).getMonth()]
+      : 'last month';
     const known = series.filter((s) => s.known);
     const best = known.reduce<Slot | undefined>(
       (a, s) => (!a || s.value > a.value ? s : a), undefined);
@@ -158,7 +164,7 @@ export function Category({ id }: { id: string }) {
     const earlier = items.filter((t) => t.at.slice(0, 7) !== month);
 
     return {
-      inflow, monthItems, heroValue, series, prev, best, known,
+      inflow, monthItems, heroValue, series, prev, prevFull, best, known,
       merchants, dormant, monthOutAll, available, earlier,
       lastEver: items[0],
     };
@@ -244,7 +250,7 @@ export function Category({ id }: { id: string }) {
               ) : prevValue === 0 ? (
                 <p className="cat__vs">
                   {d.prev?.known
-                    ? `Nothing at all in ${d.prev.label} — this month starts from zero.`
+                    ? `Nothing at all in ${d.prevFull} — this month starts from zero.`
                     : `The ledger does not reach back past ${d.known[0]?.label}, so there is nothing to compare with yet.`}
                 </p>
               ) : (
@@ -254,11 +260,11 @@ export function Category({ id }: { id: string }) {
                   </span>
                   {times >= 2.5 || times <= 0.4
                     ? ` ${times >= 1 ? times.toFixed(1) : (1 / times).toFixed(1)}× ${
-                      times >= 1 ? `${d.prev?.label}’s total` : `less than ${d.prev?.label}`}`
+                      times >= 1 ? `${d.prevFull}’s total` : `less than ${d.prevFull}`}`
                     : ` ${Math.abs(Math.round((times - 1) * 100))}% ${
-                      diff >= 0 ? 'above' : 'below'} ${d.prev?.label}`}
+                      diff >= 0 ? 'above' : 'below'} ${d.prevFull}`}
                   <span className="cat__vsprev">
-                    {d.prev?.label} was {inr(prevValue)}
+                    {d.prevFull} was {inr(prevValue)}
                   </span>
                 </p>
               )}
@@ -305,7 +311,7 @@ export function Category({ id }: { id: string }) {
                   <div className="cat__bmeter">
                     <Meter
                       value={Math.min(1, ratio)}
-                      ink={state === 'ok' ? meta.ink : 'vermilion'}
+                      ink={state === 'ok' ? 'olive' : 'vermilion'}
                       height={9}
                     />
                     <span className="cat__pacemark" style={{ left: `${elapsed * 100}%` }}
@@ -336,7 +342,7 @@ export function Category({ id }: { id: string }) {
                               {' '}The envelope includes{' '}
                               {budget.rollover > 0 ? '+' : '−'}
                               {inr(Math.abs(budget.rollover))} rolled over from{' '}
-                              {d.prev?.label ?? 'last month'}.
+                              {d.prevFull}.
                             </>
                           )}
                         </>
@@ -490,7 +496,7 @@ export function Category({ id }: { id: string }) {
                 <p className="cat__readnote">
                   {d.merchants.length === 1
                     ? `It is the only name in the category this month, so ${
-                      meta.label.split(' &')[0]} is that one decision and nothing else.`
+                      meta.label.split(' &')[0]} is that one line and nothing else.`
                     : (budget
                       ? `Take that one name out and the envelope drops from ${
                         pctOf(spent, d.available)}% to ${pctOf(without, d.available)}% spent — `

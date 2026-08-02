@@ -29,7 +29,7 @@ import { snap, surface } from '../lib/motion';
 import './BudgetDetail.css';
 
 /** '2024-05' → 'May' */
-export function shortMonth(ym: string): string {
+function shortMonth(ym: string): string {
   return monthYearShort(`${ym}-01T00:00:00`).slice(0, 3);
 }
 
@@ -44,7 +44,7 @@ export function shortMonth(ym: string): string {
    ================================================================ */
 
 export function CategoryMonths({
-  months, line, lineLabel, ink, coverage, height = 104,
+  months, line, lineLabel, ink, coverage, height = 96,
 }: {
   months: { month: string; value: number }[];
   /** the ceiling drawn across the plot */
@@ -56,14 +56,13 @@ export function CategoryMonths({
   height?: number;
 }) {
   const known = months.filter((m) => coverage.has(m.month)).map((m) => m.value);
-  const top = Math.max(line, ...known, 1) * 1.18;
+  const top = Math.max(line, ...known, 1) * 1.08;
 
   return (
     <div className="cmx">
       {/* the ceiling is named above the plot, never inside it — an in-plot
           label collides with whichever column happens to be tallest */}
       <div className="cmx__head">
-        <span className="cmx__dash" aria-hidden />
         <span className="cmx__linelab num">{lineLabel}</span>
       </div>
       <div className="cmx__plot" style={{ height }}>

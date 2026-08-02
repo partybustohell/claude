@@ -47,8 +47,16 @@ import { Accounts } from './screens/Accounts';
 import { Insights } from './screens/Insights';
 import { SheetHost } from './screens/sheets/SheetHost';
 
-/** Screens whose chrome is printed on a saturated ink field. */
-const DARK_ROUTES = new Set(['welcome', 'txn']);
+/**
+ * Screens printed on a saturated ink field. These need cream status-bar
+ * glyphs AND a matching ground behind the safe area — otherwise a cream
+ * band sits above the artwork where the status bar is.
+ */
+const DARK_ROUTES: Record<string, 'ink' | 'olive'> = {
+  welcome: 'ink',
+  txn: 'olive',
+  scan: 'ink',
+};
 
 function renderRoute(r: Route) {
   switch (r.name) {
@@ -99,11 +107,12 @@ function renderRoute(r: Route) {
 
 function Shell() {
   const { route, dir, sheet } = useNav();
-  const dark = DARK_ROUTES.has(route.name);
+  const tone = DARK_ROUTES[route.name];
+  const dark = Boolean(tone);
   const showTabs = isTab(route);
 
   return (
-    <div className="app-root">
+    <div className="app-root" data-ground={tone ?? 'paper'}>
       <StatusBar tone={dark ? 'paper' : 'ink'} />
 
       <div className="app-body">

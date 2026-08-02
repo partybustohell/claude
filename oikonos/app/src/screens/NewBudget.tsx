@@ -198,6 +198,11 @@ export function NewBudget() {
               />
             </div>
 
+            <p className="nb__chartnote">
+              Blank months are not zeros — the ledger itemises {coverage.size} of
+              these six by category.
+            </p>
+
             <div className="nb__facts">
               <Fact label="Average" value={chosen.active > 0 ? inr(Math.round(chosen.avg)) : '—'} />
               <Fact label="Dearest" value={chosen.peak > 0 ? inr(chosen.peak) : '—'} />

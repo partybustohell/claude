@@ -1,0 +1,361 @@
+/* ============================================================
+   SCAN — the one dark plate in the app
+   ------------------------------------------------------------
+   A cobalt field with a cut-out frame, and a cream tray beneath
+   it holding the people you can pay without pointing at
+   anything. The tray also keeps the home indicator legible,
+   which a full-bleed field would not.
+   ============================================================ */
+
+/* ---- The plate ---- */
+
+.scan__plate {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  background: var(--ink);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* The press laid the ink heavier at the foot; a little light gathers
+   at the top-left, the same as the welcome sheet. */
+.scan__tone {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(108% 46% at 14% -4%,
+      color-mix(in srgb, var(--ink-lift) 70%, transparent) 0%,
+      color-mix(in srgb, var(--ink-lift) 20%, transparent) 44%,
+      transparent 72%),
+    linear-gradient(180deg,
+      transparent 0%,
+      transparent 52%,
+      color-mix(in srgb, var(--ink-deep) 46%, transparent) 84%,
+      color-mix(in srgb, var(--ink-deep) 82%, transparent) 100%);
+}
+
+.scan__plateinner {
+  position: relative;
+  z-index: 4;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scan__topspacer { width: 38px; height: 38px; display: block; flex: none; }
+
+.scan__head {
+  padding: 4px var(--gutter) 0;
+  display: grid;
+  gap: 9px;
+}
+.scan__title {
+  font-size: var(--t-h3);
+  color: var(--on-ink);
+  line-height: 1.1;
+}
+
+/* ---- Stage & flip ---- */
+
+.scan__stage {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  perspective: 1200px;
+  padding: 10px 0 6px;
+}
+.scan__flip {
+  position: relative;
+  transform-style: preserve-3d;
+}
+.scan__face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.scan__face--back { transform: rotateY(180deg); }
+
+/* ---- Viewfinder ---- */
+
+.scan__vf {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* The cut-out: a deeper well of the same ink, so the frame reads as a
+   hole in the plate rather than a pasted-on box. The sweep lives inside
+   it and is clipped by it; the brackets sit outside and are not. */
+.scan__well {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-xl);
+  background: var(--ink-deep);
+  box-shadow:
+    inset 0 0 0 1px rgba(253, 248, 236, 0.12),
+    inset 0 0 60px 10px rgba(4, 18, 54, 0.55);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.scan__vfmid {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 20px;
+  color: var(--paper);
+  pointer-events: none;
+}
+.scan__iris { opacity: 0.78; }
+.scan__vfnote {
+  font-size: var(--t-micro);
+  color: var(--on-ink-muted);
+  letter-spacing: 0.18em;
+}
+
+/* ---- Corner brackets ---- */
+
+.scan__cnrs {
+  position: absolute;
+  inset: -9px;
+  z-index: 6;
+  pointer-events: none;
+}
+.scan__cnr {
+  position: absolute;
+  width: 46px;
+  height: 46px;
+  border: 3px solid var(--paper);
+}
+.scan__cnr--tl {
+  top: 0; left: 0;
+  border-right: 0; border-bottom: 0;
+  border-top-left-radius: 26px;
+}
+.scan__cnr--tr {
+  top: 0; right: 0;
+  border-left: 0; border-bottom: 0;
+  border-top-right-radius: 26px;
+}
+.scan__cnr--bl {
+  bottom: 0; left: 0;
+  border-right: 0; border-top: 0;
+  border-bottom-left-radius: 26px;
+}
+.scan__cnr--br {
+  bottom: 0; right: 0;
+  border-left: 0; border-top: 0;
+  border-bottom-right-radius: 26px;
+}
+
+/* ---- Sweep ---- */
+
+/* A trailing wash with a bright edge at its foot: the bar reads as the
+   leading edge of a pass, not as a stray highlight. */
+.scan__sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -88px;
+  height: 88px;
+  z-index: 2;
+  background: linear-gradient(180deg,
+    rgba(250, 242, 225, 0) 0%,
+    rgba(250, 242, 225, 0.05) 58%,
+    rgba(250, 242, 225, 0.14) 100%);
+  border-bottom: 2px solid rgba(250, 242, 225, 0.9);
+  /* At rest — and for anyone who has asked for less motion — the pass
+     simply sits in the middle of the frame. */
+  transform: translateY(136px);
+}
+/* The glow belongs to the leading edge only — a box-shadow on the trail
+   would halo its top and print a hard line across the frame. */
+.scan__sweep::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -13px;
+  height: 26px;
+  background: radial-gradient(64% 100% at 50% 0%,
+    rgba(250, 242, 225, 0.30) 0%, rgba(250, 242, 225, 0) 72%);
+}
+
+/* 34px in from each edge of the 272px frame in Scan.tsx. Linear, because a
+   pass across a surface travels at a constant rate and an eased loop
+   loiters at the ends. */
+@keyframes scan-sweep {
+  0%   { transform: translateY(34px); }
+  50%  { transform: translateY(238px); }
+  100% { transform: translateY(34px); }
+}
+@keyframes scan-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.022); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scan__sweep { animation: scan-sweep 5.1s linear infinite; }
+  .scan__cnrs { animation: scan-breathe 5.1s ease-in-out infinite; }
+}
+
+/* ---- My code ---- */
+
+.scan__card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--r-xl);
+  background: var(--paper);
+  box-shadow: var(--sh-3);
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 4px;
+  padding: 18px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.scan__code { position: relative; z-index: 4; }
+.scan__cardname {
+  position: relative;
+  z-index: 4;
+  font-size: var(--t-h4);
+  color: var(--ink);
+  margin-top: 8px;
+}
+.scan__cardhandle {
+  position: relative;
+  z-index: 4;
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+/* ---- Caption & action ---- */
+
+.scan__caption {
+  padding: 0 var(--gutter);
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--on-ink-muted);
+  text-align: center;
+  max-width: 34ch;
+  margin: 0 auto;
+}
+
+.scan__actions {
+  display: flex;
+  justify-content: center;
+  padding: 16px var(--gutter) 20px;
+}
+.scan__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  height: 44px;
+  padding: 0 20px;
+  border-radius: var(--r-pill);
+  border: 1.5px solid rgba(250, 242, 225, 0.55);
+  color: var(--on-ink);
+  font-size: var(--t-caption);
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- Tray ---- */
+
+.scan__tray {
+  position: relative;
+  flex: none;
+  z-index: 10;
+  background: var(--paper);
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  margin-top: -20px;
+  padding: 18px var(--gutter) calc(var(--safe-bottom) + 10px);
+  box-shadow: 0 -6px 18px rgba(30, 22, 8, 0.16),
+              0 -22px 48px rgba(30, 22, 8, 0.14);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.scan__trayhead {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.scan__trayall {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--ink);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.scan__recents {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 14px var(--gutter) 4px;
+}
+.scan__recents::-webkit-scrollbar { display: none; }
+
+.scan__recent {
+  flex: none;
+  width: 64px;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  padding: 2px;
+  -webkit-tap-highlight-color: transparent;
+}
+.scan__recentname {
+  max-width: 100%;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.scan__recentwhen {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--fg-muted);
+  letter-spacing: 0.04em;
+  margin-top: -3px;
+}
+
+.scan__reading {
+  position: relative;
+  z-index: 4;
+  font-size: var(--t-caption);
+  line-height: 1.5;
+  color: var(--fg-muted);
+  padding-top: 12px;
+}
+
+/* The sweep and the brackets are the only looping motion in the app;
+   both stop dead when the system asks them to — see the
+   prefers-reduced-motion: no-preference guard above. */
+@media (prefers-reduced-motion: reduce) {
+  .scan__sweep { box-shadow: none; opacity: 0.55; }
+}

@@ -216,15 +216,8 @@
 
 .cmx__head {
   display: flex;
-  align-items: center;
   justify-content: flex-end;
-  gap: 7px;
-  margin-bottom: 12px;
-}
-.cmx__dash {
-  flex: 1;
-  height: 0;
-  border-top: 1.5px dashed var(--hairline);
+  margin-bottom: 8px;
 }
 
 .cmx__plot {

@@ -73,11 +73,18 @@
 
 .nb__chart { margin-top: 18px; }
 
+.nb__chartnote {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin-top: 12px;
+}
+
 .nb__facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
-  margin-top: 20px;
+  margin-top: 18px;
   background: var(--hairline-soft);
   border-radius: var(--r-md);
   overflow: hidden;

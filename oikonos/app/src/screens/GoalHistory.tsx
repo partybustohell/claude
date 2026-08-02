@@ -22,7 +22,7 @@ import { IcCoin, IcRepeat, Plus } from '../components/icons';
 import {
   inr, compactINR, pctOf, monthLabel, longDate, shortDate, clamp,
 } from '../lib/format';
-import { reveal, gentle, snap } from '../lib/motion';
+import { reveal, gentle, snap, fade } from '../lib/motion';
 import './GoalHistory.css';
 
 const DAY = 86_400_000;
@@ -108,13 +108,15 @@ function Climb({
         {shortDate(`${new Date(startMs).toISOString().slice(0, 10)}T00:00:00`)}
       </text>
 
-      {/* projection at the observed rate */}
+      {/* Projection at the observed rate. Fades rather than draws: framer
+          drives pathLength through stroke-dasharray, which would overwrite
+          the dash pattern that marks this run as hypothetical. */}
       {proj && (
         <motion.path d={proj} stroke={c} strokeWidth="1.6" strokeDasharray="4 5"
-          strokeLinecap="round" opacity="0.5" vectorEffect="non-scaling-stroke"
-          initial={{ pathLength: 0 }}
-          animate={{ pathLength: inView || reduce ? 1 : 0 }}
-          transition={reduce ? { duration: 0 } : { ...reveal, delay: 0.5 }} />
+          strokeLinecap="round" vectorEffect="non-scaling-stroke"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: inView || reduce ? 0.55 : 0 }}
+          transition={reduce ? { duration: 0 } : { ...fade, delay: 0.85 }} />
       )}
 
       {/* the climb itself */}
@@ -367,7 +369,7 @@ export function GoalHistory({ id }: { id: string }) {
                         {c.auto ? 'Automatic save' : 'Top-up'}
                       </span>
                       <span className="gh__rowsub">
-                        {longDate(c.at)} · balance {inr(runningAt.get(c.id) ?? 0)}
+                        {shortDate(c.at)} · balance {inr(runningAt.get(c.id) ?? 0)}
                       </span>
                     </span>
                     <span className="figure gh__rowamt">+{inr(c.amount)}</span>

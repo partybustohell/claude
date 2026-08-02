@@ -68,43 +68,47 @@ function addMonths(iso: string, n: number): string {
 
 function SceneMark({ scene, ink }: { scene: Scene; ink: GoalInk }) {
   const c = INK_HEX[ink];
+  /* Ground is sand, never a washed-out tint of the ink: cobalt at 30% over
+     cream desaturates straight to grey, which this palette forbids. */
+  const g = 'var(--sand)';
   return (
     <svg viewBox="0 0 72 44" className="ng__scenesvg" aria-hidden>
       {scene === 'acropolis' && (
         <>
-          <path d="M0 38h72v6H0z" fill={c} opacity="0.3" />
+          <path d="M0 36c16-4 26 3 40 2s20-4 32-2v8H0z" fill={g} />
+          <circle cx="60" cy="12" r="5.5" fill={g} />
           <path d="M22 14h28l-14-9z" fill={c} />
           <path d="M20 16h32v3H20z" fill={c} />
           <path d="M24 19h4v19h-4zM33 19h4v19h-4zM42 19h4v19h-4z" fill={c} />
-          <circle cx="61" cy="11" r="5" fill={c} opacity="0.36" />
         </>
       )}
       {scene === 'santorini' && (
         <>
-          <path d="M0 30c14-3 22 4 36 4s22-7 36-4v14H0z" fill={c} opacity="0.3" />
-          <path d="M12 30V19h13v11z" fill={c} />
-          <path d="M31 30a8 8 0 0 1 16 0z" fill={c} />
-          <path d="M50 30V22h11v8z" fill={c} opacity="0.62" />
-          <circle cx="18.5" cy="12" r="4" fill={c} opacity="0.36" />
+          <path d="M0 30c14-3 22 4 36 4s22-7 36-4v14H0z" fill={g} />
+          <circle cx="60" cy="11" r="5" fill={g} />
+          <path d="M12 31V19h13v12z" fill={c} />
+          <path d="M31 31a8 8 0 0 1 16 0z" fill={c} />
+          <path d="M31 24h16v1.6H31z" fill={c} />
+          <path d="M50 31V23h10v8z" fill={c} opacity="0.62" />
         </>
       )}
       {scene === 'harbour' && (
         <>
-          <path d="M0 36h72v8H0z" fill={c} opacity="0.3" />
+          <path d="M0 36h72v8H0z" fill={g} />
           <path d="M52 36V10h7v26z" fill={c} opacity="0.62" />
-          <path d="M52 10h7v-4h-7z" fill={c} />
-          <path d="M32 7v25h-2V7z" fill={c} />
-          <path d="M31 9l14 20H31z" fill={c} />
-          <path d="M8 32h34l-5 6H13z" fill={c} />
+          <path d="M51 10h9V6h-9z" fill={c} />
+          <path d="M30 6h2v26h-2z" fill={c} />
+          <path d="M33 10l12 19H33z" fill={c} />
+          <path d="M8 32h34l-6 6H13z" fill={c} />
         </>
       )}
       {scene === 'olivegrove' && (
         <>
-          <path d="M0 34c18-6 30 4 48-1s16-3 24-1v12H0z" fill={c} opacity="0.3" />
-          <path d="M34 20h3v18h-3z" fill={c} />
-          <ellipse cx="35.5" cy="17" rx="15" ry="9" fill={c} />
-          <path d="M13 26h2.4v12H13z" fill={c} opacity="0.62" />
-          <ellipse cx="14.2" cy="24" rx="8" ry="5" fill={c} opacity="0.62" />
+          <path d="M0 34c18-6 30 4 48-1s16-3 24-1v12H0z" fill={g} />
+          <path d="M34 18h3v20h-3z" fill={c} />
+          <ellipse cx="35.5" cy="16" rx="14" ry="8.5" fill={c} />
+          <path d="M13 25h2.4v13H13z" fill={c} opacity="0.62" />
+          <ellipse cx="14.2" cy="23" rx="7.5" ry="5" fill={c} opacity="0.62" />
         </>
       )}
     </svg>
@@ -152,7 +156,7 @@ export function NewGoal() {
       id: g.id,
       share: g.monthly / denom,
       ink: 'ink' as Ink,
-      color: `color-mix(in oklab, var(--paper) ${34 + i * 14}%, var(--ink-lift))`,
+      color: `color-mix(in oklab, var(--paper) ${76 - i * 15}%, var(--ink-lift))`,
     })),
     ...(monthly > 0
       ? [{
@@ -165,10 +169,13 @@ export function NewGoal() {
     {
       id: 'free',
       share: Math.max(0, denom - newTotal) / denom,
-      ink: 'paper' as Ink,
-      color: 'rgba(253,248,236,0.20)',
+      ink: 'ink' as Ink,
+      color: 'var(--ink-deep)',
     },
   ];
+
+  /** The largest target this horizon can carry inside the free headroom. */
+  const fits = Math.max(0, Math.floor(room.free / 500) * 500) * months;
 
   const ready = name.trim().length > 0 && target > 0;
 
@@ -212,7 +219,7 @@ export function NewGoal() {
                 className="ng__name display"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Greek Summer"
+                placeholder="Name this goal"
                 autoComplete="off"
                 spellCheck={false}
                 maxLength={28}
@@ -238,6 +245,17 @@ export function NewGoal() {
                     {compactINR(v)}
                   </motion.button>
                 ))}
+                {fits > 0 && (
+                  <motion.button
+                    className={`chip chip--num ng__fitchip ${target === fits ? 'chip--on' : ''}`}
+                    onClick={() => setDigits(String(fits))}
+                    aria-pressed={target === fits}
+                    whileTap={{ scale: 0.94 }}
+                    transition={snap}
+                  >
+                    {compactINR(fits)} · all that fits
+                  </motion.button>
+                )}
               </div>
             </div>
           </Rise>
@@ -265,7 +283,10 @@ export function NewGoal() {
                     <span className="ng__hlabel">{h.label}</span>
                     <span className="ng__hdate num">{monthLabel(`${date}T00:00:00`)}</span>
                     <span className="figure ng__hmonthly">
-                      {target > 0 ? `${compactINR(Math.ceil(target / h.months / 100) * 100)}/mo` : '—'}
+                      {target > 0
+                        ? `${compactINR(Math.ceil(target / h.months / 100) * 100)}/mo`
+                        /* with no target yet, name the ceiling this date can carry */
+                        : `up to ${compactINR(Math.max(0, Math.floor(room.free / 500) * 500) * h.months)}`}
                     </span>
                   </motion.button>
                 );
@@ -276,7 +297,11 @@ export function NewGoal() {
           {/* ---- What it costs, against what is already promised ---- */}
           <Rise style={{ paddingTop: 24 }}>
             <Card tone="ink" pad={22}>
-              <Eyebrow tone="var(--on-ink-muted)">This goal would cost</Eyebrow>
+              {/* With nothing typed yet the card still has a real figure to
+                  lead with — the room a new promise could occupy. */}
+              <Eyebrow tone="var(--on-ink-muted)">
+                {monthly > 0 ? 'This goal would cost' : 'Room for a new goal'}
+              </Eyebrow>
               <p className="ng__monthly">
                 <motion.span
                   key={monthly}
@@ -285,14 +310,14 @@ export function NewGoal() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={gentle}
                 >
-                  {monthly > 0 ? inr(monthly) : '₹0'}
+                  {inr(monthly > 0 ? monthly : Math.round(Math.max(0, room.free)))}
                 </motion.span>
                 <span className="ng__monthlyunit">a month</span>
               </p>
               <p className="ng__monthlynote">
                 {target > 0
                   ? `${inr(target)} by ${longDate(`${by}T00:00:00`)}, split across ${months} months.`
-                  : 'Set a target and a date to see the monthly it implies.'}
+                  : `Over ${months} months that is ${inr(fits)} — the largest target this date could carry without displacing anything.`}
               </p>
 
               <div className="ng__bar">
@@ -312,11 +337,12 @@ export function NewGoal() {
                 <p>
                   {verdict === 'none' && (
                     <>
-                      An average month here produces{' '}
-                      <b>{inr(Math.round(room.surplus))}</b> of surplus —{' '}
-                      {compactINR(room.income)} in, {compactINR(room.expenses)} out.{' '}
-                      {inr(room.committed)} of it is already promised, so{' '}
-                      <b>{inr(Math.round(room.free))} a month</b> is genuinely free.
+                      {compactINR(room.income)} comes in and {compactINR(room.expenses)}{' '}
+                      goes out in an average month, leaving{' '}
+                      <b>{inr(Math.round(room.surplus))}</b>. {goals.length} goals already take{' '}
+                      {inr(room.committed)} of that, so anything at or under{' '}
+                      <b>{inr(Math.round(room.free))} a month</b> fits without
+                      displacing one of them.
                     </>
                   )}
                   {verdict === 'fits' && (

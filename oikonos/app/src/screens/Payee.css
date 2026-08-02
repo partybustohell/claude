@@ -74,6 +74,29 @@
 }
 .pay__acts .btn { height: 50px; }
 
+.pay__requested {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex: none;
+  height: 50px;
+  padding: 0 22px;
+  border-radius: var(--r-pill);
+  background: var(--olive-wash);
+  color: var(--olive-deep);
+  font-size: var(--t-caption);
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+}
+.pay__requestnote {
+  overflow: hidden;
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding-top: 12px;
+}
+
 /* ---- Ledger card ---- */
 
 .pay__total {
@@ -241,8 +264,17 @@
   background: var(--paper-warm);
   box-shadow: inset 0 0 0 1px var(--hairline-soft);
 }
-.pay__empty .empty { padding: 34px 28px 36px; }
-.pay__empty .empty__icon { color: var(--ink); opacity: 0.55; }
+.pay__empty .empty { padding: 32px 28px 34px; }
+.pay__empty .empty__icon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--ink-wash);
+  color: var(--ink);
+  margin-bottom: 8px;
+}
 
 /* ---- Everyone else ---- */
 
