@@ -91,14 +91,12 @@ export function Home() {
 
         {/* ---------- overview ---------- */}
         <Rise className="home__sec">
-          <SectionHead
-            title="Overview"
-            tone="var(--ink)"
-            action="Insights"
-            onAction={() => push({ name: 'insights' })}
-          />
+          <SectionHead title="Overview" tone="var(--ink)" />
           <div className="home__cardwrap">
-            <Card tone="ink" pad={17} radius="var(--r-lg)" elevation={3}>
+            <Card
+              tone="ink" pad={17} radius="var(--r-lg)" elevation={3}
+              onClick={() => push({ name: 'insights' })}
+            >
               {rows.map((r, i) => (
                 <div className="ov__row" key={r.key}>
                   <OvBadge icon={r.glyph} ink={r.ink} />

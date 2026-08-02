@@ -59,8 +59,8 @@ function buildSea(): string {
       const spread = 13 + d * 0.86;
       const plume = 1.35 * Math.exp(-d / 25) * gauss((x - BX) / spread);
       // the waterline itself: dense everywhere, densest under the boat
-      const skin = 1.05 * Math.exp(-d / 6.4) * (0.3 + 0.7 * gauss((x - BX) / 215));
-      const haze = 0.34 * Math.exp(-d / 15) * gauss((x - BX) / 150);
+      const skin = 1.0 * Math.exp(-d / 5.8) * (0.11 + 0.89 * gauss((x - BX) / 196));
+      const haze = 0.4 * Math.exp(-d / 16) * gauss((x - BX) / 140);
       const p = (plume + skin + haze) * band * life;
       if (p <= 0.014) continue;
       if (rnd() > p) continue;
@@ -114,8 +114,8 @@ function buildSunEdge(): string {
       const rad = Math.hypot(dx, dy);
       if (rad <= R - 0.2) continue;
       // heavier below: the ink pools away from the light
-      const bias = 0.16 + 0.84 * Math.min(1, Math.max(0, dy / R + 0.5));
-      const p = 0.8 * Math.exp(-(rad - R) / 2.3) * bias;
+      const bias = 0.08 + 0.92 * Math.min(1, Math.max(0, dy / R + 0.42));
+      const p = 0.82 * Math.exp(-(rad - R) / 2.0) * bias;
       if (rnd() > p) continue;
       out.push(sq(x + (rnd() - 0.5) * 1.1, y + (rnd() - 0.5) * 1.1, 0.55 + 1.0 * p));
     }
@@ -143,14 +143,14 @@ export function HomeHorizon({ className = '' }: { className?: string }) {
         {/* Riso ink lay-down: paper-coloured specks knocked out of the field. */}
         <filter id="hz-riso" x="-6%" y="-6%" width="112%" height="112%"
           colorInterpolationFilters="sRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="1.45" numOctaves="3"
+          <feTurbulence type="fractalNoise" baseFrequency="0.92" numOctaves="3"
             seed="11" result="n" />
           <feColorMatrix
             in="n" type="matrix" result="sp"
             values="0 0 0 0 0.980
                     0 0 0 0 0.949
                     0 0 0 0 0.882
-                    1.85 0 0 0 -1.30" />
+                    2.1 0 0 0 -1.36" />
           <feComposite in="sp" in2="SourceAlpha" operator="in" result="spc" />
           <feMerge>
             <feMergeNode in="SourceGraphic" />

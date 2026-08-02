@@ -69,10 +69,10 @@
   margin-top: 9px;
   /* optical: the ₹ bar has a fat left bearing — pull it back to the gutter */
   margin-left: -3px;
-  font-size: 44px;
+  font-size: 46px;
   font-weight: 600;
   font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
-  letter-spacing: -0.042em;
+  letter-spacing: -0.044em;
   line-height: 1.02;
   color: var(--ink);
 }
