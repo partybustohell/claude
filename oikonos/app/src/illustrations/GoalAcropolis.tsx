@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { RampDefs, ScreenRamp } from './press';
+import { RampDefs, ScreenRamp, mulberry32 } from './press';
 import { surface, gentle, fade } from '../lib/motion';
 
 /**
@@ -102,33 +102,90 @@ function slab(x: number, y: number, len: number, h: number) {
   return `M${x} ${y}L${x + len} ${y + dy}L${x + len} ${y + dy + h}L${x} ${y + h}Z`;
 }
 
-/** A gully raking down the fall line of the cliff face. */
-const FALL = 0.3;
-function rake(x: number, y: number, w: number, len: number, spread = 9) {
-  const dx = FALL * len;
-  const bx0 = x - dx;
-  const bx1 = x + w - dx + spread;
-  return (
-    `M${x} ${y}`
-    + `C${x - dx * 0.26} ${y + len * 0.4} ${bx0 + dx * 0.14} ${y + len * 0.74} ${bx0} ${y + len}`
-    + `L${bx1} ${y + len}`
-    + `C${bx1 + dx * 0.12} ${y + len * 0.7} ${x + w - dx * 0.24} ${y + len * 0.38} ${x + w} ${y}Z`
-  );
+/* ================================================================
+   GULLIES
+   ----------------------------------------------------------------
+   Rewritten. The old ones were eleven hand-placed wedges, every one
+   leaning at the same constant `FALL = 0.3`, coloured 'deep' and 'lit'
+   in alternation. SIX blind critics across three rounds condemned the
+   result in almost the same words — "a fan of alternating light/dark
+   stripes that bears no relation to any light source or to the
+   topography", "decorative striping, not lit form", "the bands run
+   vertically while the slope falls diagonally", "soft-edged vertical
+   bands… an airbrush gradient".
+
+   They were describing two faults and both are structural:
+
+     1. ALTERNATION. Light and dark taking turns is rhythm, and rhythm
+        is pattern. A gully is not lighter or darker than its
+        neighbour; a gully is a CUT, and a cut has one wall turned
+        toward the sun and one turned away. Every gully below is the
+        same thing: a shaded east wall with a lit western lip. Nothing
+        alternates, so nothing stripes.
+
+     2. A CONSTANT LEAN. Water does not fall at 0.3 everywhere. It
+        falls down the fall line, which is normal to the crest and
+        therefore turns as the crest turns — straight down off the
+        plateau, raking hard left off the steep western shoulder. The
+        crest is sampled and each gully takes its direction from the
+        slope at its own origin.
+   ================================================================ */
+
+/** The crest, sampled off the bezier above so the gullies can read it. */
+const CREST_PTS: [number, number][] = [
+  [56, 470], [73, 420], [90, 372], [110, 317], [130, 262], [141, 227],
+  [152, 192], [164, 171], [176, 154], [188, 150], [200, 149], [250, 149],
+  [300, 149], [315, 154], [330, 153], [345, 146], [360, 142], [375, 148],
+  [390, 158],
+];
+
+function crestAt(x: number): number {
+  if (x <= CREST_PTS[0][0]) return CREST_PTS[0][1];
+  for (let i = 1; i < CREST_PTS.length; i++) {
+    if (x <= CREST_PTS[i][0]) {
+      const t = (x - CREST_PTS[i - 1][0]) / (CREST_PTS[i][0] - CREST_PTS[i - 1][0]);
+      return CREST_PTS[i - 1][1] + (CREST_PTS[i][1] - CREST_PTS[i - 1][1]) * t;
+    }
+  }
+  return CREST_PTS[CREST_PTS.length - 1][1];
 }
 
-const GULLIES = [
-  { d: rake(138, 178, 15, 292), fill: 'deep', o: 0.4 },
-  { d: rake(157, 166, 9, 214, 5), fill: 'lit', o: 0.34 },
-  { d: rake(169, 158, 19, 306), fill: 'deep', o: 0.3 },
-  { d: rake(194, 151, 11, 262, 5), fill: 'lit', o: 0.26 },
-  { d: rake(209, 149, 23, 196), fill: 'deep', o: 0.38 },
-  { d: rake(238, 148, 10, 296, 5), fill: 'lit', o: 0.24 },
-  { d: rake(252, 148, 19, 244), fill: 'deep', o: 0.26 },
-  { d: rake(279, 148, 26, 318), fill: 'deep', o: 0.34 },
-  { d: rake(313, 148, 13, 232, 5), fill: 'lit', o: 0.22 },
-  { d: rake(331, 147, 31, 272), fill: 'deep', o: 0.3 },
-  { d: rake(366, 148, 20, 190), fill: 'deep', o: 0.22 },
-];
+function slopeAt(x: number): number {
+  const d = 8;
+  return (crestAt(Math.min(390, x + d)) - crestAt(Math.max(56, x - d))) / (2 * d);
+}
+
+type Gully = { cut: string; lip: string; o: number };
+
+const GULLIES: Gully[] = (() => {
+  const rnd = mulberry32(517);
+  const out: Gully[] = [];
+  for (let x = 150; x < 396; x += 30 + rnd() * 26) {
+    const y0 = crestAt(x);
+    if (y0 > 460) continue;
+    const m = slopeAt(x);
+    const n = Math.hypot(1, m);
+    /* down the fall line: normal to the crest, into the mass */
+    const nx = -m / n;
+    const ny = 1 / n;
+    const len = (470 - y0) * (0.5 + rnd() * 0.55) + 30;
+    const ex = x + nx * len;
+    const ey = y0 + ny * len;
+    const w0 = 18 + rnd() * 22;
+    const w1 = w0 * (0.2 + rnd() * 0.3);
+    /* a watercourse bows; a ruler does not */
+    const bx = (x + ex) / 2 - 5;
+    const by = (y0 + ey) / 2 + 14;
+    out.push({
+      cut: `M${x - w0 / 2} ${y0}Q${bx - w1} ${by} ${ex - w1 / 2} ${ey}`
+        + `L${ex + w1 / 2} ${ey}Q${bx + w1} ${by} ${x + w0 / 2} ${y0}Z`,
+      /* the western lip, which is the wall the sun actually reaches */
+      lip: `M${x - w0 / 2} ${y0}Q${bx - w1} ${by} ${ex - w1 / 2} ${ey}`,
+      o: 0.3 + rnd() * 0.26,
+    });
+  }
+  return out;
+})();
 
 export function GoalAcropolis({ className = '' }: { className?: string }) {
   const reduce = useReducedMotion();
@@ -295,16 +352,19 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
 
           <g clipPath="url(#gd-rock-clip)">
             {/* gullies raking down the fall line of the sea-facing face */}
+            {/* Every gully is the same thing: a cut in shade with a lit
+                western lip. No two take turns, so no two stripe. */}
             {GULLIES.map((g, i) => (
-              <path
-                key={i} d={g.d} opacity={g.o}
-                fill={g.fill === 'deep' ? 'var(--g-green-deep)' : 'var(--g-green-lit)'}
-              />
+              <path key={i} d={g.cut} opacity={g.o} fill="var(--g-green-deep)" />
             ))}
-            {/* the same gullies again, dithered, so no shadow has a vector edge */}
-            {GULLIES.filter((g) => g.fill === 'deep').map((g, i) => (
-              <path key={`s${i}`} d={g.d} fill="var(--g-green-deep)"
-                opacity={g.o * 0.85} filter="url(#gd-stipple)" />
+            {GULLIES.map((g, i) => (
+              <path key={`s${i}`} d={g.cut} fill="var(--g-green-deep)"
+                opacity={g.o * 0.8} filter="url(#gd-stipple)" />
+            ))}
+            {GULLIES.map((g, i) => (
+              <path key={`l${i}`} d={g.lip} fill="none" stroke="var(--g-green-lit)"
+                strokeWidth="4.5" strokeLinecap="round" opacity={g.o * 0.95}
+                filter="url(#gd-stipple)" />
             ))}
 
             {/* the mass turns away to the right and loses the sun */}
@@ -517,9 +577,27 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
           one place a warm mark belongs here.
           ============================================================ */}
       <motion.g {...layer(10, 0.86)}>
-        <rect x="150.6" y="150" width="2" height="42" fill="var(--g-stone)" />
-        <rect x="150.6" y="150" width="0.8" height="42" fill="var(--g-stone-hi)" />
-        <path d="M152.6 152L172 158L152.6 164Z" fill="var(--g-clay)" />
+        {/* A caique under a clay sail, on the water.
+
+            This plate printed no vermilion at all — "a four-ink palette
+            spent as two". The first attempt at fixing that was a
+            flagstaff on the headland, and two critics caught it
+            floating: "the vermilion flag has no visible pole", "a
+            single clipped triangle half-swallowed by the crest". Moved
+            to the plateau it disappeared behind the colonnade instead.
+            There is no free ground up there — so the fourth ink goes
+            where there IS ground: a boat sits on water, which is the
+            one surface in this plate with nothing already on it. */}
+        <g filter="url(#gd-grain)">
+          <path d="M62 306c6 5 16 7 28 5l3-5H60Z" fill="var(--g-stone)" />
+          <path d="M60 309c9 4 20 5 31 2l1-1H61Z" fill="var(--g-sea-deep)" />
+          <rect x="75.2" y="278" width="1.6" height="28" fill="var(--g-stone)" />
+          <path d="M77 280l13 22H77Z" fill="var(--g-clay)" />
+          <path d="M74 282l-9 20h9Z" fill="var(--g-stone-hi)" opacity="0.9" />
+        </g>
+        {/* it sits IN the water, not on it */}
+        <path d="M58 312c10 4 24 5 36 2" stroke="var(--g-foam)" strokeWidth="3"
+          fill="none" opacity="0.6" filter="url(#gd-stipple)" />
       </motion.g>
 
       {/* ============================================================

@@ -1,402 +1,441 @@
 {
- "welcome": {
-  "winner": "A",
-  "margin": "clear",
-  "reasoning": "A wins on draughtsmanship and internal coherence; B wins on nothing but ambition. ILLUSTRATION: A commits to a single light source from the upper left — the white volumes carry cool blue shadow planes on their right faces, the dome gradates around its curve, the terrace risers cast short shadows, and the stair flight actually descends into a landing that touches the hill. The cypress overlaps the wall and pins the cluster to the ground. Value in the hillside modulates with the landform, so the green mass reads as terrain rather than fill. B's hill is a fan of alternating light/dark stripes radiating from the bottom edge that bears no relation to any light source or to the topography — decorative barcode, not description of form. Its buildings are near-flat cream with arbitrary thin drop shadows that point different directions from cube to cube, and the lowest white box at mid-left floats with a flat base against a steep slope, no terrace, no contact shadow. The long stair flight simply stops in mid-air at its lower end. Worse, the entire top-right cluster is amputated by the phone's right edge mid-volume, which reads as overflow rather than a crop decision. COMPOSITION: B's corner-to-corner diagonal is the bolder gesture, and I wanted to reward it, but it drives the eye out through the top-right corner into the truncated buildings, and the mass it creates leaves the button sitting on a noisy striped field. A's low diagonal sets a horizon, lets the type breathe, and points back toward the CTA. TYPE: A holds one axis — logo, tagline and button all centred — with a generous, deliberate interval between wordmark and tagline. B aligns type and button flush left competently, but crams the tagline hard under the wordmark, killing the pause that makes a lockup read as a lockup, and it enlarges the wordmark to the point that it competes with the illustration for the same emphasis. A's real fault, and it is a real one, is the dead acreage in the middle third: nothing occupies the mid-left, and the illustration is small enough to read as an afterthought vignette rather than a stage. It survives that because everything it does draw, it draws correctly.",
-  "weakerPanel": "B",
-  "illustrationScore": {
-   "A": 7,
-   "B": 4
+  "welcome": {
+    "winner": "A",
+    "margin": "clear",
+    "reasoning": "A wins on draughtsmanship and internal coherence; B wins on nothing but ambition. ILLUSTRATION: A commits to a single light source from the upper left — the white volumes carry cool blue shadow planes on their right faces, the dome gradates around its curve, the terrace risers cast short shadows, and the stair flight actually descends into a landing that touches the hill. The cypress overlaps the wall and pins the cluster to the ground. Value in the hillside modulates with the landform, so the green mass reads as terrain rather than fill. B's hill is a fan of alternating light/dark stripes radiating from the bottom edge that bears no relation to any light source or to the topography — decorative barcode, not description of form. Its buildings are near-flat cream with arbitrary thin drop shadows that point different directions from cube to cube, and the lowest white box at mid-left floats with a flat base against a steep slope, no terrace, no contact shadow. The long stair flight simply stops in mid-air at its lower end. Worse, the entire top-right cluster is amputated by the phone's right edge mid-volume, which reads as overflow rather than a crop decision. COMPOSITION: B's corner-to-corner diagonal is the bolder gesture, and I wanted to reward it, but it drives the eye out through the top-right corner into the truncated buildings, and the mass it creates leaves the button sitting on a noisy striped field. A's low diagonal sets a horizon, lets the type breathe, and points back toward the CTA. TYPE: A holds one axis — logo, tagline and button all centred — with a generous, deliberate interval between wordmark and tagline. B aligns type and button flush left competently, but crams the tagline hard under the wordmark, killing the pause that makes a lockup read as a lockup, and it enlarges the wordmark to the point that it competes with the illustration for the same emphasis. A's real fault, and it is a real one, is the dead acreage in the middle third: nothing occupies the mid-left, and the illustration is small enough to read as an afterthought vignette rather than a stage. It survives that because everything it does draw, it draws correctly.",
+    "weakerPanel": "B",
+    "illustrationScore": {
+      "A": 7,
+      "B": 4
+    },
+    "sharpnessNote": "A is visibly the softer raster — pervasive film grain, fuzzier glyph edges, slightly muddy hill silhouette; B is crisp, clean-edged vector-like output. I registered this and excluded it from the judgement entirely. Note that the grain in A is not purely a resolution artefact: it is applied evenly as a paper texture across the blue field, which is a deliberate finish, whereas B's flat field is untextured. Even discounting sharpness completely, the decisions above stand."
   },
-  "sharpnessNote": "A is visibly the softer raster — pervasive film grain, fuzzier glyph edges, slightly muddy hill silhouette; B is crisp, clean-edged vector-like output. I registered this and excluded it from the judgement entirely. Note that the grain in A is not purely a resolution artefact: it is applied evenly as a paper texture across the blue field, which is a deliberate finish, whereas B's flat field is untextured. Even discounting sharpness completely, the decisions above stand."
- },
- "goal": {
-  "winner": "A",
-  "margin": "clear",
-  "reasoning": "A wins on draughtsmanship and compositional depth; B wins only on information layer, and not by enough.\n\nILLUSTRATION — the decisive gap. A's temple is a coherent three-quarter view: the entablature and stylobate converge, the side colonnade's intercolumniations compress as they recede, a real ridge runs back from the pediment apex, and the whole thing sits on a plinth with a dark base line that pins it to the rock. Light comes hard from the left and stays there — lit front face, shadowed right flank, and the cliff below repeats the same logic with directional highlight streaks that actually describe convex folds and a recessed gully. The stipple is doing work: it grades across the cliff face to model form, and thins toward the lit ridge. Three depth planes (far hill, mid cliff, foreground sea) with a beach sliver where land meets water.\n\nB's temple is two incompatible projections welded together: a flat orthographic elevation on the front (columns identical width, no convergence, isosceles pediment) glued to a parallel-oblique side whose columns show zero diminution over eight bays. Nothing shares a vanishing point. The light logic is inverted — the sky-facing roof plane is rendered the single darkest value in the building while the receding side wall reads nearly as bright as the sun-struck front, so the planes never separate. There is no cast shadow and no ground contact at all: the stylobate hovers on a cream sliver above the hill crest. The hill itself is a featureless dome with an unmistakable hard-edged rectangle of darker green cut into it and a straight diagonal band, neither of which follows the form — that is masking residue, not shading. The cypress is a flat lozenge with no trunk and no shadow. Add a soft orange bloom haloing the CTA into the green, a white/blue fringe along the entire coastline seam, and an orphaned navy bar floating on the grass at the bottom edge.\n\nTYPE AND HIERARCHY. A pairs \"GOAL\" tightly to the title so the eyebrow reads as belonging to it, then opens a large gap to the figure — clear grouping. It also varies weight: a high-contrast, lighter-weight numeral against the heavier title, so name and number are distinguishable at a glance. B letterspaces the eyebrow wide and drops it a full line away, so it floats between the nav bar and the title with ambiguous ownership, and its gaps are near-uniform (eyebrow→title ≈ title→amount), which flattens the grouping. B's title and figure are both heavy blue at similar weight — a monotone slab where A has modulation.\n\nWHERE B IS BETTER, honestly. B's progress track is a legible mint against the cream; A's unfilled track is a near-invisible hairline that makes the 62% hard to read as a ratio — a real defect. And B adds \"₹25,000 a month • target September 2024,\" which answers the question the screen actually poses. That is the better product decision and A should steal it. But an extra metadata line and a visible track do not offset a building drawn in two projections at once with inverted light and no ground contact, plus visible compositing artefacts in three separate places.\n\nCOMPOSITION. A's rising left-to-right diagonal puts the temple small and distant at the upper right — the destination still far off, which is exactly right for a 62% goal — and leaves generous cream above. B enlarges the temple to hero scale on a symmetrical dome, which is bolder but reduces the scene to two flat planes and forfeits both the depth and the narrative.",
-  "weakerPanel": "B",
-  "illustrationScore": {
-   "A": 7,
-   "B": 4
+  "goal": {
+    "winner": "A",
+    "margin": "clear",
+    "reasoning": "A wins on draughtsmanship and compositional depth; B wins only on information layer, and not by enough.\n\nILLUSTRATION — the decisive gap. A's temple is a coherent three-quarter view: the entablature and stylobate converge, the side colonnade's intercolumniations compress as they recede, a real ridge runs back from the pediment apex, and the whole thing sits on a plinth with a dark base line that pins it to the rock. Light comes hard from the left and stays there — lit front face, shadowed right flank, and the cliff below repeats the same logic with directional highlight streaks that actually describe convex folds and a recessed gully. The stipple is doing work: it grades across the cliff face to model form, and thins toward the lit ridge. Three depth planes (far hill, mid cliff, foreground sea) with a beach sliver where land meets water.\n\nB's temple is two incompatible projections welded together: a flat orthographic elevation on the front (columns identical width, no convergence, isosceles pediment) glued to a parallel-oblique side whose columns show zero diminution over eight bays. Nothing shares a vanishing point. The light logic is inverted — the sky-facing roof plane is rendered the single darkest value in the building while the receding side wall reads nearly as bright as the sun-struck front, so the planes never separate. There is no cast shadow and no ground contact at all: the stylobate hovers on a cream sliver above the hill crest. The hill itself is a featureless dome with an unmistakable hard-edged rectangle of darker green cut into it and a straight diagonal band, neither of which follows the form — that is masking residue, not shading. The cypress is a flat lozenge with no trunk and no shadow. Add a soft orange bloom haloing the CTA into the green, a white/blue fringe along the entire coastline seam, and an orphaned navy bar floating on the grass at the bottom edge.\n\nTYPE AND HIERARCHY. A pairs \"GOAL\" tightly to the title so the eyebrow reads as belonging to it, then opens a large gap to the figure — clear grouping. It also varies weight: a high-contrast, lighter-weight numeral against the heavier title, so name and number are distinguishable at a glance. B letterspaces the eyebrow wide and drops it a full line away, so it floats between the nav bar and the title with ambiguous ownership, and its gaps are near-uniform (eyebrow→title ≈ title→amount), which flattens the grouping. B's title and figure are both heavy blue at similar weight — a monotone slab where A has modulation.\n\nWHERE B IS BETTER, honestly. B's progress track is a legible mint against the cream; A's unfilled track is a near-invisible hairline that makes the 62% hard to read as a ratio — a real defect. And B adds \"₹25,000 a month • target September 2024,\" which answers the question the screen actually poses. That is the better product decision and A should steal it. But an extra metadata line and a visible track do not offset a building drawn in two projections at once with inverted light and no ground contact, plus visible compositing artefacts in three separate places.\n\nCOMPOSITION. A's rising left-to-right diagonal puts the temple small and distant at the upper right — the destination still far off, which is exactly right for a 62% goal — and leaves generous cream above. B enlarges the temple to hero scale on a symmetrical dome, which is bolder but reduces the scene to two flat planes and forfeits both the depth and the narrative.",
+    "weakerPanel": "B",
+    "illustrationScore": {
+      "A": 7,
+      "B": 4
+    },
+    "sharpnessNote": "B is the visibly cleaner raster — crisper vector-hard edges, tighter anti-aliasing, no paper grain. A is noticeably softer throughout, with an allover print-grain texture and slightly fuzzy type edges, and it carries a faint horizontal seam across the green mid-cliff. I have set all of that aside; none of it entered the verdict. Note that A's grain is not only a raster property — it is also used compositionally as tonal modelling on the cliff, and that use I did judge. Conversely, B's hard-edged rectangle in the green, the CTA bloom, the coastline fringe and the orphaned navy bar are compositing errors, not resolution artefacts, and they counted against it."
   },
-  "sharpnessNote": "B is the visibly cleaner raster — crisper vector-hard edges, tighter anti-aliasing, no paper grain. A is noticeably softer throughout, with an allover print-grain texture and slightly fuzzy type edges, and it carries a faint horizontal seam across the green mid-cliff. I have set all of that aside; none of it entered the verdict. Note that A's grain is not only a raster property — it is also used compositionally as tonal modelling on the cliff, and that use I did judge. Conversely, B's hard-edged rectangle in the green, the CTA bloom, the coastline fringe and the orphaned navy bar are compositing errors, not resolution artefacts, and they counted against it."
- },
- "round3/welcome": {
-  "round": 3,
-  "duel": "d01",
-  "subject": "welcome",
-  "against": "phone1",
-  "result": "loss",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "chapel hangs over flat cobalt — the ridge clips only its lower-right corner, so two-thirds of it, bell tower included, floats",
-   "dome is a hollow cream outline with sky showing through: its fill is the same cobalt as the ground it sits on",
-   "terrace slabs cantilever right and stop in mid-hill",
-   "nothing casts a shadow, so there is no sun — only a rote 'right plane gets tinted' convention",
-   "that tint is a near-grey periwinkle, a fifth ink",
-   "the hill is one perfectly straight 40-degree ramp; the diagonal facets are decorative bands unrelated to light",
-   "motif confined to the lower-right quadrant, upper 55% dead"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/harbour": {
-  "round": 3,
-  "duel": "d02",
-  "subject": "harbour",
-  "against": "acropolis",
-  "result": "win",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "nothing casts a shadow: mast, flag and quay sit on the water with no cast",
-   "the small white sailboat at mid-left genuinely floats",
-   "quay deck is a very pale blue that edges toward reading as grey",
-   "rigging lines are hairline-thin and uncommitted"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/amphorae": {
-  "round": 3,
-  "duel": "d03",
-  "subject": "amphorae",
-  "against": "horizon",
-  "result": "loss",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "jar bodies read as pale warm grey-lavender — none of the four inks",
-   "a hard-edged vertical shading band down each jar's right half: a straight rectangle clipped to the silhouette. A round vessel does not shade in a straight line",
-   "shelf top and face unshaded, so no single light source",
-   "handles inconsistent — left ghost cream, right periwinkle",
-   "five vessels on one baseline, evenly spaced, nothing overlapping: 'a bar chart in fancy dress'",
-   "tipped jar sliced by the frame edge, reading as a row that ran out of room",
-   "speckle applied per-shape over vector fills; the cream ground stays smooth, so it is noise on artwork, not ink on paper"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/ascent": {
-  "round": 3,
-  "duel": "d04",
-  "subject": "ascent",
-  "against": "acropolis",
-  "result": "loss",
-  "margin": "narrow",
-  "faults_named_against_subject": [
-   "chapel so small its dome and door are pinpricks; reads as a scatter of white specks in the corner",
-   "stair slabs near-identical from bottom to top, so the flight never recedes — 'a zipper laid over the hill'",
-   "stair enters dead in the bottom-left corner",
-   "an unexplained cream wedge in the bottom-left beneath the sea band",
-   "cypress and chapel meet the green with a hard cut and no anchoring dark: decals, not objects"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/windmill": {
-  "round": 3,
-  "duel": "d05",
-  "subject": "windmill",
-  "against": "horizon",
-  "result": "loss",
-  "margin": "narrow",
-  "faults_named_against_subject": [
-   "tower body carries a soft left-to-right gradient darkening to grey-blue on the right flank — grey, and a gradient, in the plate's brightest flat",
-   "sail wheel is twelve thin open quadrilaterals crossing with no consistent winding: an asterisk-blob, not a windmill",
-   "three stray hairline ticks at the dome apex read as leftover strokes",
-   "no contact shadows; cypress trunks simply vanish; tower meets the near green with a clean vector cut"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/mosaic": {
-  "round": 3,
-  "duel": "d06",
-  "subject": "mosaic",
-  "against": "acropolis",
-  "result": "loss",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "frontal orthogonal grid, no perspective, no ground plane, therefore no light source at all",
-   "the cross motif repeats at identical pitch — a sprite tiled rather than composed",
-   "fourth repeat sliced mid-motif at the right edge; an orphan half-tile clipped by the red rule",
-   "grout sampled at pure neutrals — a fifth, grey ink",
-   "grain is noise dusted over a flat vector lattice"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/lighthouse": {
-  "round": 3,
-  "duel": "d07",
-  "subject": "lighthouse",
-  "against": "horizon",
-  "result": "loss",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "tower ramps cream to neutral grey to blue-grey across ~10 smooth steps: an airbrushed cylinder",
-   "gallery deck is flat neutral grey",
-   "beam is a soft-falloff cone with noise sprinkled on top, not dither doing work",
-   "a red glow ring around the lamp and a pale halo on the hill's left rim",
-   "sea is a flat rectangle with uniform noise laid over it — texture as filter, not printing",
-   "tower's foot ends in open water on the left while the mound overlaps it on the right: it stands in neither",
-   "beam is clipped by the left frame after already fading — it dies twice"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/shopfront": {
-  "round": 3,
-  "duel": "d08",
-  "subject": "shopfront",
-  "against": "acropolis",
-  "result": "loss",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "three horizontal bands stack without overlap or terrace",
-   "awning throws no shadow on the shopfront beneath it; produce stands throw nothing on the pavement",
-   "the stands are illegible: red and green dots on stubby posts",
-   "rightmost crate cluster sliced by the frame as pure accidental overflow",
-   "the shutter unit at upper right hovers on blank wall, unrelated in scale or position to the shop",
-   "flat vector fills, no paper grain; wall joint lines and pavement band read as grey"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/colophon": {
-  "round": 3,
-  "duel": "d09",
-  "subject": "colophon",
-  "against": "horizon",
-  "result": "loss",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "discs have soft feathered edges fading over 10-15px — riso ink stops hard with a dithered lip, it does not vignette",
-   "all three inks desaturated toward neutral: muddied ink is grey by another name",
-   "a hard horizontal seam ~72% down where a noise field begins as a rectangle — a texture layer's bounding box showing",
-   "four circles in a near-even row: no hierarchy, no focal point, no depth",
-   "right-hand disc runs off two frame edges as overflow",
-   "overlaps produce no overprint darkening: the green disc sits opaque over the blue"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/santorini": {
-  "round": 3,
-  "duel": "d10",
-  "subject": "santorini",
-  "against": "acropolis",
-  "result": "loss",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "eleven near-identical cubes with identical windows; nothing largest, nothing darkest, so the eye wanders",
-   "top-right cube and rightmost cypress sliced by the frame — the cluster overflowing, not a crop",
-   "lower-right pair of houses sit on the green with no terrace, no overlap, no contact shadow: they float",
-   "the whole bottom half is one undifferentiated green field"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round3/olivegrove": {
-  "round": 3,
-  "duel": "d11",
-  "subject": "olivegrove",
-  "against": "horizon",
-  "result": "win",
-  "margin": "clear",
-  "faults_named_against_subject": [
-   "not one tree casts a shadow onto its terrace: trunks stapled on rather than planted",
-   "canopy silhouettes are all the same leaning blob — decorative repetition, not described form",
-   "bottom row sliced through the middle of the crowns, reading as overflow",
-   "only green and cream: two of the four inks unused",
-   "texture is uniform fine grain plus faint horizontal streaking over vector shapes, closer to Gaussian noise than a dot screen",
-   "the sage hill drifts toward grey-green"
-  ],
-  "note": "Digest of the blind critic's verdict, not the verbatim text."
- },
- "round4/welcome": {
-  "round": 4,
-  "duel": "r01",
-  "subject": "welcome",
-  "against": "phone1",
-  "result": "loss",
-  "margin": "clear",
-  "residual_faults": [
-   "every right-hand plane — church, houses, stair risers — is the same flat lavender-slate: a half-strength blue, functionally cool grey",
-   "the terraces read as a decorative plinth projecting both left and right, not a cast shadow",
-   "the hill is one uniform green wedge with soft airbrushed darkening along its upper-left silhouette"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/harbour": {
-  "round": 4,
-  "duel": "r02",
-  "subject": "harbour",
-  "against": "acropolis",
-  "result": "loss",
-  "margin": "narrow",
-  "residual_faults": [
-   "no hierarchy: the quay slab and the caique compete at equal weight",
-   "the quay is sliced flat by the left frame edge and its identity never resolves",
-   "nothing sits in the water — no displacement, no waterline shadow"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/amphorae": {
-  "round": 4,
-  "duel": "r03",
-  "subject": "amphorae",
-  "against": "horizon",
-  "result": "loss",
-  "margin": "narrow",
-  "residual_faults": [
-   "five jars in one unbroken row, none overlapping, evenly spaced — assembled, not arranged",
-   "the ink band occupies the lower third of each body identically on left and right, so nothing turns",
-   "a pale ellipse beneath each foot reads as a halo, not a contact shadow"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/ascent": {
-  "round": 4,
-  "duel": "r04",
-  "subject": "ascent",
-  "against": "acropolis",
-  "result": "win",
-  "margin": "clear",
-  "residual_faults": [],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/windmill": {
-  "round": 4,
-  "duel": "r05",
-  "subject": "windmill",
-  "against": "horizon",
-  "result": "win",
-  "margin": "narrow",
-  "residual_faults": [
-   "the sail wheel is a tangle of outlined quadrilaterals that never resolves into a rotor",
-   "no contact shadow where the tower meets the ridge",
-   "the stipple is uniform on both flanks, so the cylinder never turns",
-   "vermilion entirely absent"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/mosaic": {
-  "round": 4,
-  "duel": "r06",
-  "subject": "mosaic",
-  "against": "acropolis",
-  "result": "win",
-  "margin": "narrow",
-  "residual_faults": [
-   "the meander is chopped mid-key at both edges — a scenic crop applied to a self-terminating border",
-   "no focal point; density uniform top to bottom"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/lighthouse": {
-  "round": 4,
-  "duel": "r07",
-  "subject": "lighthouse",
-  "against": "horizon",
-  "result": "win",
-  "margin": "narrow",
-  "residual_faults": [
-   "the headland runs off bottom and right in one unmodulated arc — overflow, not crop",
-   "the tower makes no contact shadow on the hill",
-   "the shaft's speckle describes nothing about the cylinder and starts to read as grey"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/shopfront": {
-  "round": 4,
-  "duel": "r08",
-  "subject": "shopfront",
-  "against": "acropolis",
-  "result": "loss",
-  "margin": "clear",
-  "residual_faults": [
-   "nothing casts a shadow: the shutter block floats, the awning struts hover above the awning",
-   "the crates are illegible stubs overlapping into mush",
-   "the awning's cast stops on a hard vertical edge at the door",
-   "the pavement is a flat lavender-blue that reads as grey"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/colophon": {
-  "round": 4,
-  "duel": "r09",
-  "subject": "colophon",
-  "against": "horizon",
-  "result": "loss",
-  "margin": "clear",
-  "residual_faults": [
-   "the internal tooth still begins at a hard horizontal edge — grain that stops on a straight line is noise over vector art",
-   "the discs are half-strength inks with soft vignetted edges",
-   "three discs sliced by three frame edges at once"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/santorini": {
-  "round": 4,
-  "duel": "r10",
-  "subject": "santorini",
-  "against": "acropolis",
-  "result": "win",
-  "margin": "narrow",
-  "residual_faults": [
-   "no cast shadow anywhere, so the cubes still read as stickers pressed to the green",
-   "the pale blue faces sit so low in coverage they drift toward grey",
-   "the top-right block and cypress run into the frame edge as overflow"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round4/olivegrove": {
-  "round": 4,
-  "duel": "r11",
-  "subject": "olivegrove",
-  "against": "horizon",
-  "result": "win",
-  "margin": "clear",
-  "residual_faults": [
-   "one ink: pine and cream, no cobalt and no vermilion",
-   "the distant ridge is a half-strength tint, its crest blurred rather than dithered",
-   "speckle uniform in density regardless of value — a noise layer, not coverage",
-   "tree spacing is stamp-repeat mechanical"
-  ],
-  "note": "After the three systemic fixes. Digest, not verbatim."
- },
- "round5/shopfront": {
-  "round": 5,
-  "duel": "s01",
-  "subject": "shopfront",
-  "against": "acropolis",
-  "result": "win",
-  "margin": "clear",
-  "residual_faults": [
-   "mottled dither patches left of the arch are applied as random cloudy noise rather than following the light",
-   "the topiary is a flat untextured circle with no form and no shadow at its base",
-   "the three fruits and the sign board are fussy at this scale",
-   "the striped awning is too crisp to read as ink"
-  ],
-  "note": "After the coarse screen and the two redraws. Digest, not verbatim."
- },
- "round5/colophon": {
-  "round": 5,
-  "duel": "s02",
-  "subject": "colophon",
-  "against": "horizon",
-  "result": "win",
-  "margin": "clear",
-  "residual_faults": [
-   "the curl was a flat half-strength blue with no dot structure — 'a fifth ink' — and ran off the corner (fixed after the duel)",
-   "a 3px neutral grey band left of the blue bar, from the misregistration ghost at 0.2 (fixed after the duel)",
-   "nothing casts onto the green, so the card floats on the bed"
-  ],
-  "note": "After the coarse screen and the two redraws. Digest, not verbatim."
- },
- "round5/windmill": {
-  "round": 5,
-  "duel": "s03",
-  "subject": "windmill",
-  "against": "horizon",
-  "result": "loss",
-  "margin": "narrow",
-  "residual_faults": [
-   "the tower's speckle resolves to blue-grey camouflage: no dot lattice, and identical on both cheeks so it describes no light",
-   "ROOT CAUSE, fixed after the duel: RampDefs expressed its gradient over the whole plate, so across a 70-unit tower the coverage barely changed",
-   "the twelve outlined sail blades tangle into an illegible knot at the hub",
-   "no cast shadow from mill or trees"
-  ],
-  "note": "After the coarse screen and the two redraws. Digest, not verbatim."
- }
+  "round3/welcome": {
+    "round": 3,
+    "duel": "d01",
+    "subject": "welcome",
+    "against": "phone1",
+    "result": "loss",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "chapel hangs over flat cobalt — the ridge clips only its lower-right corner, so two-thirds of it, bell tower included, floats",
+      "dome is a hollow cream outline with sky showing through: its fill is the same cobalt as the ground it sits on",
+      "terrace slabs cantilever right and stop in mid-hill",
+      "nothing casts a shadow, so there is no sun — only a rote 'right plane gets tinted' convention",
+      "that tint is a near-grey periwinkle, a fifth ink",
+      "the hill is one perfectly straight 40-degree ramp; the diagonal facets are decorative bands unrelated to light",
+      "motif confined to the lower-right quadrant, upper 55% dead"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/harbour": {
+    "round": 3,
+    "duel": "d02",
+    "subject": "harbour",
+    "against": "acropolis",
+    "result": "win",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "nothing casts a shadow: mast, flag and quay sit on the water with no cast",
+      "the small white sailboat at mid-left genuinely floats",
+      "quay deck is a very pale blue that edges toward reading as grey",
+      "rigging lines are hairline-thin and uncommitted"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/amphorae": {
+    "round": 3,
+    "duel": "d03",
+    "subject": "amphorae",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "jar bodies read as pale warm grey-lavender — none of the four inks",
+      "a hard-edged vertical shading band down each jar's right half: a straight rectangle clipped to the silhouette. A round vessel does not shade in a straight line",
+      "shelf top and face unshaded, so no single light source",
+      "handles inconsistent — left ghost cream, right periwinkle",
+      "five vessels on one baseline, evenly spaced, nothing overlapping: 'a bar chart in fancy dress'",
+      "tipped jar sliced by the frame edge, reading as a row that ran out of room",
+      "speckle applied per-shape over vector fills; the cream ground stays smooth, so it is noise on artwork, not ink on paper"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/ascent": {
+    "round": 3,
+    "duel": "d04",
+    "subject": "ascent",
+    "against": "acropolis",
+    "result": "loss",
+    "margin": "narrow",
+    "faults_named_against_subject": [
+      "chapel so small its dome and door are pinpricks; reads as a scatter of white specks in the corner",
+      "stair slabs near-identical from bottom to top, so the flight never recedes — 'a zipper laid over the hill'",
+      "stair enters dead in the bottom-left corner",
+      "an unexplained cream wedge in the bottom-left beneath the sea band",
+      "cypress and chapel meet the green with a hard cut and no anchoring dark: decals, not objects"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/windmill": {
+    "round": 3,
+    "duel": "d05",
+    "subject": "windmill",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "narrow",
+    "faults_named_against_subject": [
+      "tower body carries a soft left-to-right gradient darkening to grey-blue on the right flank — grey, and a gradient, in the plate's brightest flat",
+      "sail wheel is twelve thin open quadrilaterals crossing with no consistent winding: an asterisk-blob, not a windmill",
+      "three stray hairline ticks at the dome apex read as leftover strokes",
+      "no contact shadows; cypress trunks simply vanish; tower meets the near green with a clean vector cut"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/mosaic": {
+    "round": 3,
+    "duel": "d06",
+    "subject": "mosaic",
+    "against": "acropolis",
+    "result": "loss",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "frontal orthogonal grid, no perspective, no ground plane, therefore no light source at all",
+      "the cross motif repeats at identical pitch — a sprite tiled rather than composed",
+      "fourth repeat sliced mid-motif at the right edge; an orphan half-tile clipped by the red rule",
+      "grout sampled at pure neutrals — a fifth, grey ink",
+      "grain is noise dusted over a flat vector lattice"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/lighthouse": {
+    "round": 3,
+    "duel": "d07",
+    "subject": "lighthouse",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "tower ramps cream to neutral grey to blue-grey across ~10 smooth steps: an airbrushed cylinder",
+      "gallery deck is flat neutral grey",
+      "beam is a soft-falloff cone with noise sprinkled on top, not dither doing work",
+      "a red glow ring around the lamp and a pale halo on the hill's left rim",
+      "sea is a flat rectangle with uniform noise laid over it — texture as filter, not printing",
+      "tower's foot ends in open water on the left while the mound overlaps it on the right: it stands in neither",
+      "beam is clipped by the left frame after already fading — it dies twice"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/shopfront": {
+    "round": 3,
+    "duel": "d08",
+    "subject": "shopfront",
+    "against": "acropolis",
+    "result": "loss",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "three horizontal bands stack without overlap or terrace",
+      "awning throws no shadow on the shopfront beneath it; produce stands throw nothing on the pavement",
+      "the stands are illegible: red and green dots on stubby posts",
+      "rightmost crate cluster sliced by the frame as pure accidental overflow",
+      "the shutter unit at upper right hovers on blank wall, unrelated in scale or position to the shop",
+      "flat vector fills, no paper grain; wall joint lines and pavement band read as grey"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/colophon": {
+    "round": 3,
+    "duel": "d09",
+    "subject": "colophon",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "discs have soft feathered edges fading over 10-15px — riso ink stops hard with a dithered lip, it does not vignette",
+      "all three inks desaturated toward neutral: muddied ink is grey by another name",
+      "a hard horizontal seam ~72% down where a noise field begins as a rectangle — a texture layer's bounding box showing",
+      "four circles in a near-even row: no hierarchy, no focal point, no depth",
+      "right-hand disc runs off two frame edges as overflow",
+      "overlaps produce no overprint darkening: the green disc sits opaque over the blue"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/santorini": {
+    "round": 3,
+    "duel": "d10",
+    "subject": "santorini",
+    "against": "acropolis",
+    "result": "loss",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "eleven near-identical cubes with identical windows; nothing largest, nothing darkest, so the eye wanders",
+      "top-right cube and rightmost cypress sliced by the frame — the cluster overflowing, not a crop",
+      "lower-right pair of houses sit on the green with no terrace, no overlap, no contact shadow: they float",
+      "the whole bottom half is one undifferentiated green field"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round3/olivegrove": {
+    "round": 3,
+    "duel": "d11",
+    "subject": "olivegrove",
+    "against": "horizon",
+    "result": "win",
+    "margin": "clear",
+    "faults_named_against_subject": [
+      "not one tree casts a shadow onto its terrace: trunks stapled on rather than planted",
+      "canopy silhouettes are all the same leaning blob — decorative repetition, not described form",
+      "bottom row sliced through the middle of the crowns, reading as overflow",
+      "only green and cream: two of the four inks unused",
+      "texture is uniform fine grain plus faint horizontal streaking over vector shapes, closer to Gaussian noise than a dot screen",
+      "the sage hill drifts toward grey-green"
+    ],
+    "note": "Digest of the blind critic's verdict, not the verbatim text."
+  },
+  "round4/welcome": {
+    "round": 4,
+    "duel": "r01",
+    "subject": "welcome",
+    "against": "phone1",
+    "result": "loss",
+    "margin": "clear",
+    "residual_faults": [
+      "every right-hand plane — church, houses, stair risers — is the same flat lavender-slate: a half-strength blue, functionally cool grey",
+      "the terraces read as a decorative plinth projecting both left and right, not a cast shadow",
+      "the hill is one uniform green wedge with soft airbrushed darkening along its upper-left silhouette"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/harbour": {
+    "round": 4,
+    "duel": "r02",
+    "subject": "harbour",
+    "against": "acropolis",
+    "result": "loss",
+    "margin": "narrow",
+    "residual_faults": [
+      "no hierarchy: the quay slab and the caique compete at equal weight",
+      "the quay is sliced flat by the left frame edge and its identity never resolves",
+      "nothing sits in the water — no displacement, no waterline shadow"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/amphorae": {
+    "round": 4,
+    "duel": "r03",
+    "subject": "amphorae",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "narrow",
+    "residual_faults": [
+      "five jars in one unbroken row, none overlapping, evenly spaced — assembled, not arranged",
+      "the ink band occupies the lower third of each body identically on left and right, so nothing turns",
+      "a pale ellipse beneath each foot reads as a halo, not a contact shadow"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/ascent": {
+    "round": 4,
+    "duel": "r04",
+    "subject": "ascent",
+    "against": "acropolis",
+    "result": "win",
+    "margin": "clear",
+    "residual_faults": [],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/windmill": {
+    "round": 4,
+    "duel": "r05",
+    "subject": "windmill",
+    "against": "horizon",
+    "result": "win",
+    "margin": "narrow",
+    "residual_faults": [
+      "the sail wheel is a tangle of outlined quadrilaterals that never resolves into a rotor",
+      "no contact shadow where the tower meets the ridge",
+      "the stipple is uniform on both flanks, so the cylinder never turns",
+      "vermilion entirely absent"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/mosaic": {
+    "round": 4,
+    "duel": "r06",
+    "subject": "mosaic",
+    "against": "acropolis",
+    "result": "win",
+    "margin": "narrow",
+    "residual_faults": [
+      "the meander is chopped mid-key at both edges — a scenic crop applied to a self-terminating border",
+      "no focal point; density uniform top to bottom"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/lighthouse": {
+    "round": 4,
+    "duel": "r07",
+    "subject": "lighthouse",
+    "against": "horizon",
+    "result": "win",
+    "margin": "narrow",
+    "residual_faults": [
+      "the headland runs off bottom and right in one unmodulated arc — overflow, not crop",
+      "the tower makes no contact shadow on the hill",
+      "the shaft's speckle describes nothing about the cylinder and starts to read as grey"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/shopfront": {
+    "round": 4,
+    "duel": "r08",
+    "subject": "shopfront",
+    "against": "acropolis",
+    "result": "loss",
+    "margin": "clear",
+    "residual_faults": [
+      "nothing casts a shadow: the shutter block floats, the awning struts hover above the awning",
+      "the crates are illegible stubs overlapping into mush",
+      "the awning's cast stops on a hard vertical edge at the door",
+      "the pavement is a flat lavender-blue that reads as grey"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/colophon": {
+    "round": 4,
+    "duel": "r09",
+    "subject": "colophon",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "clear",
+    "residual_faults": [
+      "the internal tooth still begins at a hard horizontal edge — grain that stops on a straight line is noise over vector art",
+      "the discs are half-strength inks with soft vignetted edges",
+      "three discs sliced by three frame edges at once"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/santorini": {
+    "round": 4,
+    "duel": "r10",
+    "subject": "santorini",
+    "against": "acropolis",
+    "result": "win",
+    "margin": "narrow",
+    "residual_faults": [
+      "no cast shadow anywhere, so the cubes still read as stickers pressed to the green",
+      "the pale blue faces sit so low in coverage they drift toward grey",
+      "the top-right block and cypress run into the frame edge as overflow"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round4/olivegrove": {
+    "round": 4,
+    "duel": "r11",
+    "subject": "olivegrove",
+    "against": "horizon",
+    "result": "win",
+    "margin": "clear",
+    "residual_faults": [
+      "one ink: pine and cream, no cobalt and no vermilion",
+      "the distant ridge is a half-strength tint, its crest blurred rather than dithered",
+      "speckle uniform in density regardless of value — a noise layer, not coverage",
+      "tree spacing is stamp-repeat mechanical"
+    ],
+    "note": "After the three systemic fixes. Digest, not verbatim."
+  },
+  "round5/shopfront": {
+    "round": 5,
+    "duel": "s01",
+    "subject": "shopfront",
+    "against": "acropolis",
+    "result": "win",
+    "margin": "clear",
+    "residual_faults": [
+      "mottled dither patches left of the arch are applied as random cloudy noise rather than following the light",
+      "the topiary is a flat untextured circle with no form and no shadow at its base",
+      "the three fruits and the sign board are fussy at this scale",
+      "the striped awning is too crisp to read as ink"
+    ],
+    "note": "After the coarse screen and the two redraws. Digest, not verbatim."
+  },
+  "round5/colophon": {
+    "round": 5,
+    "duel": "s02",
+    "subject": "colophon",
+    "against": "horizon",
+    "result": "win",
+    "margin": "clear",
+    "residual_faults": [
+      "the curl was a flat half-strength blue with no dot structure — 'a fifth ink' — and ran off the corner (fixed after the duel)",
+      "a 3px neutral grey band left of the blue bar, from the misregistration ghost at 0.2 (fixed after the duel)",
+      "nothing casts onto the green, so the card floats on the bed"
+    ],
+    "note": "After the coarse screen and the two redraws. Digest, not verbatim."
+  },
+  "round5/windmill": {
+    "round": 5,
+    "duel": "s03",
+    "subject": "windmill",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "narrow",
+    "residual_faults": [
+      "the tower's speckle resolves to blue-grey camouflage: no dot lattice, and identical on both cheeks so it describes no light",
+      "ROOT CAUSE, fixed after the duel: RampDefs expressed its gradient over the whole plate, so across a 70-unit tower the coverage barely changed",
+      "the twelve outlined sail blades tangle into an illegible knot at the hub",
+      "no cast shadow from mill or trees"
+    ],
+    "note": "After the coarse screen and the two redraws. Digest, not verbatim."
+  },
+  "round6/acropolis": {
+    "round": 6,
+    "duel": "w02",
+    "subject": "acropolis",
+    "against": "horizon",
+    "result": "win",
+    "margin": "narrow",
+    "fixed_this_round": [
+      "the rake() fan is gone. No critic in this round used the words striping, banding or barcode about the headland — the first time that has been true of this plate",
+      "the floating vermilion pennant is now a caique under a clay sail, sitting on the water with a dithered waterline"
+    ],
+    "residual_faults": [
+      "the plateau (a sky-facing plane) and the cliff face (near-vertical) print the same pine, so the hill has no top and no side",
+      "the gullies read, but the ramp's own passes are still 'soft edgeless sweeps... gradients rather than dot coverage, describing no topography'",
+      "the temple sits on the plateau with no contact shadow",
+      "the pediment and front colonnade read as a cool near-white brighter than the cream paper — a fifth colour",
+      "the roof, a sky-facing plane, prints darker than the vertical pediment",
+      "the two gulls upper-left are fussy and pull the eye off the temple"
+    ],
+    "note": "First win for this plate. Judged against the hero horizon, which the critic called 'a well-dithered corner sticker'. Digest, not verbatim."
+  },
+  "round6/windmill": {
+    "round": 6,
+    "duel": "w01",
+    "subject": "windmill",
+    "against": "horizon",
+    "result": "loss",
+    "margin": "clear",
+    "note": "The re-judgement round 5 left owing: the RampDefs box fix landed after s03 was pulled, so that loss was on the broken ramp. This one is on the fixed ramp, and it is worse.",
+    "residual_faults": [
+      "ROOT CAUSE, measured: 'its ink sits at roughly a quarter to a half strength throughout... essentially none at full ink'. Sampled inside the tower silhouette on a 4x plate proof, 0.0% of the shade face reaches full ink and the densest strip averages t=0.27 along paper->cobalt. The dots are printed in --g-stone-mid, which is 48% ink-lift mixed into cream: a colour no drum can lay. Coverage is doing its job; the ink it lays is a tint.",
+      "the box fix DID work and the critic could not see it past the tint: coverage across the shaft now runs 0% -> 68% left to right",
+      "the two axle spars ghost semi-transparently across the cobalt cap",
+      "the right-hand window is a weaker blue than the left despite being on the shade side — backwards, and a tint again",
+      "nothing casts: no shadow rightward onto the grass, cypress trunks vanish at the hill edge with no contact",
+      "the far ridge is a flat sage tint of pine with a soft fading left end",
+      "the 12-blade rotor is fussy and unequal, outline-only against filled masses below"
+    ]
+  }
 }
