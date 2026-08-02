@@ -99,7 +99,7 @@ export function OliveGrove({ className = '' }: { className?: string }) {
       {/* ---- 2. the hillside ---- */}
       <motion.g {...layer(24, 0.04)}>
         <g filter={ink(ID, 'grain')}>
-          <ScreenRamp id={ID} name="slope" d={`M0 ${HORIZON}H390V470H0Z`} w={390} h={470}
+          <ScreenRamp scale="coarse" id={ID} name="slope" d={`M0 ${HORIZON}H390V470H0Z`} w={390} h={470}
             base="var(--g-green-far)" lit="var(--g-lime)" deep="var(--g-green)" />
           {/* the ground between the rows, ploughed along the contour */}
           <g fill="none" stroke="var(--g-green-deep)" strokeWidth="1.4" opacity="0.18">

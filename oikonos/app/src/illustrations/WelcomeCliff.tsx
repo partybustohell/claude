@@ -212,7 +212,7 @@ export function WelcomeCliff({ className = '' }: { className?: string }) {
           ============================================================ */}
       <motion.g {...layer(38, 0.04)}>
         <g filter={ink(ID, 'grain')}>
-          <ScreenRamp id={ID} name="rock" d={HILL} w={W} h={H}
+          <ScreenRamp scale="coarse" id={ID} name="rock" d={HILL} w={W} h={H}
             base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
 
           <g clipPath={`url(#${ID}-hill)`}>

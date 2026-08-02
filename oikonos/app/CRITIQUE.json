@@ -354,5 +354,49 @@
    "tree spacing is stamp-repeat mechanical"
   ],
   "note": "After the three systemic fixes. Digest, not verbatim."
+ },
+ "round5/shopfront": {
+  "round": 5,
+  "duel": "s01",
+  "subject": "shopfront",
+  "against": "acropolis",
+  "result": "win",
+  "margin": "clear",
+  "residual_faults": [
+   "mottled dither patches left of the arch are applied as random cloudy noise rather than following the light",
+   "the topiary is a flat untextured circle with no form and no shadow at its base",
+   "the three fruits and the sign board are fussy at this scale",
+   "the striped awning is too crisp to read as ink"
+  ],
+  "note": "After the coarse screen and the two redraws. Digest, not verbatim."
+ },
+ "round5/colophon": {
+  "round": 5,
+  "duel": "s02",
+  "subject": "colophon",
+  "against": "horizon",
+  "result": "win",
+  "margin": "clear",
+  "residual_faults": [
+   "the curl was a flat half-strength blue with no dot structure — 'a fifth ink' — and ran off the corner (fixed after the duel)",
+   "a 3px neutral grey band left of the blue bar, from the misregistration ghost at 0.2 (fixed after the duel)",
+   "nothing casts onto the green, so the card floats on the bed"
+  ],
+  "note": "After the coarse screen and the two redraws. Digest, not verbatim."
+ },
+ "round5/windmill": {
+  "round": 5,
+  "duel": "s03",
+  "subject": "windmill",
+  "against": "horizon",
+  "result": "loss",
+  "margin": "narrow",
+  "residual_faults": [
+   "the tower's speckle resolves to blue-grey camouflage: no dot lattice, and identical on both cheeks so it describes no light",
+   "ROOT CAUSE, fixed after the duel: RampDefs expressed its gradient over the whole plate, so across a 70-unit tower the coverage barely changed",
+   "the twelve outlined sail blades tangle into an illegible knot at the hub",
+   "no cast shadow from mill or trees"
+  ],
+  "note": "After the coarse screen and the two redraws. Digest, not verbatim."
  }
 }

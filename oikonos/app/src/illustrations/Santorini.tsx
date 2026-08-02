@@ -116,7 +116,7 @@ export function Santorini({ className = '' }: { className?: string }) {
       {/* ---- 3. the cliff ---- */}
       <motion.g {...layer(40, 0.1)}>
         <g filter={ink(ID, 'grain')}>
-          <ScreenRamp id={ID} name="rock" d={CLIFF} w={390} h={470}
+          <ScreenRamp scale="coarse" id={ID} name="rock" d={CLIFF} w={390} h={470}
             base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
           <g clipPath={`url(#${ID}-cliff)`}>
             {GULLIES.map((g, i) => (

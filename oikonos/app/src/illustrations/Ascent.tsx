@@ -88,7 +88,7 @@ export function Ascent({ className = '' }: { className?: string }) {
           ============================================================ */}
       <motion.g {...layer(26, 0.08)}>
         <g filter={ink(ID, 'grain')}>
-          <ScreenRamp id={ID} name="slope" d={HILL} w={390} h={260}
+          <ScreenRamp scale="coarse" id={ID} name="slope" d={HILL} w={390} h={260}
             base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
 
           <g clipPath={`url(#${ID}-hill)`}>

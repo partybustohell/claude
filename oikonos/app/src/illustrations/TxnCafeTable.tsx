@@ -195,7 +195,7 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
             being asked; this was one of them. The inline hexes went with
             it: the brief says derive a value in tokens.css, never inline
             a colour, and these three were the last ones left. */}
-        <RampDefs id="tc" name="stone" w={390} h={470} x1={0.05} y1={0} x2={0.98} y2={0.95} />
+        <RampDefs id="tc" name="stone" w={390} h={470} box={{ x: TX - TRX, y: TY - TRY, w: TRX * 2, h: TRY * 2 }} x1={0.05} y1={0} x2={0.98} y2={0.95} />
         <RampDefs id="tc" name="edge" w={390} h={470} x1={0} y1={0} x2={1} y2={0} />
 
         <clipPath id="tc-topclip">
@@ -236,7 +236,7 @@ export function TxnCafeTable({ className = '' }: { className?: string }) {
                `L${TX + TRX} ${TY + SLAB}A${TRX} ${TRY} 0 0 1 ${TX - TRX} ${TY + SLAB}Z`}
             fill="var(--g-wall)"
           />
-          <ScreenRamp id="tc" name="stone" w={390} h={470}
+          <ScreenRamp scale="mid" id="tc" name="stone" w={390} h={470}
             d={`M${TX - TRX} ${TY}a${TRX} ${TRY} 0 1 0 ${TRX * 2} 0a${TRX} ${TRY} 0 1 0 ${-TRX * 2} 0Z`}
             base="var(--g-stone)" lit="var(--g-stone-hi)" deep="var(--g-wall)"
             deepOpacity={0.55} />

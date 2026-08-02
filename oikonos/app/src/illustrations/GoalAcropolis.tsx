@@ -290,7 +290,7 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
           ============================================================ */}
       <motion.g {...layer(46, 0.12)}>
         <g filter="url(#gd-grain)">
-          <ScreenRamp id="gd" name="rock" d={ROCK} w={390} h={470}
+          <ScreenRamp scale="coarse" id="gd" name="rock" d={ROCK} w={390} h={470}
             base="var(--g-green)" lit="var(--g-green-lit)" deep="var(--g-green-deep)" />
 
           <g clipPath="url(#gd-rock-clip)">

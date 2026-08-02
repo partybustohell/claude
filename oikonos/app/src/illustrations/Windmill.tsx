@@ -76,8 +76,8 @@ export function Windmill({ className = '' }: { className?: string }) {
             across the shaft measured 18.3% near-neutral pixels — the
             ramp passes through grey on the way, which is the palette's
             one prohibition arriving via a gradient stop. */}
-        <RampDefs id={ID} name="tower" w={390} h={250} x1={0} y1={0} x2={1} y2={0} />
-        <RampDefs id={ID} name="cap" w={390} h={250} x1={0} y1={0} x2={1} y2={0} />
+        <RampDefs id={ID} name="tower" w={390} h={250} box={{ x: CX - BOT_R, y: BASE - TOWER_H, w: BOT_R * 2, h: TOWER_H }} x1={0} y1={0} x2={1} y2={0} />
+        <RampDefs id={ID} name="cap" w={390} h={250} box={{ x: CX - TOP_R - 4, y: BASE - TOWER_H - 26, w: (TOP_R + 4) * 2, h: 26 }} x1={0} y1={0} x2={1} y2={0} />
         <clipPath id={`${ID}-ground`}><path d={GROUND} /></clipPath>
       </defs>
 
@@ -155,7 +155,7 @@ export function Windmill({ className = '' }: { className?: string }) {
 
         <g filter={ink(ID, 'grain-fine')}>
           {/* ---- tower: a cylinder, so the value turns rather than steps ---- */}
-          <ScreenRamp id={ID} name="tower" w={390} h={250}
+          <ScreenRamp scale="fine" id={ID} name="tower" w={390} h={250}
             d={`M${CX - TOP_R} ${BASE - TOWER_H}L${CX - BOT_R} ${BASE}`
               + `L${CX + BOT_R} ${BASE}L${CX + TOP_R} ${BASE - TOWER_H}Z`}
             base="var(--g-stone)" lit="var(--g-stone-hi)" deep="var(--g-stone-mid)" />

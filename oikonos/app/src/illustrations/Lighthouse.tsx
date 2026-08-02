@@ -64,7 +64,7 @@ export function Lighthouse({ className = '' }: { className?: string }) {
         <clipPath id={`${ID}-rock`}><path d={ROCK} /></clipPath>
         {/* Measured on the old shaft: cream to neutral grey to blue-grey
             across ten smooth steps. A cylinder turns by coverage. */}
-        <RampDefs id={ID} name="tower" w={390} h={260} x1={0} y1={0} x2={1} y2={0} />
+        <RampDefs id={ID} name="tower" w={390} h={260} box={{ x: CX - BOT_R, y: LAMP_Y, w: BOT_R * 2, h: TOWER_H }} x1={0} y1={0} x2={1} y2={0} />
         {/* The beam keeps a gradient, but only as a MASK on a dithered
             fill — the light thins by losing dots, not by fading. */}
         <linearGradient id={`${ID}-beamg`} x1="1" y1="0" x2="0" y2="0">
@@ -133,7 +133,7 @@ export function Lighthouse({ className = '' }: { className?: string }) {
       <motion.g {...layer(18, 0.2)}>
         <g filter={ink(ID, 'grain-fine')}>
           {/* the shaft */}
-          <ScreenRamp id={ID} name="tower" w={390} h={260}
+          <ScreenRamp scale="fine" id={ID} name="tower" w={390} h={260}
             d={`M${CX - TOP_R} ${LAMP_Y}L${CX - BOT_R} ${BASE}`
               + `L${CX + BOT_R} ${BASE}L${CX + TOP_R} ${LAMP_Y}Z`}
             base="var(--g-stone)" lit="var(--g-stone-hi)" deep="var(--g-stone-mid)" />
