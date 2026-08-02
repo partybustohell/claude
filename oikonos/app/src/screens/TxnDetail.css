@@ -1,0 +1,243 @@
+/* ============================================================
+   TRANSACTION DETAIL — a receipt printed on pine
+   ============================================================ */
+
+.txn {
+  --txn-cream:      var(--on-olive);
+  --txn-cream-mid:  rgba(246, 241, 226, 0.86);
+  --txn-cream-low:  rgba(246, 241, 226, 0.62);
+  --txn-hair:       rgba(246, 241, 226, 0.30);
+}
+
+/* The pine runs edge to edge — the field starts behind the status bar so
+   the print has no cream margin at the top. */
+.txn.screen {
+  top: calc(-1 * var(--safe-top));
+}
+
+/* ---- The field is not dead flat: the press laid the ink heavier toward
+        the foot of the sheet, and a little light gathers top-left. ---- */
+.txn__tone {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 52% at 10% 2%,
+      color-mix(in srgb, var(--olive-lift) 62%, transparent) 0%,
+      color-mix(in srgb, var(--olive-lift) 18%, transparent) 46%,
+      transparent 74%),
+    radial-gradient(72% 34% at 76% 68%,
+      color-mix(in srgb, var(--olive-lift) 26%, transparent) 0%,
+      transparent 70%),
+    linear-gradient(180deg,
+      transparent 0%,
+      transparent 46%,
+      color-mix(in srgb, var(--olive-deep) 34%, transparent) 80%,
+      color-mix(in srgb, var(--olive-deep) 74%, transparent) 100%);
+}
+
+/* ---- Illustration ---- */
+
+.txn__illo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 364px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---- Chrome ---- */
+
+.txn__bar {
+  position: absolute;
+  z-index: 4;
+  top: 76px;
+  left: calc(var(--gutter) - 8px);
+  right: calc(var(--gutter) - 8px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--txn-cream);
+}
+
+.txn__navbtn {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  flex: none;
+  color: var(--txn-cream);
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ---- The receipt ---- */
+
+.txn__head {
+  position: absolute;
+  z-index: 2;
+  top: 162px;
+  left: var(--gutter);
+  right: var(--gutter);
+}
+
+.txn__cat {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--txn-cream);
+}
+
+.txn__merchant {
+  margin-top: 16px;
+  /* the round shoulder of a G optically indents against a flush left */
+  margin-left: -2px;
+  font-size: 36px;
+  line-height: 1.06;
+  letter-spacing: -0.013em;
+  color: var(--txn-cream);
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 96;
+}
+
+.txn__amount {
+  margin-top: 15px;
+  /* the minus is a light glyph — pull the whole figure back to the margin */
+  margin-left: -2px;
+  line-height: 1.06;
+}
+
+.txn__amount .figure {
+  display: inline-block;
+  font-size: 36px;
+  letter-spacing: -0.028em;
+  color: var(--vermilion);
+  /* Two passes through the press: a cream plate laid a hair up-and-left of
+     the red one. Without it the red sits at 1.5:1 on the pine and dies. */
+  text-shadow:
+    -1.3px -1.5px 0 rgba(250, 242, 225, 0.4),
+    1px 1.2px 0 rgba(30, 78, 49, 0.3);
+}
+
+.txn__when {
+  margin-top: 16px;
+  font-family: var(--font-sans);
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.004em;
+  color: var(--txn-cream-mid);
+}
+
+.txn__rep {
+  color: var(--txn-cream-low);
+  font-weight: 500;
+}
+
+.txn__missing {
+  position: absolute;
+  z-index: 2;
+  inset: auto var(--gutter) 50% var(--gutter);
+  font-size: var(--t-h4);
+  color: var(--txn-cream);
+}
+
+/* ---- Footer ---- */
+
+.txn__foot {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 0 var(--gutter) calc(var(--safe-bottom) - 2px);
+}
+
+.txn__chips {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 7px;
+  padding-bottom: 16px;
+}
+
+.txn__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  border: 1px solid var(--txn-hair);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  color: var(--txn-cream-mid);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.txn__chip--quiet {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.txn__chip--quiet svg { color: rgba(246, 241, 226, 0.6); }
+
+.txn__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: none;
+  background: var(--vermilion-lift);
+  box-shadow: 0 0 0 2.5px rgba(239, 66, 45, 0.22);
+}
+
+.txn__tail {
+  color: var(--txn-cream-low);
+  font-variant-numeric: tabular-nums;
+}
+
+.txn__rulewrap { transform-origin: left center; }
+
+/* ---- Note bar ---- */
+
+.txn__notebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  height: 62px;
+  color: var(--txn-cream);
+}
+
+.txn__note {
+  flex: 1;
+  min-width: 0;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0.002em;
+  color: var(--txn-cream-mid);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.txn__note--empty {
+  font-weight: 500;
+  color: var(--txn-cream);
+}
+
+/* Nudge the pencil out to the optical margin — its drawn mass sits low-left
+   inside the 24-unit grid. */
+.txn__notebar .iconbtn {
+  margin-right: -8px;
+}

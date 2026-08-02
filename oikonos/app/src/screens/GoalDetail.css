@@ -1,0 +1,214 @@
+/* ============================================================
+   GOAL DETAIL — cream field, a headland bleeding off the bottom
+   ============================================================ */
+
+.goal {
+  /* Illustration inks. Two pigments (cobalt, pine) plus the paper —
+     every stone value is the cream turned toward the cobalt, so the
+     marble belongs to the same sky it stands under. */
+  --g-sea:         var(--ink);
+  --g-sea-deep:    var(--ink-deep);
+  --g-sea-lift:    var(--ink-lift);
+
+  --g-green:       var(--olive);
+  --g-green-lit:   var(--olive-lift);
+  --g-green-deep:  var(--olive-deep);
+  --g-green-far:   color-mix(in srgb, var(--olive) 58%, var(--paper) 42%);
+  --g-lime:        color-mix(in srgb, var(--olive-lift) 26%, var(--paper) 74%);
+
+  --g-stone-hi:    var(--on-ink);
+  --g-stone:       var(--paper);
+  --g-stone-shade: color-mix(in srgb, var(--paper) 74%, var(--ink) 26%);
+  --g-stone-dark:  color-mix(in srgb, var(--paper) 46%, var(--ink) 54%);
+  --g-shadow:      var(--ink-deep);
+  --g-roof:        var(--ink);
+  --g-roof-lit:    var(--ink-lift);
+  --g-foam:        color-mix(in srgb, var(--paper) 72%, var(--ink-lift) 28%);
+}
+
+/* ---- Illustration: bleeds off the bottom and the right ---- */
+
+.goal__illo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 470px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---- Chrome + text sit above the plate ---- */
+
+.goal__fg {
+  position: relative;
+  z-index: 4;
+}
+
+/* The comp gives the chrome more air than the kit's default top bar. */
+.goal__bar .topbar { padding-top: 19px; padding-bottom: 8px; }
+.goal__more { margin-right: -9px; display: block; }
+
+.goal__head {
+  padding: 0 var(--gutter);
+  margin-top: 25px;
+}
+
+.goal__title {
+  display: block;
+  margin-top: 9px;
+  /* optical: the G's bowl indents — carry it back out to the gutter */
+  margin-left: -1.5px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 120;
+  font-size: 34px;
+  line-height: 1.08;
+  letter-spacing: -0.026em;
+  color: var(--ink);
+}
+
+.goal__figure {
+  display: block;
+  margin-top: 25px;
+  /* optical: the ₹ has a heavy left bearing — pull it to the margin */
+  margin-left: -2.5px;
+  font-size: 41px;
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 144;
+  letter-spacing: -0.042em;
+  line-height: 1.0;
+  color: var(--ink);
+}
+
+.goal__of {
+  display: block;
+  margin-top: 9px;
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: -0.004em;
+  color: var(--fg-muted);
+}
+
+/* ---- Progress ---- */
+
+.goal__progress {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.goal__track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+/* the printed tooth inside the empty part of the meter */
+.goal__track::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-pill);
+  background-image: url('/tex/stipple.png');
+  background-size: 64px 64px;
+  mix-blend-mode: multiply;
+  opacity: 0.24;
+  pointer-events: none;
+}
+
+.goal__pct {
+  flex: none;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.012em;
+  font-variant-numeric: tabular-nums lining-nums;
+  color: var(--olive-deep);
+}
+
+.goal__meta {
+  display: block;
+  margin-top: 15px;
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.004em;
+  color: var(--fg-muted);
+}
+
+.goal__dot {
+  margin: 0 7px;
+  color: var(--fg-faint);
+}
+
+/* ---- Call to action ---- */
+
+.goal__foot {
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 34px;
+  z-index: 20;
+}
+
+.goal__cta.btn { height: 58px; }
+
+.goal__cta.btn--full .btn__label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.185em;
+}
+
+/* ---- "More" menu ---- */
+
+.goal__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  background: color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.goal__menu {
+  position: absolute;
+  top: 96px;
+  right: var(--gutter);
+  z-index: 50;
+  min-width: 208px;
+  padding: 7px;
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: var(--sh-3), inset 0 0 0 1px var(--hairline);
+  transform-origin: top right;
+}
+
+.goal__menu button {
+  display: block;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--r-sm);
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: var(--t-small);
+  font-weight: 500;
+  letter-spacing: -0.004em;
+  color: var(--ink);
+}
+
+.goal__menu button + button { margin-top: 2px; }
+.goal__menu button:hover { background: var(--paper-deep); }
+
+.goal__menu-sub {
+  display: block;
+  margin-top: 1px;
+  font-size: var(--t-micro);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  color: var(--fg-muted);
+}

@@ -92,16 +92,16 @@ function Eclipse({ reduce }: { reduce: boolean }) {
     <svg className="welcome__eclipse" viewBox="0 0 24 24" aria-hidden focusable="false">
       <defs>
         <mask id="welcome-eclipse-mask">
-          <circle cx="12" cy="12" r="7.4" fill="#fff" />
-          <motion.circle
-            cy="11.2" r="7.4" fill="#000"
-            initial={{ cx: reduce ? 6.6 : -7 }}
-            animate={{ cx: 6.6 }}
-            transition={reduce ? { duration: 0 } : { duration: 1.6, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
+          <ellipse cx="12" cy="12" rx="8.4" ry="10.6" fill="#fff" />
+          <motion.ellipse
+            cy="12" rx="8.4" ry="10.6" fill="#000"
+            initial={{ cx: reduce ? 5.1 : -10 }}
+            animate={{ cx: 5.1 }}
+            transition={reduce ? { duration: 0 } : { duration: 1.7, delay: 0.95, ease: [0.16, 1, 0.3, 1] }}
           />
         </mask>
       </defs>
-      <circle cx="12" cy="12" r="7.4" fill="var(--on-ink)" mask="url(#welcome-eclipse-mask)" />
+      <ellipse cx="12" cy="12" rx="8.4" ry="10.6" fill="var(--on-ink)" mask="url(#welcome-eclipse-mask)" />
     </svg>
   );
 }

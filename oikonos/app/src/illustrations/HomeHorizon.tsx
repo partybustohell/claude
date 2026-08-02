@@ -19,7 +19,7 @@ const Y0 = 152;            // horizon
 const SUN_CX = 302;
 const SUN_R = 52;
 const SUN_CY = Y0 - 13 - SUN_R;
-const BX = 330;            // boat mast
+const BX = 342;            // boat mast
 
 /* ---------------------------------------------------------------- */
 /* Deterministic noise                                                */
@@ -59,7 +59,7 @@ function buildSea(): string {
       const spread = 13 + d * 0.86;
       const plume = 1.35 * Math.exp(-d / 25) * gauss((x - BX) / spread);
       // the waterline itself: dense everywhere, densest under the boat
-      const skin = 1.0 * Math.exp(-d / 5.8) * (0.11 + 0.89 * gauss((x - BX) / 196));
+      const skin = 0.86 * Math.exp(-d / 6.6) * (0.12 + 0.88 * gauss((x - BX) / 196));
       const haze = 0.4 * Math.exp(-d / 16) * gauss((x - BX) / 140);
       const p = (plume + skin + haze) * band * life;
       if (p <= 0.014) continue;
@@ -91,8 +91,8 @@ function buildGlitter(): string {
     const band = 0.66 + 0.48 * Math.sin(d * 0.8);
     const life = Math.min(1, (40 - d) / 14);
     for (let x = SUN_CX - 86; x < SUN_CX + 86; x += 1.9) {
-      const col = 0.9 * Math.exp(-d / 11) * gauss((x - SUN_CX) / (7 + d * 0.58));
-      const wash = 0.3 * Math.exp(-d / 5) * gauss((x - SUN_CX) / 68);
+      const col = 1.05 * Math.exp(-d / 12) * gauss((x - SUN_CX) / (8 + d * 0.6));
+      const wash = 0.36 * Math.exp(-d / 5) * gauss((x - SUN_CX) / 72);
       const p = (col + wash) * band * life;
       if (rnd() > p) continue;
       out.push(sq(x + (rnd() - 0.5) * 1.5, y + (rnd() - 0.5) * 1.5, 0.62 + 1.2 * p));
@@ -114,10 +114,12 @@ function buildSunEdge(): string {
       const rad = Math.hypot(dx, dy);
       if (rad <= R - 0.2) continue;
       // heavier below: the ink pools away from the light
-      const bias = 0.08 + 0.92 * Math.min(1, Math.max(0, dy / R + 0.42));
-      const p = 0.82 * Math.exp(-(rad - R) / 2.0) * bias;
+      // the ink pools away from the light: almost clean at the crown,
+      // ragged along the lower-left shoulder where the pass ran out
+      const bias = 0.03 + 0.97 * Math.min(1, Math.max(0, (dy - dx * 0.35) / R + 0.3));
+      const p = 0.78 * Math.exp(-(rad - R) / 1.7) * bias;
       if (rnd() > p) continue;
-      out.push(sq(x + (rnd() - 0.5) * 1.1, y + (rnd() - 0.5) * 1.1, 0.55 + 1.0 * p));
+      out.push(sq(x + (rnd() - 0.5) * 1.0, y + (rnd() - 0.5) * 1.0, 0.55 + 1.0 * p));
     }
   }
   return out.join('');
@@ -143,14 +145,14 @@ export function HomeHorizon({ className = '' }: { className?: string }) {
         {/* Riso ink lay-down: paper-coloured specks knocked out of the field. */}
         <filter id="hz-riso" x="-6%" y="-6%" width="112%" height="112%"
           colorInterpolationFilters="sRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="0.92" numOctaves="3"
+          <feTurbulence type="fractalNoise" baseFrequency="0.42" numOctaves="3"
             seed="11" result="n" />
           <feColorMatrix
             in="n" type="matrix" result="sp"
             values="0 0 0 0 0.980
                     0 0 0 0 0.949
                     0 0 0 0 0.882
-                    2.1 0 0 0 -1.36" />
+                    2.3 0 0 0 -1.62" />
           <feComposite in="sp" in2="SourceAlpha" operator="in" result="spc" />
           <feMerge>
             <feMergeNode in="SourceGraphic" />
@@ -177,10 +179,10 @@ export function HomeHorizon({ className = '' }: { className?: string }) {
 
         {/* The horizon rule thins as it runs away from the boat. */}
         <linearGradient id="hz-line" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="var(--ink)" stopOpacity="0.26" />
-          <stop offset="0.32" stopColor="var(--ink)" stopOpacity="0.46" />
-          <stop offset="0.85" stopColor="var(--ink)" stopOpacity="0.64" />
-          <stop offset="1" stopColor="var(--ink)" stopOpacity="0.4" />
+          <stop offset="0" stopColor="var(--ink)" stopOpacity="0.34" />
+          <stop offset="0.32" stopColor="var(--ink)" stopOpacity="0.56" />
+          <stop offset="0.85" stopColor="var(--ink)" stopOpacity="0.8" />
+          <stop offset="1" stopColor="var(--ink)" stopOpacity="0.5" />
         </linearGradient>
       </defs>
 
@@ -195,27 +197,26 @@ export function HomeHorizon({ className = '' }: { className?: string }) {
 
       {/* ---- sea ---- */}
       <path d={GLITTER_D} fill="var(--vermilion)" opacity="0.74" />
-      <rect x={-4} y={Y0 - 0.55} width={W + 8} height="1.1" fill="url(#hz-line)" />
+      <rect x={-4} y={Y0 - 0.5} width={W + 8} height="1" fill="url(#hz-line)" />
       <path d={SEA_D} fill="var(--ink)" />
 
       {/* ---- a far sail, for depth ---- */}
-      <g transform={`translate(104 ${Y0})`} fill="var(--ink)" opacity="0.42">
+      <g transform={`translate(104 ${Y0})`} fill="var(--ink)" opacity="0.5">
         <path d="M0 -9 L0 -1.6 L4.8 -1.6 C3.2 -4.6 1.5 -7.3 0 -9 Z" />
         <path d="M-3.6 -1.3 L5.6 -1.3 C4.4 0.7 2.4 1.4 0.5 1.4 C-1.4 1.4 -2.9 0.7 -3.6 -1.3 Z" />
       </g>
 
       {/* ---- sloop: cobalt overprinting the sun ---- */}
       <g
-        transform={`translate(${BX} ${Y0})`}
+        transform={`translate(${BX} ${Y0}) scale(1.08)`}
         fill="var(--ink)"
-        style={{ mixBlendMode: 'multiply' }}
         filter="url(#hz-riso-fine)"
       >
-        <rect x="-0.85" y="-52" width="1.7" height="44" rx="0.85" />
+        <rect x="-0.8" y="-52" width="1.6" height="44" rx="0.8" />
         {/* mainsail — vertical luff, bellied leech */}
-        <path d="M1.5 -51.5 L1.5 -10 L17 -10 C12.6 -26.4 7.4 -40.6 1.5 -51.5 Z" />
+        <path d="M2 -51.5 L2 -10 L17.4 -10 C13 -26.4 7.8 -40.6 2 -51.5 Z" />
         {/* jib */}
-        <path d="M-1.5 -41 L-1.5 -10 L-13.6 -10 C-8.6 -22.4 -4.4 -33.4 -1.5 -41 Z" />
+        <path d="M-2 -41 L-2 -10 L-14 -10 C-9 -22.4 -4.8 -33.4 -2 -41 Z" />
         {/* hull */}
         <path d="M-21.5 -8.6 L20.5 -8.6 C16.6 -1 8.4 1.8 -0.8 1.8 C-10 1.8 -17.4 -1.2 -21.5 -8.6 Z" />
       </g>
