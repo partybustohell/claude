@@ -28,4 +28,5 @@ shots/
 proofs/
 duels/
 .duelkeys/
+.duelmap/
 dist/

@@ -283,11 +283,25 @@ export function Void({
  * A blue barrel-vaulted dome on a drum — the chapel that ends every
  * Cycladic composition. Flat, per the round-one note: dome, ribs, cross,
  * done, and let the grain do the modelling.
+ *
+ * ── THE LIT RIM IS NOT DECORATION ────────────────────────────────
+ * The dome is filled in the cobalt ink. On the cream plates that reads
+ * immediately; on the welcome plate, whose whole ground IS that cobalt,
+ * it rendered as nothing at all — a hole with a cross floating over it
+ * and a few rib lines in mid-air. Same failure as cream canvas on a
+ * cream sky, arrived at from the other end.
+ *
+ * So the dome carries a lit crescent down its upper-left, which is
+ * where the sun is in every plate in this app. It separates the dome
+ * from a dark ground, and on a pale ground it is simply correct
+ * modelling — one addition that is right on both stocks, rather than a
+ * per-screen exception.
  */
 export function Dome({
   x, base, r,
 }: { x: number; base: number; r: number }) {
   const cy = base - r * 0.1;
+  const ry = r * 0.92;
   return (
     <g>
       {/* drum */}
@@ -296,9 +310,15 @@ export function Dome({
       <rect x={x - r} y={base - r * 0.1} width={r * 2} height="1.2"
         fill="var(--g-stone-hi)" />
       {/* dome */}
-      <path d={`M${x - r} ${cy}A${r} ${r * 0.92} 0 0 1 ${x + r} ${cy}Z`}
+      <path d={`M${x - r} ${cy}A${r} ${ry} 0 0 1 ${x + r} ${cy}Z`}
         fill="var(--g-sea)" />
-      {/* ribs — four, flat, no highlight */}
+      {/* the lit rim: upper left, where the sun is */}
+      <path
+        d={`M${x - r} ${cy}A${r} ${ry} 0 0 1 ${x + r * 0.26} ${cy - ry * 0.96}`}
+        fill="none" stroke="var(--g-stone-hi)" strokeWidth={Math.max(1.4, r * 0.11)}
+        strokeLinecap="round"
+      />
+      {/* ribs — three, flat, no highlight */}
       <g stroke="var(--g-sea-lift)" strokeWidth="0.9" opacity="0.5">
         {[-0.55, 0, 0.55].map((t) => (
           <path key={t}
