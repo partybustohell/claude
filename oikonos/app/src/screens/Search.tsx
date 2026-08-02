@@ -39,7 +39,7 @@ function Mark({ text, q }: { text: string; q: string }): ReactNode {
 
 export function Search() {
   const { back, push } = useNav();
-  const { txns, now } = useApp();
+  const { txns, now, accounts } = useApp();
   const merchants = useMerchants();
 
   const [q, setQ] = useState('');
@@ -135,7 +135,7 @@ export function Search() {
   const browse = useMemo(() => {
     const m = new Map<CategoryId, number>();
     for (const t of txns) {
-      if (t.amount >= 0) continue;
+      if (t.amount >= 0 || t.category === 'transfer') continue;
       m.set(t.category, (m.get(t.category) ?? 0) + Math.abs(t.amount));
     }
     return [...m.entries()]
@@ -143,6 +143,22 @@ export function Search() {
       .slice(0, 8)
       .map(([id]) => CATEGORIES[id]);
   }, [txns]);
+
+  /* Scale of the haystack, and a real amount to demonstrate the amount query. */
+  const scale = useMemo(() => {
+    const cats = new Set(txns.map((t) => t.category));
+    const latest = [...txns]
+      .filter((t) => t.amount < 0)
+      .sort((a, b) => b.at.localeCompare(a.at))[0];
+    return {
+      cats: cats.size,
+      sample: latest ? Math.abs(latest.amount) : 0,
+    };
+  }, [txns]);
+
+  /** "3 VISITS · 18 MAY" — visits only when there is more than one. */
+  const rowMeta = (count: number, lastAt: string) =>
+    `${count > 1 ? `${count} visits · ` : ''}${shortDate(lastAt)}`;
 
   const cap = (key: string, n: number) => (expanded[key] ? n : Math.min(n, key === 'txn' ? 6 : 4));
   const toggle = (key: string) => setExpanded((e) => ({ ...e, [key]: !e[key] }));
@@ -187,7 +203,7 @@ export function Search() {
 
         <p className="sr__status" aria-live="polite">
           {!raw
-            ? `Searching ${txns.length} transactions across ${merchants.length} merchants`
+            ? `${txns.length} transactions · ${scale.cats} categories · ${accounts.length} accounts`
             : amount
               ? `Payments within 10% of ${inr(amount)} — ${res.txns.length} found`
               : `${res.total} result${res.total === 1 ? '' : 's'} for “${raw}”`}
@@ -239,7 +255,7 @@ export function Search() {
                   icon={CATEGORIES[m.category].icon}
                   ink={CATEGORIES[m.category].ink}
                   amount={m.total}
-                  meta={`${m.count} visit${m.count === 1 ? '' : 's'}`}
+                  meta={rowMeta(m.count, m.lastAt)}
                   q=""
                   onOpen={() => push({ name: 'merchant', id: m.id })}
                 />
@@ -269,19 +285,43 @@ export function Search() {
               <div className="sr__tip">
                 <span className="sr__tipicon"><IcSpark size={15} /></span>
                 <p>
-                  Half-remember a payment? Type the amount — <b>{compactINR(2850)}</b> or{' '}
-                  <b>2850</b> — and everything within a tenth of it comes back.
+                  Half-remember a payment? Type the amount — <b>{inr(scale.sample)}</b> —
+                  and everything within a tenth of it comes back.
                 </p>
               </div>
             </Rise>
           </Stack>
         ) : res.total === 0 ? (
-          <Empty
-            title="Nothing matches"
-            body={amount
-              ? `No payment sits within 10% of ${inr(amount)}.`
-              : `No merchant, category, note or place contains “${raw}”.`}
-          />
+          <div>
+            <Empty
+              title="Nothing matches"
+              body={amount
+                ? `No payment sits within a tenth of ${inr(amount)}.`
+                : `No merchant, category, note or place contains “${raw}”.`}
+            />
+            <div className="sr__rescue">
+              <Eyebrow>Try instead</Eyebrow>
+              <div className="sr__chips">
+                {[...new Set([
+                  ...suggestions.slice(0, 2).map((s) => s.name),
+                  ...recents,
+                ])].slice(0, 4).map((s) => {
+                  const n = parseAmount(s);
+                  return (
+                    <motion.button
+                      key={s}
+                      className="sr__chip"
+                      onClick={() => setQ(s)}
+                      whileTap={{ scale: 0.96 }}
+                      transition={snap}
+                    >
+                      {n ? inr(n) : s}
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
         ) : (
           <motion.div key={ql} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={fade}>
             <Stack gap={0}>
@@ -298,7 +338,7 @@ export function Search() {
                         icon={CATEGORIES[m.category].icon}
                         ink={CATEGORIES[m.category].ink}
                         amount={m.total}
-                        meta={`${m.count} visit${m.count === 1 ? '' : 's'}`}
+                        meta={rowMeta(m.count, m.lastAt)}
                         q={ql}
                         onOpen={() => { commit(raw); push({ name: 'merchant', id: m.id }); }}
                       />
@@ -376,11 +416,12 @@ export function Search() {
                               <Mark text={t.merchant} q={amount ? '' : ql} />
                             </span>
                             <span className="sr__rowsub">
-                              {shortDate(t.at)} · {amount
+                              {shortDate(t.at)} ·{' '}
+                              {amount
                                 ? (Math.round(gap) === 0
                                   ? 'exact match'
                                   : `${compactINR(Math.abs(gap))} ${gap > 0 ? 'above' : 'below'}`)
-                                : (t.note ?? t.place ?? cat.label)}
+                                : <Mark text={t.note ?? t.place ?? cat.label} q={ql} />}
                             </span>
                           </span>
                           <span className="sr__rowright">
@@ -460,7 +501,7 @@ function MerchantRow({
       <CategoryBadge icon={icon} ink={ink} size={36} />
       <span className="sr__rowbody">
         <span className="sr__rowtitle"><Mark text={name} q={q} /></span>
-        <span className="sr__rowsub">{sub}</span>
+        <span className="sr__rowsub"><Mark text={sub} q={q} /></span>
       </span>
       <span className="sr__rowright">
         <span className="sr__rowamt figure">{inr(amount)}</span>

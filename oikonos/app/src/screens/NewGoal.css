@@ -1,0 +1,226 @@
+/* ============================================================
+   NEW GOAL
+   ============================================================ */
+
+.ng__scroll { padding-bottom: 20px; }
+
+/* ---- Name ---- */
+
+.ng__namewrap {
+  border-bottom: 1.5px solid var(--hairline);
+  padding-bottom: 8px;
+}
+.ng__namelab {
+  display: block;
+  color: var(--fg-muted);
+  margin-bottom: 6px;
+}
+.ng__name {
+  width: 100%;
+  border: 0;
+  background: none;
+  outline: none;
+  font-size: var(--t-h3);
+  color: var(--ink);
+  padding: 2px 0;
+  caret-color: var(--vermilion);
+}
+.ng__name::placeholder { color: var(--fg-faint); }
+
+/* ---- Target ---- */
+
+.ng__amount {
+  text-align: center;
+  background: var(--paper-warm);
+  border-radius: var(--r-lg);
+  padding: 16px 16px 18px;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+
+/* ---- Horizons ---- */
+
+.ng__horizons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ng__horizon {
+  display: grid;
+  gap: 3px;
+  justify-items: start;
+  text-align: left;
+  padding: 12px 14px 13px;
+  border-radius: var(--r-md);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--dur-2) var(--ease-out),
+              box-shadow var(--dur-2) var(--ease-out);
+}
+.ng__horizon--on {
+  background: var(--ink);
+  box-shadow: var(--sh-ink);
+}
+
+.ng__hlabel {
+  font-size: var(--t-small);
+  font-weight: 600;
+  color: var(--ink);
+}
+.ng__hdate {
+  font-size: var(--t-micro);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+.ng__hmonthly {
+  font-size: var(--t-body);
+  color: var(--ink);
+  margin-top: 3px;
+}
+.ng__horizon--on .ng__hlabel { color: var(--on-ink); }
+.ng__horizon--on .ng__hdate { color: var(--on-ink-muted); }
+.ng__horizon--on .ng__hmonthly { color: var(--on-ink); }
+
+/* ---- Monthly card ---- */
+
+.ng__monthly {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: 9px;
+  font-size: var(--t-h2);
+  color: var(--on-ink);
+}
+.ng__monthlyunit {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--on-ink-muted);
+}
+.ng__monthlynote {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--on-ink-muted);
+  margin-top: 8px;
+}
+
+.ng__bar { margin-top: 20px; }
+.ng__barfoot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+}
+
+.ng__verdict {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  margin-top: 17px;
+  padding-top: 15px;
+  border-top: 1px solid var(--hairline-ink);
+}
+.ng__verdict p {
+  font-size: var(--t-small);
+  line-height: 1.58;
+  color: var(--on-ink-muted);
+}
+.ng__verdict b { color: var(--on-ink); font-weight: 600; }
+
+.ng__vdot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+  margin-top: 7px;
+  background: var(--on-ink-muted);
+}
+.ng__verdict--fits .ng__vdot { background: var(--olive-lift); }
+.ng__verdict--tight .ng__vdot { background: var(--paper-deep); }
+.ng__verdict--over .ng__vdot { background: var(--vermilion-lift); }
+
+/* ---- Scenes ---- */
+
+.ng__scenes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.ng__scene {
+  display: grid;
+  gap: 7px;
+  justify-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.ng__scenebox {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 72 / 52;
+  border-radius: var(--r-sm);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  transition: box-shadow var(--dur-2) var(--ease-out),
+              background var(--dur-2) var(--ease-out);
+}
+.ng__scene--on .ng__scenebox {
+  background: var(--paper-deep);
+  box-shadow: inset 0 0 0 2px var(--ink);
+}
+.ng__scenesvg { width: 100%; height: auto; display: block; }
+
+.ng__scenelabel {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-muted);
+  text-align: center;
+}
+.ng__scene--on .ng__scenelabel { color: var(--ink); }
+
+/* ---- Ink ---- */
+
+.ng__inkrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ng__inks { display: flex; gap: 10px; }
+.ng__ink {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--on-ink);
+  box-shadow: 0 2px 5px rgba(48, 36, 12, 0.16);
+  -webkit-tap-highlight-color: transparent;
+}
+.ng__ink--on {
+  box-shadow: 0 0 0 2.5px var(--paper), 0 0 0 4px var(--ink),
+              0 2px 6px rgba(48, 36, 12, 0.2);
+}
+
+/* ---- Foot ---- */
+
+.ng__foot {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin-top: 14px;
+  text-align: center;
+}

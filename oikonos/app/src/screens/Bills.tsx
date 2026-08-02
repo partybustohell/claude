@@ -41,6 +41,13 @@ export function duePhrase(days: number): string {
   return days > 0 ? `in ${days} days` : `${-days} days ago`;
 }
 
+/** How late it is, said the way a person would say it. */
+export function latePhrase(days: number): string {
+  if (days === 0) return 'due today';
+  if (days === -1) return 'by a day';
+  return `by ${-days} days`;
+}
+
 /** A warning mark, so overdue reads without relying on the red. */
 export function AlertGlyph({ size = 13 }: { size?: number }) {
   return (
@@ -137,6 +144,18 @@ export function Bills() {
             </Card>
           </Rise>
 
+          {unpaid.length === 0 && (
+            <Rise style={{ paddingTop: 26 }}>
+              <div className="bills__clear">
+                <span className="bills__clearmark"><Check size={18} /></span>
+                <p className="display bills__cleartitle">All clear</p>
+                <p className="bills__clearbody">
+                  Nothing outstanding. Every bill on the shelf is settled.
+                </p>
+              </div>
+            </Rise>
+          )}
+
           {/* ---- Groups ---- */}
           {GROUPS.map((g) => {
             const rows = bills.filter((b) => b.status === g.id);
@@ -179,18 +198,6 @@ export function Bills() {
               </Rise>
             );
           })}
-
-          {unpaid.length === 0 && (
-            <Rise style={{ paddingTop: 26 }}>
-              <div className="bills__clear">
-                <span className="bills__clearmark"><Check size={18} /></span>
-                <p className="display bills__cleartitle">All clear</p>
-                <p className="bills__clearbody">
-                  Nothing outstanding. The next one lands {shortDate(bills[0]?.due ?? now)}.
-                </p>
-              </div>
-            </Rise>
-          )}
 
           <Rise style={{ paddingTop: 24 }}>
             <p className="bills__foot">
@@ -236,7 +243,7 @@ function BillRow({
           ) : (
             <span className={`brow__when${overdue ? ' brow__when--over' : ''}`}>
               {overdue && <AlertGlyph size={11} />}
-              {overdue ? `Overdue ${duePhrase(days)}` : duePhrase(days)}
+              {overdue ? `Overdue ${latePhrase(days)}` : duePhrase(days)}
             </span>
           )}
           <button
@@ -255,8 +262,11 @@ function BillRow({
           {inr(bill.amount)}
         </span>
         {!paid && (
+          /* A bill that pays itself does not need a loud button; the strong
+             one is reserved for the bills that are actually waiting on you. */
           <motion.button
-            className={`brow__pay${overdue ? ' brow__pay--over' : ''}`}
+            className={`brow__pay${overdue ? ' brow__pay--over'
+              : bill.autopay ? ' brow__pay--quiet' : ''}`}
             onClick={onPay}
             whileTap={{ scale: 0.94 }}
             whileHover={{ y: -1 }}

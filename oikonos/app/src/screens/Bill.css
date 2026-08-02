@@ -103,6 +103,16 @@
   color: var(--fg-muted);
 }
 
+/* The kit's caption ink is decoration-weight; a real instruction needs
+   the readable muted cobalt, so this screen prints its own. */
+.bill__pane .group { padding-bottom: 0; }
+.bill__cap {
+  padding: 11px 4px 0;
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
 /* ---- Statement charges ---- */
 
 .bill__charges {
@@ -210,9 +220,24 @@
   flex: none;
   position: relative;
   z-index: 6;
-  padding: 12px var(--gutter) 14px;
+  padding: 12px var(--gutter) 30px;
   background: linear-gradient(to top, var(--paper) 62%, rgba(250, 242, 225, 0));
 }
+.bill__settled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  height: 56px;
+  border-radius: var(--r-pill);
+  background: var(--olive-wash);
+  color: var(--olive-deep);
+  font-size: var(--t-caption);
+  font-weight: 700;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+}
+
 .bill__ctaamt {
   font-size: var(--t-caption);
   letter-spacing: 0.02em;

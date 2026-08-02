@@ -23,6 +23,10 @@ import { snap, gentle } from '../lib/motion';
 import { AlertGlyph } from './Bills';
 import './Subscriptions.css';
 
+const WORDS = ['no', 'one', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+/** Small counts read as words in editorial copy; large ones as figures. */
+const count = (n: number) => WORDS[n] ?? String(n);
+
 export function Subscriptions() {
   const { rows, perMonth, perYear } = useSubscriptions();
   const { cancelSub } = useActions();
@@ -92,8 +96,9 @@ export function Subscriptions() {
                       the same money, differently spent.
                       {yearly.length > 0 && (
                         <>
-                          {' '}{yearly.length === 1 ? 'One yearly plan' : `${yearly.length} yearly plans`}{' '}
-                          carry {inr(yearlyTotal)} of it and never appear in a monthly view.
+                          {' '}{yearly.length === 1
+                            ? `One yearly plan carries ${inr(yearlyTotal)} of it and never shows up in a monthly view.`
+                            : `${count(yearly.length)} yearly plans carry ${inr(yearlyTotal)} of it and never show up in a monthly view.`}
                         </>
                       )}
                     </p>

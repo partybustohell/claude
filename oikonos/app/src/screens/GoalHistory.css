@@ -1,0 +1,188 @@
+/* ============================================================
+   GOAL HISTORY
+   ============================================================ */
+
+/* ---- Where it stands ---- */
+
+.gh__standing {
+  background: var(--paper-warm);
+  border-radius: var(--r-lg);
+  padding: 18px 20px 17px;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.gh__figure {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 9px;
+  font-size: var(--t-h2);
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.gh__of {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+}
+.gh__standfoot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 11px;
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+/* ---- The climb ---- */
+
+.gh__chart {
+  margin-top: 16px;
+  color: var(--fg-muted);
+}
+.gh__climb { display: block; width: 100%; height: auto; overflow: visible; }
+
+.gh__climblab,
+.gh__climbaxis {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.gh__caption {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin-top: 10px;
+}
+
+/* ---- Summary grid ---- */
+
+.gh__stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--hairline-soft);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.gh__stat {
+  background: var(--paper-warm);
+  padding: 14px 15px 15px;
+  display: grid;
+  gap: 5px;
+  align-content: start;
+}
+.gh__statlab {
+  font-family: var(--font-sans);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.gh__statval { font-size: var(--t-h4); color: var(--ink); }
+.gh__statnote { font-size: var(--t-micro); color: var(--fg-muted); }
+
+/* ---- Pull quote ---- */
+
+.gh__pull {
+  border-left: 2px solid var(--olive);
+  padding: 2px 0 2px 15px;
+}
+.gh__pull > p {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-lead);
+  line-height: 1.42;
+  letter-spacing: var(--tr-tight);
+  color: var(--ink);
+  margin-top: 9px;
+}
+.gh__pullsub {
+  font-size: var(--t-small) !important;
+  font-family: var(--font-sans) !important;
+  line-height: 1.55 !important;
+  letter-spacing: 0 !important;
+  color: var(--fg-muted) !important;
+  margin-top: 10px !important;
+}
+
+/* ---- Month groups ---- */
+
+.gh__mhead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.gh__mlabel {
+  font-family: var(--font-sans);
+  font-size: var(--t-label);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.gh__mtotal { font-size: var(--t-caption); font-weight: 600; color: var(--fg-muted); }
+
+.gh__list {
+  background: var(--paper-warm);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.gh__list > * + * { box-shadow: inset 0 1px 0 var(--hairline-soft); }
+
+.gh__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px 13px;
+}
+
+.gh__mark {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+}
+.gh__mark--auto {
+  background: var(--paper-deep);
+  color: var(--fg-muted);
+}
+.gh__mark--hand { color: var(--on-ink); }
+
+.gh__rowbody { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.gh__rowtitle {
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink);
+}
+.gh__rowsub {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gh__rowamt { font-size: var(--t-body); color: var(--olive); flex: none; }
+
+/* ---- Foot ---- */
+
+.gh__foot {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin-top: 14px;
+  text-align: center;
+}

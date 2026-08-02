@@ -1,0 +1,311 @@
+/* ============================================================
+   BUDGET DETAIL
+   ============================================================ */
+
+/* ---- Hero ---- */
+
+.bd__hero {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 38px;
+  color: var(--on-ink);
+  margin-top: 10px;
+}
+.bd__heroof {
+  font-family: var(--font-sans);
+  font-size: var(--t-caption);
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--on-ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.bd__meter { position: relative; margin-top: 20px; }
+
+/* today's position in the month, printed over the fill */
+.bd__today {
+  position: absolute;
+  top: -4px;
+  width: 1.5px;
+  height: 17px;
+  background: var(--paper);
+  opacity: 0.75;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+
+.bd__meterfoot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 11px;
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+}
+.bd__left { color: var(--on-ink); font-weight: 600; }
+
+/* ---- Rollover block ---- */
+
+.bd__roll {
+  border-left: 2px solid var(--olive);
+  padding: 2px 0 2px 15px;
+}
+.bd__roll--debt { border-left-color: var(--vermilion); }
+
+.bd__rollbody {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin-top: 8px;
+}
+.bd__rollpull {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-lead);
+  line-height: 1.42;
+  letter-spacing: var(--tr-tight);
+  color: var(--ink);
+  margin-top: 12px;
+}
+
+/* ---- Pace ---- */
+
+.bd__pace {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin-top: 12px;
+}
+.bd__pace b { color: var(--ink); font-weight: 600; }
+
+.bd__dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  transform: translateY(-1px);
+}
+.bd__dot--hot { background: var(--vermilion); }
+.bd__dot--cool { background: var(--olive); }
+.bd__dot--even { background: var(--ink); }
+
+.bd__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  margin-top: 16px;
+  background: var(--hairline-soft);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+.bd__stat {
+  background: var(--paper-warm);
+  padding: 13px 12px 14px;
+  display: grid;
+  gap: 5px;
+  align-content: start;
+}
+.bd__statlab {
+  font-family: var(--font-sans);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.bd__statval { font-size: var(--t-lead); color: var(--ink); }
+.bd__statnote {
+  font-size: var(--t-micro);
+  line-height: 1.35;
+  color: var(--fg-muted);
+}
+
+/* ---- Six-month strip ---- */
+
+.bd__chart { margin-top: 16px; }
+
+.bd__caption {
+  font-size: var(--t-caption);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  margin-top: 12px;
+}
+
+/* ---- Transactions ---- */
+
+.bd__txns { margin-top: 4px; }
+
+.bd__txn {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 0 15px;
+  border-bottom: 1px solid var(--hairline-soft);
+  -webkit-tap-highlight-color: transparent;
+}
+.bd__txnbody { flex: 1; min-width: 0; display: grid; gap: 4px; }
+
+.bd__merchant {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bd__when {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bd__share {
+  display: block;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--paper-deep);
+  margin-top: 4px;
+  overflow: hidden;
+}
+.bd__sharefill { display: block; height: 100%; border-radius: 2px; }
+
+.bd__txnright {
+  display: grid;
+  justify-items: end;
+  gap: 4px;
+  flex: none;
+  padding-top: 1px;
+}
+.bd__txnamt { font-size: var(--t-body); color: var(--ink); }
+.bd__txnpct { font-size: var(--t-micro); color: var(--fg-muted); }
+
+.bd__chev { color: var(--fg-faint); flex: none; margin-top: 4px; }
+
+/* ---- Remove confirm ---- */
+
+.bd__confirm {
+  background: var(--vermilion-wash);
+  border-radius: var(--r-lg);
+  padding: 17px 18px 16px;
+}
+.bd__confirm p {
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--vermilion-deep);
+}
+.bd__confirmrow {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.bd__confirmrow > * { flex: 1; }
+
+/* ============================================================
+   Category month strip — shared with NewBudget
+   ============================================================ */
+
+.cmx__head {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+.cmx__dash {
+  flex: 1;
+  height: 0;
+  border-top: 1.5px dashed var(--hairline);
+}
+
+.cmx__plot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.cmx__slot {
+  position: relative;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.cmx__bar {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 34px;
+  border-radius: 4px 4px 2px 2px;
+  transform-origin: bottom;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* an unknown month is a dotted footing, never a zero bar */
+.cmx__void {
+  display: block;
+  width: 100%;
+  max-width: 34px;
+  height: 3px;
+  border-radius: 2px;
+  background-image: radial-gradient(var(--fg-faint) 40%, transparent 42%);
+  background-size: 5px 3px;
+  opacity: 0.85;
+}
+
+.cmx__val {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+
+.cmx__line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 0;
+  border-top: 1.5px dashed var(--hairline);
+  pointer-events: none;
+  z-index: 2;
+}
+.cmx__linelab {
+  flex: none;
+  font-size: var(--t-micro);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.cmx__axis {
+  display: flex;
+  gap: 6px;
+  margin-top: 9px;
+}
+.cmx__axis > span {
+  flex: 1;
+  text-align: center;
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+.cmx__axis--faint { color: var(--fg-faint) !important; }

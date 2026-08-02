@@ -21,7 +21,7 @@ import {
 import { IcRepeat, Check, ChevronRight } from '../components/icons';
 import { inr, compactINR, longDate, shortDate, pctOf } from '../lib/format';
 import { snap } from '../lib/motion';
-import { dueInDays, duePhrase, AlertGlyph } from './Bills';
+import { dueInDays, duePhrase, latePhrase, AlertGlyph } from './Bills';
 import './Bill.css';
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -75,7 +75,7 @@ export function Bill({ id }: { id: string }) {
   const status = paid
     ? 'Paid'
     : overdue
-      ? `Overdue ${duePhrase(days)}`
+      ? `Overdue ${latePhrase(days)}`
       : bill.status === 'scheduled'
         ? `Scheduled for ${shortDate(bill.due)}`
         : `Due ${duePhrase(days)}`;
@@ -176,11 +176,7 @@ export function Bill({ id }: { id: string }) {
 
           {/* ---- Autopay ---- */}
           <Rise style={{ paddingTop: 26 }}>
-            <Group
-              caption={bill.autopay
-                ? `Debits from ${from?.name ?? 'the linked account'} on the morning of the due date. No reminder is sent.`
-                : 'Nothing moves until you say so. A reminder arrives two days out.'}
-            >
+            <Group>
               <Row
                 icon={<IcRepeat size={17} />}
                 ink={bill.autopay ? 'olive' : undefined}
@@ -195,14 +191,19 @@ export function Bill({ id }: { id: string }) {
                 }
               />
             </Group>
+            <p className="bill__cap">
+              {bill.autopay
+                ? `Debits from ${from?.name ?? 'the linked account'} on the morning of the due date. No reminder is sent.`
+                : 'Nothing moves until you say so. A reminder arrives two days out.'}
+            </p>
           </Rise>
 
           {/* ---- What made the number (card statements) ---- */}
           {statementOf && statementOf.items.length > 0 && (
-            <Rise>
+            <Rise style={{ paddingTop: 26 }}>
               <SectionHead title="Behind this statement" />
               <div className="bill__charges">
-                {statementOf.items.slice(0, 5).map((t, i) => (
+                {statementOf.items.map((t, i) => (
                   <div key={t.id}>
                     {i > 0 && <Rule tone="var(--hairline-soft)" />}
                     <motion.button
@@ -222,7 +223,8 @@ export function Bill({ id }: { id: string }) {
               <p className="bill__chargenote">
                 {statementOf.items.length} charges in the ledger add to{' '}
                 {inr(statementOf.total)} — {pctOf(statementOf.total, bill.amount)}% of the
-                statement. The rest is carried from earlier cycles.
+                statement. The remaining {inr(bill.amount - statementOf.total)} predates
+                what Oikonos can see.
               </p>
             </Rise>
           )}
@@ -273,9 +275,10 @@ export function Bill({ id }: { id: string }) {
       {/* ---- The action ---- */}
       <div className="bill__foot">
         {paid ? (
-          <Button full variant="quiet" ink="olive" icon={<Check size={17} />} disabled>
-            Settled
-          </Button>
+          <div className="bill__settled">
+            <Check size={17} />
+            Settled — nothing more to do
+          </div>
         ) : (
           <Button
             full

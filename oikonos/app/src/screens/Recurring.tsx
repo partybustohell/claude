@@ -19,7 +19,7 @@ import {
   Screen, TopBar, Eyebrow, Stack, Rise, Card, Meter, Amount,
   CategoryBadge, SectionHead, Rule, Empty,
 } from '../components/ui';
-import { IcRepeat } from '../components/icons';
+import { IcRepeat, ChevronRight } from '../components/icons';
 import type { CategoryId } from '../data/types';
 import { inr, compactINR, shortDate, pctOf } from '../lib/format';
 import { snap } from '../lib/motion';
@@ -223,11 +223,14 @@ export function Recurring() {
                 ))}
               </div>
             </div>
+            <div className="rec__legend">
+              <span><i className="rec__key rec__key--out" aria-hidden />Money out</span>
+              <span><i className="rec__key rec__key--in" aria-hidden />Money in</span>
+            </div>
             <p className="rec__railnote">
-              <span className="rec__key rec__key--out" aria-hidden />Out
-              <span className="rec__key rec__key--in" aria-hidden />In ·{' '}
               {inr(rail.beforePay)} leaves before the salary lands on the{' '}
-              {ordinal(money.salaryDay)}, so the account has to carry it.
+              {ordinal(money.salaryDay)} — the account carries the first two weeks
+              on its own.
             </p>
           </Rise>
 
@@ -270,7 +273,8 @@ export function Recurring() {
                     </div>
                   ))}
                 </div>
-                {b.id === 'subs' ? (
+                <p className="rec__bnote">{b.note}</p>
+                {b.id === 'subs' && (
                   <motion.button
                     className="rec__more"
                     onClick={() => push({ name: 'subscriptions' })}
@@ -278,10 +282,12 @@ export function Recurring() {
                     whileHover={{ x: 2 }}
                     transition={snap}
                   >
-                    {b.note} {compactINR(subsMonthly * 12)} a year — see all
+                    <span>
+                      All {subs.length} subscriptions ·{' '}
+                      {inr(Math.round(subsMonthly * 12))} a year
+                    </span>
+                    <ChevronRight size={15} />
                   </motion.button>
-                ) : (
-                  <p className="rec__bnote">{b.note}</p>
                 )}
               </Rise>
             );
@@ -319,7 +325,9 @@ function RepRow({ item }: { item: Rep }) {
         >
           {income ? '+' : ''}{inr(Math.round(item.perMonth))}
         </span>
-        <span className="rrow__per">a month</span>
+        {/* Only the normalised rows need the unit spelled out — everywhere
+            else the group total already says "/ mo". */}
+        {item.everyMonths > 1 && <span className="rrow__per">a month</span>}
       </span>
     </div>
   );

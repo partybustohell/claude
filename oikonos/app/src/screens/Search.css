@@ -215,6 +215,14 @@
   color: var(--olive-deep);
 }
 
+.sr__rescue {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding-top: 4px;
+}
+.sr__rescue .sr__chips { justify-content: center; }
+
 .sr__foot {
   font-size: var(--t-caption);
   color: var(--fg-muted);

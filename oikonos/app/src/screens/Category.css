@@ -1,0 +1,372 @@
+/* ============================================================
+   CATEGORY
+   ============================================================ */
+
+/* clear the home indicator */
+.cat__pane { padding-bottom: 46px; }
+
+/* ---- Hero card ---- */
+
+.cat__hero {
+  display: block;
+  font-size: 46px;
+  color: var(--on-ink);
+  margin-top: 11px;
+}
+
+.cat__vs {
+  margin-top: 13px;
+  font-size: var(--t-small);
+  line-height: 1.5;
+  color: var(--on-ink-muted);
+}
+.cat__vschip {
+  display: inline-block;
+  padding: 2px 8px;
+  margin-right: 4px;
+  border-radius: var(--r-pill);
+  background: rgba(253, 248, 236, 0.16);
+  box-shadow: inset 0 0 0 1px var(--hairline-ink);
+  font-size: var(--t-caption);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--on-ink);
+}
+.cat__vsprev { display: block; margin-top: 6px; font-size: var(--t-caption); }
+
+.cat__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding-top: 16px;
+}
+.cat__stat { display: grid; gap: 5px; min-width: 0; }
+.cat__statlabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.cat__statvalue {
+  font-size: var(--t-body);
+  color: var(--on-ink);
+  white-space: nowrap;
+}
+
+/* ---- Budget card ---- */
+
+.cat__budget { margin-top: 12px; }
+
+.cat__bhead {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.cat__bleft { font-size: var(--t-h3); }
+.cat__blabel {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+.cat__bmeter { position: relative; margin-top: 14px; }
+/* today's position in the month — the fill should trail it */
+.cat__pacemark {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 1.5px;
+  background: var(--ink);
+  opacity: 0.55;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+
+.cat__bfoot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--fg-muted);
+}
+
+.cat__bnote {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+.cat__bnote b { color: var(--ink); font-weight: 600; }
+
+.cat__bnone {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+/* ---- Section heads ---- */
+
+.cat__sechead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cat__secmeta {
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+.cat__subhead {
+  display: block;
+  padding: 4px 0 6px;
+  font-size: var(--t-caption);
+  font-weight: 600;
+  color: var(--fg-muted);
+}
+
+/* ---- Trend ---- */
+
+.cat__trend {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  margin-top: 16px;
+}
+.cat__slot {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+}
+.cat__slotval {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--fg-muted);
+  white-space: nowrap;
+}
+.cat__track {
+  position: relative;
+  width: 100%;
+  max-width: 26px;
+  height: 78px;
+  border-radius: var(--r-xs);
+  background: var(--paper-deep);
+  overflow: hidden;
+  isolation: isolate;
+}
+/* a month the ledger cannot speak for: no track, only a broken hairline */
+.cat__track--void {
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  background-image: linear-gradient(
+    to bottom, var(--hairline) 0 4px, transparent 4px 9px);
+  background-size: 1.5px 9px;
+  background-repeat: repeat-y;
+  background-position: center bottom;
+}
+.cat__fill {
+  position: absolute;
+  inset: 0;
+  transform-origin: bottom;
+  border-radius: var(--r-xs);
+}
+.cat__slotlabel {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--fg-muted);
+}
+.cat__slot--now .cat__slotlabel {
+  color: var(--ink);
+  font-weight: 700;
+}
+.cat__slot--now .cat__slotval { color: var(--ink); }
+
+.cat__trendnote {
+  margin-top: 12px;
+  font-size: var(--t-caption);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+/* ---- Merchant rows ---- */
+
+.cat__mrow {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 2px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat__mrank {
+  flex: none;
+  width: 20px;
+  padding-top: 2px;
+  font-size: var(--t-caption);
+  font-weight: 700;
+  color: var(--fg-faint);
+}
+.cat__mbody { flex: 1; min-width: 0; display: block; }
+.cat__mtop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+.cat__mname {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  line-height: 1.2;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cat__mamt { font-size: var(--t-lead); color: var(--ink); flex: none; }
+.cat__mbar { display: block; margin-top: 9px; }
+.cat__mmeta {
+  display: block;
+  margin-top: 7px;
+  font-size: 11px;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cat__dormant {
+  font-size: var(--t-caption);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+/* ---- The reading ---- */
+
+.cat__read { margin-top: 12px; }
+.cat__readlede {
+  font-size: var(--t-body);
+  line-height: 1.5;
+  color: var(--ink);
+}
+.cat__readlede b { font-weight: 600; }
+
+.cat__ba {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin: 16px 0 14px;
+}
+.cat__bacol {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+  align-content: start;
+  padding: 12px 13px;
+  border-radius: var(--r-md);
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.cat__bacol--alt {
+  background: var(--olive-wash);
+  box-shadow: inset 0 0 0 1px rgba(46, 115, 73, 0.16);
+}
+.cat__balabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cat__bacol--alt .cat__balabel { color: var(--olive-deep); }
+.cat__bafig {
+  font-size: var(--t-h4);
+  color: var(--ink);
+  margin: 3px 0 2px;
+}
+.cat__bacol--alt .cat__bafig { color: var(--olive-deep); }
+.cat__bameta {
+  font-size: 10.5px;
+  line-height: 1.35;
+  color: var(--fg-muted);
+}
+.cat__bacol--alt .cat__bameta { color: var(--olive-deep); opacity: 0.9; }
+
+.cat__baarrow {
+  align-self: center;
+  flex: none;
+  font-size: 15px;
+  color: var(--fg-faint);
+}
+
+.cat__readnote {
+  font-size: var(--t-small);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}
+
+/* ---- Transaction rows ---- */
+
+.cat__trow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 2px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.cat__tbody { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.cat__ttop { display: flex; align-items: center; gap: 7px; min-width: 0; }
+.cat__tname {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-variation-settings: 'SOFT' 0, 'WONK' 0, 'opsz' 40;
+  font-size: var(--t-body);
+  letter-spacing: var(--tr-tight);
+  line-height: 1.2;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cat__ttag {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--paper-deep);
+  color: var(--fg-muted);
+}
+.cat__tsub {
+  font-size: 11.5px;
+  line-height: 1.35;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cat__tamt { font-size: var(--t-lead); flex: none; }
+
+.cat__chev { color: var(--fg-faint); flex: none; margin-right: -2px; }
+.cat__mrow .cat__chev { margin-top: 3px; }
+
+.cat__foot {
+  font-size: var(--t-caption);
+  line-height: 1.6;
+  color: var(--fg-muted);
+}

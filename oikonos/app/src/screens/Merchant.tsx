@@ -51,7 +51,7 @@ function MonthBars({
       {data.map((d, i) => (
         <div key={d.key} className={`mbars__slot ${d.current ? 'mbars__slot--now' : ''}`}>
           <span className="mbars__val num">{d.value > 0 ? compactINR(d.value) : '—'}</span>
-          <span className="mbars__track">
+          <span className={`mbars__track ${d.value > 0 ? '' : 'mbars__track--void'}`}>
             <motion.span
               className="mbars__fill tex-ink"
               style={{ background: INK_VAR[ink] }}
@@ -134,8 +134,14 @@ export function Merchant({ id }: { id: string }) {
     const biggest = m.items.reduce((a, b) =>
       (Math.abs(b.amount) > Math.abs(a.amount) ? b : a));
 
+    /* What a normal transaction in this category costs, for scale. */
+    const catTxns = txns.filter((t) => t.category === m.category && t.amount < 0);
+    const catAvg = catTxns.length
+      ? catTxns.reduce((n, t) => n + Math.abs(t.amount), 0) / catTxns.length
+      : 0;
+
     return {
-      meta, firstAt, monthHere, catMonth, budget, envelope,
+      meta, firstAt, monthHere, catMonth, budget, envelope, catAvg,
       series, live, best, peers, rank, cadence, habitDay, acctNames, biggest,
       income: m.items.every((t) => t.amount > 0),
       avg: m.total / m.count,
@@ -184,11 +190,16 @@ export function Merchant({ id }: { id: string }) {
       + `${Math.round((Math.abs(d.biggest.amount) / d.avg - 1) * 100)}% above the usual.`,
     );
   }
-  notes.push(
-    d.acctNames.length === 1
-      ? `Always paid from ${d.acctNames[0]}.`
-      : `Paid from ${d.acctNames.length} accounts — ${d.acctNames.join(', ')}.`,
-  );
+  if (d.catAvg > 0) {
+    const x = d.avg / d.catAvg;
+    notes.push(
+      `A visit here averages ${inr(Math.round(d.avg))} — `
+      + `${x.toFixed(1)}× the typical ${d.meta.label} transaction of ${inr(Math.round(d.catAvg))}.`,
+    );
+  }
+  if (d.acctNames.length > 1) {
+    notes.push(`Paid from ${d.acctNames.length} accounts — ${d.acctNames.join(', ')}.`);
+  }
 
   return (
     <Screen>
@@ -300,7 +311,7 @@ export function Merchant({ id }: { id: string }) {
             <div className="mer__sechead">
               <Eyebrow>Spend by month</Eyebrow>
               <span className="mer__secmeta num">
-                {d.live.length} of {d.series.length} months
+                {d.series[0].label} – {d.series[d.series.length - 1].label}
               </span>
             </div>
             <MonthBars data={d.series} ink={d.meta.ink} />

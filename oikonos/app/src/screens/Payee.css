@@ -1,0 +1,306 @@
+/* ============================================================
+   PAYEE — one saved handle, and everything it has moved
+   ============================================================ */
+
+/* ---- The avatar (shared with Transfer and Scan) ---- */
+
+.avatar {
+  position: relative;
+  display: inline-block;
+  flex: none;
+}
+/* The second plate, knocked out of register — riso, not a drop shadow. */
+.avatar__plate {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--av-behind);
+  opacity: 0.30;
+  transform: translate(2.5px, 2.5px);
+}
+.avatar__disc {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--av-ink);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  isolation: isolate;
+}
+.avatar__txt {
+  position: relative;
+  z-index: 4;
+  color: var(--on-ink);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  padding-left: 0.02em;
+}
+.avatar--on .avatar__disc {
+  box-shadow: 0 0 0 2.5px var(--paper), 0 0 0 4.5px var(--ink);
+}
+.avatar--dark .avatar__disc {
+  box-shadow: inset 0 0 0 1px rgba(253, 248, 236, 0.22);
+}
+.avatar--dark.avatar--on .avatar__disc {
+  box-shadow: 0 0 0 2.5px var(--ink), 0 0 0 4.5px var(--paper);
+}
+
+/* ---- Identity ---- */
+
+.pay__pane { padding-bottom: 44px; }
+
+.pay__handlerow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+.pay__handle {
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink);
+}
+.pay__last {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+}
+
+/* ---- Actions ---- */
+
+.pay__acts {
+  display: flex;
+  gap: 10px;
+}
+.pay__acts .btn { height: 50px; }
+
+/* ---- Ledger card ---- */
+
+.pay__total {
+  display: block;
+  font-size: 42px;
+  color: var(--on-ink);
+  margin-top: 10px;
+}
+.pay__totalmeta {
+  font-size: var(--t-caption);
+  color: var(--on-ink-muted);
+  margin-top: 9px;
+}
+.pay__totalnote {
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--on-ink-muted);
+  margin-top: 12px;
+}
+
+.pay__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.pay__stat { padding: 15px 0 2px; min-width: 0; }
+.pay__stat:nth-child(2n+1) {
+  padding-right: 16px;
+  border-right: 1px solid var(--hairline-ink);
+}
+.pay__stat:nth-child(2n) { padding-left: 18px; }
+.pay__stat:nth-child(n+3) {
+  border-top: 1px solid var(--hairline-ink);
+  padding-top: 15px;
+}
+.pay__statlabel {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--on-ink-muted);
+  margin-bottom: 7px;
+}
+.pay__statvalue {
+  display: block;
+  font-size: var(--t-lead);
+  color: var(--on-ink);
+}
+
+/* ---- Named in notes ---- */
+
+.pay__mentionlead {
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--fg-muted);
+  padding: 12px 0 14px;
+}
+.pay__mention {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border-radius: var(--r-md);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+  -webkit-tap-highlight-color: transparent;
+}
+.pay__mention + .pay__mention { margin-top: 8px; }
+.pay__mentionbody { flex: 1; min-width: 0; display: grid; gap: 6px; }
+.pay__mentiontop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.pay__mentionmerchant {
+  font-size: var(--t-body);
+  font-weight: 500;
+  color: var(--ink);
+}
+.pay__mentionamt { font-size: var(--t-lead); color: var(--ink); flex: none; }
+.pay__mentionnote {
+  font-family: var(--font-display);
+  font-size: var(--t-small);
+  line-height: 1.5;
+  color: var(--fg-muted);
+}
+.pay__mentiondate {
+  font-size: var(--t-micro);
+  font-weight: 600;
+  letter-spacing: var(--tr-label);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* ---- Reading ---- */
+
+.pay__notes {
+  display: grid;
+  gap: 12px;
+  padding-top: 14px;
+}
+.pay__note {
+  display: grid;
+  grid-template-columns: 6px 1fr;
+  gap: 12px;
+  align-items: start;
+  font-size: var(--t-small);
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+.pay__notedot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--vermilion);
+  margin-top: 7px;
+}
+
+/* ---- Section heads ---- */
+
+.pay__sechead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
+}
+.pay__secmeta {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  font-weight: 500;
+}
+
+/* ---- History rows ---- */
+
+.pay__row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 0;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.pay__rowbody { flex: 1; min-width: 0; display: grid; gap: 4px; }
+.pay__rowtop { display: flex; align-items: baseline; gap: 9px; }
+.pay__rowdate { font-size: var(--t-body); font-weight: 500; color: var(--ink); }
+.pay__rowtime { font-size: var(--t-caption); color: var(--fg-muted); }
+.pay__rowsub {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pay__rowamt { font-size: var(--t-lead); flex: none; }
+.pay__chev { color: var(--fg-faint); flex: none; margin-right: -4px; }
+
+.pay__empty {
+  border-radius: var(--r-lg);
+  background: var(--paper-warm);
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.pay__empty .empty { padding: 34px 28px 36px; }
+.pay__empty .empty__icon { color: var(--ink); opacity: 0.55; }
+
+/* ---- Everyone else ---- */
+
+.pay__others {
+  background: var(--paper-warm);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--hairline-soft);
+}
+.pay__other {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+.pay__other + .pay__other { box-shadow: inset 0 1px 0 var(--hairline-soft); }
+.pay__otherbody { flex: 1; min-width: 0; display: grid; gap: 3px; }
+.pay__othername {
+  font-size: var(--t-small);
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pay__othersub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pay__othersub svg { flex: none; }
+.pay__othertotal {
+  font-size: var(--t-caption);
+  color: var(--fg-muted);
+  flex: none;
+}
+
+/* ---- Foot ---- */
+
+.pay__foot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  height: 50px;
+  border-radius: var(--r-pill);
+  border: 1.4px dashed var(--hairline);
+  color: var(--ink);
+  font-size: var(--t-small);
+  font-weight: 600;
+  -webkit-tap-highlight-color: transparent;
+}
