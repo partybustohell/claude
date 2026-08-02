@@ -10,6 +10,7 @@ import { MonthColumns, ShareBar, Ring, tintScale } from '../components/charts';
 import { inr, compactINR, monthLabel } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Insights.css';
+import { PlateFoot } from '../illustrations/place';
 
 const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -153,6 +154,8 @@ export function Insights() {
               </div>
             </Card>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="lighthouse" height={206} />
         </Stack>
       </div>
     </Screen>

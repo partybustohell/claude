@@ -24,6 +24,7 @@ import {
 } from '../lib/format';
 import { reveal, gentle, snap, fade } from '../lib/motion';
 import './GoalHistory.css';
+import { PlateFoot } from '../illustrations/place';
 
 const DAY = 86_400_000;
 const MONTH_DAYS = 30.4375;
@@ -394,6 +395,8 @@ export function GoalHistory({ id }: { id: string }) {
               move the date.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="ascent" height={150} />
         </Stack>
       </div>
     </Screen>

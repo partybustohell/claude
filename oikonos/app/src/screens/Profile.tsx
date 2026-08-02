@@ -7,6 +7,7 @@ import { Sparkline } from '../components/charts';
 import { IcBank, IcSpark, IcFlag, IcCoin, IcRepeat } from '../components/icons';
 import { inr, compactINR, longDate } from '../lib/format';
 import './Profile.css';
+import { PlateFoot } from '../illustrations/place';
 
 export function Profile() {
   const { back, push } = useNav();
@@ -78,6 +79,8 @@ export function Profile() {
               <Row title="Settings" chevron onClick={() => push({ name: 'settings' })} />
             </Group>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={196} />
         </Stack>
       </div>
     </Screen>

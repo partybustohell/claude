@@ -27,6 +27,7 @@ import { inr, compactINR, monthLabel, pctOf } from '../lib/format';
 import { snap } from '../lib/motion';
 import { motion } from 'framer-motion';
 import './NetWorth.css';
+import { PlateFoot } from '../illustrations/place';
 
 const KIND_ICON = {
   bank: IcBank, card: IcCard, wallet: IcWallet, invest: IcRise,
@@ -312,6 +313,8 @@ export function NetWorth() {
               </p>
             </Card>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="lighthouse" height={206} />
         </Stack>
       </div>
     </Screen>

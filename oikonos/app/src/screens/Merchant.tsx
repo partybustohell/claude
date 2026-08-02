@@ -12,6 +12,7 @@ import {
 } from '../lib/format';
 import { snap, surface } from '../lib/motion';
 import './Merchant.css';
+import { PlateFoot } from '../illustrations/place';
 
 const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -385,6 +386,8 @@ export function Merchant({ id }: { id: string }) {
               {inr(m.total)} since {shortDate(d.firstAt)}
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="shopfront" height={204} />
         </Stack>
       </div>
     </Screen>

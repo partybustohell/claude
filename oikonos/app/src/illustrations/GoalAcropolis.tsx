@@ -410,7 +410,7 @@ export function GoalAcropolis({ className = '' }: { className?: string }) {
 
           {/* ---- front colonnade ---- */}
           <rect x={T.col.x} y={T.col.top} width={T.col.span} height={T.col.bot - T.col.top}
-            fill="var(--g-gap)" />
+            fill="var(--g-void)" />
           {FRONT_COLS.map((x, i) => {
             const h = T.col.bot - T.col.top - 3;
             return (

@@ -23,6 +23,7 @@ import { inr, compactINR, longDate, shortDate, pctOf } from '../lib/format';
 import { snap } from '../lib/motion';
 import { dueInDays, duePhrase, latePhrase, AlertGlyph } from './Bills';
 import './Bill.css';
+import { PlateFoot } from '../illustrations/place';
 
 const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
 
@@ -269,6 +270,9 @@ export function Bill({ id }: { id: string }) {
               </>
             )}
           </Rise>
+
+          {/* The bill ends and the mill that will send the next one turns on. */}
+          <PlateFoot plate="windmill" height={172} />
         </Stack>
       </div>
 

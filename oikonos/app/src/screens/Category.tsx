@@ -24,6 +24,7 @@ import {
 } from '../lib/format';
 import { snap, surface } from '../lib/motion';
 import './Category.css';
+import { PlateFoot } from '../illustrations/place';
 
 const MONTH_ABBR = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
   'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -557,6 +558,8 @@ export function Category({ id }: { id: string }) {
               {inr(cat.items.reduce((n, t) => n + Math.abs(t.amount), 0))} lifetime.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="mosaic" height={184} />
         </Stack>
       </div>
     </Screen>

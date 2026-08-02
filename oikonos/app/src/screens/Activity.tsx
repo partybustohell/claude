@@ -10,6 +10,7 @@ import type { Txn } from '../data/types';
 import { signedINR, relativeDay, time, inr } from '../lib/format';
 import { snap, gentle, fade } from '../lib/motion';
 import './Activity.css';
+import { PlateFoot } from '../illustrations/place';
 
 type Filter = 'all' | 'out' | 'in';
 
@@ -157,6 +158,9 @@ export function Activity() {
             <div className="act__foot">
               <p>{shown.reduce((n, d) => n + d.items.length, 0)} transactions</p>
             </div>
+            {/* The ledger runs out and the street it was spent on begins.
+                This pane has no side padding, so the plate is already flush. */}
+            <PlateFoot plate="shopfront" height={196} flush />
           </Stack>
         )}
       </div>

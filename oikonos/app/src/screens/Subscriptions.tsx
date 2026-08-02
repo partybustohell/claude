@@ -22,6 +22,7 @@ import { inr, shortDate, pctOf } from '../lib/format';
 import { snap, gentle } from '../lib/motion';
 import { AlertGlyph } from './Bills';
 import './Subscriptions.css';
+import { PlateFoot } from '../illustrations/place';
 
 const WORDS = ['no', 'one', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
 /** Small counts read as words in editorial copy; large ones as figures. */
@@ -236,6 +237,8 @@ export function Subscriptions() {
               </Rise>
             </>
           )}
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="windmill" height={200} />
         </Stack>
       </div>
     </Screen>

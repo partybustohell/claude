@@ -5,6 +5,7 @@ import {
 } from '../components/ui';
 import { inr } from '../lib/format';
 import './Settings.css';
+import { PlateFoot } from '../illustrations/place';
 
 const TEXTURES = [
   { id: 'full' as const, label: 'Full texture', sub: 'Paper tooth and ink grain, as printed.' },
@@ -101,6 +102,8 @@ export function Appearance() {
               Oikonos honours that whatever is set here.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={190} />
         </Stack>
       </div>
     </Screen>

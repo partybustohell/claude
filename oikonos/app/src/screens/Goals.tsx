@@ -7,6 +7,7 @@ import type { Goal } from '../data/types';
 import { inr, compactINR, monthYearShort, pctOf } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Goals.css';
+import { PlateFoot } from '../illustrations/place';
 
 const SCENE_ICON = {
   acropolis: IcSail, harbour: IcBank, santorini: IcHouse, olivegrove: IcLeaf,
@@ -67,6 +68,8 @@ export function Goals() {
               />
             </Rise>
           ))}
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="ascent" height={214} />
         </Stack>
       </div>
     </Screen>

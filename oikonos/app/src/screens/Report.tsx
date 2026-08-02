@@ -29,6 +29,7 @@ import type { CategoryId, Txn } from '../data/types';
 import { inr, compactINR, monthLabel, shortDate, pctOf } from '../lib/format';
 import { snap, surface } from '../lib/motion';
 import './Report.css';
+import { PlateFoot } from '../illustrations/place';
 
 type Which = 'this' | 'last';
 
@@ -415,6 +416,8 @@ export function Report() {
               </div>
             </Card>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="lighthouse" height={206} />
         </Stack>
       </div>
     </Screen>

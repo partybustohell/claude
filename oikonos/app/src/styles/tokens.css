@@ -127,6 +127,55 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-emph: cubic-bezier(0.16, 1, 0.3, 1);
 
+  /* ---- Illustration inks ------------------------------------
+     Every plate in the app mixes from these, so a hillside on one
+     screen is the same hillside green on another. All of them are
+     derived from the four pigments above — nothing new enters the
+     palette here, it is only mixed. Screens with a specific plate
+     (the goal headland, the café table) narrow these locally.
+     ---------------------------------------------------------- */
+
+  /* water / sky / any cobalt mass */
+  --g-sea:         var(--ink);
+  --g-sea-deep:    var(--ink-deep);
+  --g-sea-lift:    var(--ink-lift);
+  --g-sea-far:     color-mix(in srgb, var(--ink) 54%, var(--paper) 46%);
+  --g-foam:        color-mix(in srgb, var(--paper) 72%, var(--ink-lift) 28%);
+
+  /* land / foliage / any pine mass */
+  --g-green:       var(--olive);
+  --g-green-lit:   var(--olive-lift);
+  --g-green-deep:  var(--olive-deep);
+  --g-green-far:   color-mix(in srgb, var(--olive) 58%, var(--paper) 42%);
+  --g-lime:        color-mix(in srgb, var(--olive-lift) 26%, var(--paper) 74%);
+
+  /* Built stone: the cream turned toward the cobalt it stands under.
+     These shade toward --ink-lift, not --ink. Cream is warm and cobalt
+     is cool, so a light tint of one in the other passes straight through
+     neutral: paper 74% + ink 26% measures 8.7% saturation, which is a
+     grey, and this palette has no grey in it. --ink-lift carries more
+     chroma at the same value, so the same lightness of shadow keeps a
+     visible blue. Every shaded whitewashed plane in the app is one of
+     these three, so the fix lands on the temple and the quay alike. */
+  --g-stone-hi:    var(--on-ink);
+  --g-stone:       var(--paper);
+  --g-stone-shade: color-mix(in srgb, var(--paper) 66%, var(--ink-lift) 34%);
+  --g-stone-mid:   color-mix(in srgb, var(--paper) 52%, var(--ink-lift) 48%);
+  --g-stone-dark:  color-mix(in srgb, var(--paper) 30%, var(--ink) 70%);
+  --g-shadow:      var(--ink-deep);
+
+  /* the dark inside built work — a doorway, a window, the gap between
+     two columns, the underside of a roof. Always the full ink. */
+  --g-void:        var(--ink);
+  --g-roof:        var(--ink);
+  --g-roof-lit:    var(--ink-lift);
+
+  /* fired clay: the warm ink, for tile, terracotta, awnings, fruit */
+  --g-clay:        var(--vermilion);
+  --g-clay-deep:   var(--vermilion-deep);
+  --g-clay-lit:    var(--vermilion-lift);
+  --g-clay-far:    color-mix(in srgb, var(--vermilion) 46%, var(--paper) 54%);
+
   /* ---- Device ---- */
   --device-w: 390px;
   --device-h: 844px;

@@ -23,6 +23,7 @@ import { inr, compactINR, pctOf, shortDate } from '../lib/format';
 import { snap } from '../lib/motion';
 import type { Category as Cat } from '../data/types';
 import './Categories.css';
+import { PlateFoot } from '../illustrations/place';
 
 /** A category worth ₹990 in a ₹1.8L month is not 0% of it. */
 function share(part: number, whole: number): string {
@@ -313,6 +314,8 @@ export function Categories() {
               </p>
             </Rise>
           )}
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="mosaic" height={184} />
         </Stack>
       </div>
     </Screen>

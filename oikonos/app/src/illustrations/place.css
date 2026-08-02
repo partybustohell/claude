@@ -1,0 +1,85 @@
+/* ============================================================
+   PLATE PLACEMENT
+   ------------------------------------------------------------
+   Two ways a plate lands on a screen, and no third.
+
+   .plate-foot — the drawing at the END of the scroll. The ledger
+     runs out and the world begins. It never sits under type,
+     which is why the dense list screens use it: a full-bleed
+     illustration behind forty rows of numbers is unreadable, and
+     a watermark behind them is worse.
+
+   .plate-band — the drawing as a band inside a hero region, with
+     text placed clear of it by the screen's own layout.
+
+   Both bleed the full width. Neither is ever taller than it needs
+   to be, because a plate that pushes the last row of a list off
+   the screen has stopped being decoration and started being a
+   bug.
+   ============================================================ */
+
+.plate-foot {
+  position: relative;
+  display: block;
+  width: 100%;
+  /* pull out of the gutter — a plate bleeds, text does not */
+  margin-left: calc(var(--gutter) * -1);
+  margin-right: calc(var(--gutter) * -1);
+  width: calc(100% + var(--gutter) * 2);
+  pointer-events: none;
+}
+
+/* When a screen's scroll body has no side padding, there is nothing
+   to pull out of. */
+.pane:not(.pane--pad) > .plate-foot,
+.plate-foot--flush {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
+}
+
+/* A plate is cropped from the TOP, never the bottom.
+   The drawing's ground line — the waterline, the pavement, the shelf —
+   lives near its foot, and that is the part that has to survive the
+   crop. Anchoring the art to the top of the box instead throws away the
+   ground and keeps the sky, which is how the bill screen came back
+   showing a windmill's sails floating over nothing. */
+.plate-foot__crop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.plate-foot__art {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* The plate resolves out of the paper rather than butting against the
+   last row with a hard edge. */
+.plate-foot::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 34px;
+  z-index: 1;
+  background: linear-gradient(to bottom, var(--paper), transparent);
+  pointer-events: none;
+}
+
+.plate-foot--ink::before {
+  background: linear-gradient(to bottom, var(--ink), transparent);
+}
+
+.plate-band {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 0;
+  pointer-events: none;
+}

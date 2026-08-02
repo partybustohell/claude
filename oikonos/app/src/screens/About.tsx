@@ -3,6 +3,7 @@ import {
   Screen, TopBar, Group, Row, Stack, Rise, Eyebrow,
 } from '../components/ui';
 import './About.css';
+import { PlateFoot } from '../illustrations/place';
 
 const CREDITS = [
   ['Display', 'Fraunces, by Undercase Type'],
@@ -70,6 +71,8 @@ export function About() {
               <Eyebrow>Made in New Delhi</Eyebrow>
             </div>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={200} />
         </Stack>
       </div>
     </Screen>

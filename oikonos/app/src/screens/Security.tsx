@@ -6,6 +6,7 @@ import {
 import { IcLeaf, IcCard, IcRepeat, IcUser } from '../components/icons';
 import { longDate } from '../lib/format';
 import './Settings.css';
+import { PlateFoot } from '../illustrations/place';
 
 /** Sessions are device state, not ledger state, so they live here. */
 const SESSIONS = [
@@ -73,6 +74,8 @@ export function Security() {
               Sign out everywhere else
             </Button>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={190} />
         </Stack>
       </div>
     </Screen>

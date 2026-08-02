@@ -77,7 +77,12 @@ export function isTab(r: Route): r is Route & { name: Tab } {
 
 interface Nav {
   route: Route;
-  /** +1 pushing forward, −1 popping back, 0 for a lateral tab switch */
+  /**
+   * Which way the content travels. +1 sends it leftwards — the new screen
+   * arrives from the right, which is what a push and a rightwards tab move
+   * both look like. −1 sends it rightwards, for a pop or a leftwards tab
+   * move. 0 is a crossfade with no travel at all.
+   */
   dir: number;
   stack: Route[];
   push: (r: Route) => void;
@@ -102,31 +107,50 @@ export type Sheet =
 
 const NavCtx = createContext<Nav>(null as unknown as Nav);
 
+/**
+ * Which way a lateral move between two tabs travels. The tab bar is a
+ * spatial row: Goals sits to the right of Home, so reaching it should send
+ * the content leftwards exactly as a push does. Comparing the two positions
+ * in `TABS` is the whole rule.
+ */
+function tabDir(from: Route, to: Tab): number {
+  const a = (TABS as string[]).indexOf(from.name);
+  const b = (TABS as string[]).indexOf(to);
+  if (a === -1 || b === -1 || a === b) return 0;
+  return b > a ? 1 : -1;
+}
+
+/** Stack and direction move together — a screen must never render against
+ *  the direction of the move that produced it. */
+interface NavState { stack: Route[]; dir: number }
+
 export function NavProvider({
   initial, initialSheet, children,
 }: { initial?: Route; initialSheet?: Sheet; children: ReactNode }) {
-  const [stack, setStack] = useState<Route[]>([initial ?? { name: 'welcome' }]);
-  const [dir, setDir] = useState(1);
+  const [{ stack, dir }, setNav] = useState<NavState>({
+    stack: [initial ?? { name: 'welcome' }], dir: 1,
+  });
   const [sheet, setSheet] = useState<Sheet>(initialSheet ?? null);
 
   const push = useCallback((r: Route) => {
-    setDir(1);
-    setStack((s) => [...s, r]);
+    setNav((n) => ({ stack: [...n.stack, r], dir: 1 }));
   }, []);
 
   const back = useCallback(() => {
-    setDir(-1);
-    setStack((s) => (s.length > 1 ? s.slice(0, -1) : s));
+    setNav((n) => (n.stack.length > 1
+      ? { stack: n.stack.slice(0, -1), dir: -1 }
+      : n));
   }, []);
 
   const reset = useCallback((r: Route) => {
-    setDir(1);
-    setStack([r]);
+    setNav({ stack: [r], dir: 1 });
   }, []);
 
   const goTab = useCallback((t: Tab) => {
-    setDir(0);
-    setStack([{ name: t } as Route]);
+    setNav((n) => ({
+      stack: [{ name: t } as Route],
+      dir: tabDir(n.stack[n.stack.length - 1], t),
+    }));
   }, []);
 
   const value = useMemo<Nav>(() => ({

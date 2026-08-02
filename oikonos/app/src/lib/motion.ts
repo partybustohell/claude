@@ -56,12 +56,21 @@ export const fadeItem: Variants = {
   show: { opacity: 1, transition: fade },
 };
 
-/** Screen push (forward) / pop (back) — direction is driven by `custom`. */
+/**
+ * Screen push (forward) / pop (back) — direction is driven by `custom`.
+ *
+ * +1 travels leftwards: the arriving screen starts to the right of centre
+ * and slides in, the leaving one parallaxes off to the left. That is the
+ * push, and it is also what pressing a tab further right must look like.
+ * −1 is the mirror. 0 means the move has no direction — a crossfade, with
+ * no x at all, because a zero direction sliding one way is a lie about
+ * where the screen came from.
+ */
 export const pageVariants: Variants = {
-  enter: (dir: number) => ({ x: dir > 0 ? '26%' : '-18%', opacity: 0 }),
+  enter: (dir: number) => ({ x: dir === 0 ? 0 : dir > 0 ? '26%' : '-18%', opacity: 0 }),
   center: { x: 0, opacity: 1, transition: screen },
   exit: (dir: number) => ({
-    x: dir > 0 ? '-18%' : '26%',
+    x: dir === 0 ? 0 : dir > 0 ? '-18%' : '26%',
     opacity: 0,
     transition: { ...screen, damping: 32 },
   }),

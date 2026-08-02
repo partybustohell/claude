@@ -4,7 +4,7 @@ import {
   Screen, TopBar, IconButton, Button, Meter, Amount, Eyebrow, Stack, Rise, Empty,
 } from '../components/ui';
 import { More } from '../components/icons';
-import { GoalAcropolis } from '../illustrations/GoalAcropolis';
+import { SCENE_PLATE } from '../illustrations/scenes';
 import { useNav } from '../nav';
 import { useGoal, useActions } from '../data/store';
 import { inr, monthLabel, clamp, pctOf } from '../lib/format';
@@ -36,9 +36,15 @@ export function GoalDetail({ id }: { id: string }) {
     openSheet({ kind: 'contribute', goalId: goal.id });
   };
 
+  /* The cover this goal was given when it was named. */
+  const { Art, h: artH } = SCENE_PLATE[goal.scene];
+
   return (
-    <Screen className="goal">
-      <GoalAcropolis className="goal__illo" />
+    <Screen className="goal" style={{ '--illo-h': `${artH}px` } as React.CSSProperties}>
+      {/* Every goal used to print the Acropolis no matter what was
+          picked, so the picker on New Goal changed a thumbnail and
+          nothing else. */}
+      <Art className="goal__illo" />
 
       <div className="goal__fg">
         <div className="goal__bar">

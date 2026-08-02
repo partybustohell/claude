@@ -12,6 +12,7 @@ import type { AccountKind } from '../data/types';
 import { inr, signedINR, compactINR, relativeDay, longDate } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Account.css';
+import { PlateFoot } from '../illustrations/place';
 
 const KIND_ICON: Record<AccountKind, typeof IcBank> = {
   bank: IcBank, card: IcCard, wallet: IcWallet, invest: IcRise,
@@ -190,6 +191,8 @@ export function Account({ id }: { id: string }) {
               {compactINR(acct.in)} in across the visible ledger.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="harbour" height={196} />
         </Stack>
       </div>
     </Screen>

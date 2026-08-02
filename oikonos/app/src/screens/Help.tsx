@@ -7,6 +7,7 @@ import {
 import { ChevronDown, IcBook, IcUser, IcLeaf, IcSpark } from '../components/icons';
 import { gentle, snap } from '../lib/motion';
 import './Help.css';
+import { PlateFoot } from '../illustrations/place';
 
 const FAQ = [
   {
@@ -118,6 +119,8 @@ export function Help() {
               <Row title="Terms of use" chevron onClick={() => push({ name: 'about' })} />
             </Group>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={196} />
         </Stack>
       </div>
     </Screen>

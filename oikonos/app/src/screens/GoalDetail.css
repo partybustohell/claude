@@ -2,32 +2,6 @@
    GOAL DETAIL — cream field, a headland bleeding off the bottom
    ============================================================ */
 
-.goal {
-  /* Illustration inks. Two pigments (cobalt, pine) plus the paper —
-     every stone value is the cream turned toward the cobalt, so the
-     marble belongs to the same sky it stands under. */
-  --g-sea:         var(--ink);
-  --g-sea-deep:    var(--ink-deep);
-  --g-sea-lift:    var(--ink-lift);
-
-  --g-green:       var(--olive);
-  --g-green-lit:   var(--olive-lift);
-  --g-green-deep:  var(--olive-deep);
-  --g-green-far:   color-mix(in srgb, var(--olive) 58%, var(--paper) 42%);
-  --g-lime:        color-mix(in srgb, var(--olive-lift) 26%, var(--paper) 74%);
-
-  --g-stone-hi:    var(--on-ink);
-  --g-stone:       var(--paper);
-  --g-stone-shade: color-mix(in srgb, var(--paper) 74%, var(--ink) 26%);
-  --g-stone-mid:   color-mix(in srgb, var(--paper) 62%, var(--ink) 38%);
-  --g-stone-dark:  color-mix(in srgb, var(--paper) 46%, var(--ink) 54%);
-  --g-shadow:      var(--ink-deep);
-  --g-gap:         var(--ink);
-  --g-roof:        var(--ink);
-  --g-roof-lit:    var(--ink-lift);
-  --g-foam:        color-mix(in srgb, var(--paper) 72%, var(--ink-lift) 28%);
-}
-
 /* ---- Illustration: bleeds off the bottom and the right ---- */
 
 .goal__illo {
@@ -36,7 +10,9 @@
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 470px;
+  /* Per scene: the four covers are not the same shape, and forcing a
+     harbour into a headland's box scales it half again. */
+  height: var(--illo-h, 470px);
   z-index: 1;
   pointer-events: none;
 }

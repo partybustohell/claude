@@ -14,6 +14,7 @@ import { Initials, QrMark, railName, payeeTxns, firstName } from './Payee';
 import { inr, compactINR, shortDate } from '../lib/format';
 import { snap, gentle, fade } from '../lib/motion';
 import './Transfer.css';
+import { PlateFoot } from '../illustrations/place';
 
 const KIND_ICON: Record<AccountKind, (p: { size?: number }) => React.ReactElement> = {
   bank: IcBank, card: IcCard, wallet: IcWallet, invest: IcRise,
@@ -159,6 +160,8 @@ export function Transfer() {
                 </motion.button>
               </Rise>
             )}
+            {/* The screen runs out and the world begins. */}
+            <PlateFoot plate="harbour" height={190} />
           </Stack>
         </div>
       </Screen>

@@ -7,6 +7,7 @@ import {
 import { IcBank, IcCard, IcWallet, IcRise, Check, IcLeaf } from '../components/icons';
 import { snap, gentle } from '../lib/motion';
 import './AddAccount.css';
+import { PlateFoot } from '../illustrations/place';
 
 const KINDS = [
   { id: 'bank', label: 'Bank account', sub: 'Savings or current', icon: <IcBank size={19} />, ink: 'ink' as const },
@@ -108,6 +109,8 @@ export function AddAccount() {
                 : `Connect ${bank}`}
             </Button>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="harbour" height={204} />
         </Stack>
       </div>
     </Screen>

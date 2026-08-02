@@ -46,6 +46,7 @@ import { GoalDetail } from './screens/GoalDetail';
 import { Accounts } from './screens/Accounts';
 import { Insights } from './screens/Insights';
 import { SheetHost } from './screens/sheets/SheetHost';
+import { Proof } from './illustrations/Proof';
 
 /**
  * Screens printed on a saturated ink field. These need cream status-bar
@@ -120,6 +121,9 @@ function Shell() {
           <motion.div
             key={routeKey(route)}
             className="app-page"
+            /* Names the screen for the interaction test, which asserts on the
+               sign of this element's x mid-transition. */
+            data-route={routeKey(route)}
             custom={dir}
             variants={pageVariants}
             initial="enter"
@@ -162,6 +166,17 @@ function deepLink(): { route?: Route; sheet?: Sheet } {
 
 export default function App() {
   const { route, sheet } = deepLink();
+
+  /* Press proof — the capture harness only. Not a route, nothing links here. */
+  const p = new URLSearchParams(window.location.search);
+  const plate = p.get('plate');
+  if (plate) {
+    return (
+      <PhoneFrame>
+        <Proof name={plate} ground={p.get('ground') ?? 'paper'} />
+      </PhoneFrame>
+    );
+  }
 
   return (
     <StoreProvider>

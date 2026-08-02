@@ -20,6 +20,7 @@ import type { Bill as BillT, BillStatus } from '../data/types';
 import { inr, compactINR, pctOf, shortDate } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Bills.css';
+import { PlateFoot } from '../illustrations/place';
 
 /* ---------------------------------------------------------------- */
 /* Shared bits — Bill.tsx imports these                               */
@@ -205,6 +206,8 @@ export function Bills() {
               row to switch it.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="windmill" height={200} />
         </Stack>
       </div>
     </Screen>

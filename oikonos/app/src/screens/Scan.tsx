@@ -7,6 +7,7 @@ import { ArrowRight } from '../components/icons';
 import { Initials, QrMark, railName } from './Payee';
 import { surface, snap } from '../lib/motion';
 import './Scan.css';
+import { PlateBand } from '../illustrations/place';
 
 const VF = 272;          /* viewfinder edge, px */
 const QR_N = 25;         /* modules per side, quiet zone excluded */
@@ -244,6 +245,11 @@ export function Scan() {
             </motion.button>
           </div>
         </div>
+
+        {/* The street you are standing in while you point the camera. It
+            sits at the very foot of the ink plate, below every control,
+            so nothing is ever read against it. */}
+        <PlateBand plate="shopfront" height={104} style={{ opacity: 0.5 }} />
       </div>
 
       {/* ---- The tray ---- */}

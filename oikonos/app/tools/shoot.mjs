@@ -9,6 +9,8 @@
  *   node tools/shoot.mjs                     # every screen
  *   node tools/shoot.mjs home goal:g1        # a subset
  *   node tools/shoot.mjs --bare home         # crop to the screen, no device
+ *   node tools/shoot.mjs --bare --foot       # scrolled to the end, where
+ *                                            # the foot plates live
  *
  * Output: shots/<name>.png (device) and shots/bare/<name>.png (screen only)
  */
@@ -35,6 +37,10 @@ export const SCREENS = {
   txn:      'screen=txn&id=t001',
   goal:     'screen=goal&id=g1',
   'goal-emergency': 'screen=goal&id=g2',
+  /* One goal per cover — the four scenes are the four covers a goal can
+     be given, and each has to be looked at. */
+  'goal-santorini': 'screen=goal&id=g3',
+  'goal-grove':     'screen=goal&id=g4',
   'sheet-add':      'screen=home&sheet=add',
   'sheet-contribute': 'screen=goal&id=g1&sheet=contribute',
 
@@ -95,10 +101,11 @@ async function ensureServer() {
 async function main() {
   const argv = process.argv.slice(2);
   const bare = argv.includes('--bare');
+  const foot = argv.includes('--foot');
   const names = argv.filter((a) => !a.startsWith('--'));
   const targets = names.length ? names : Object.keys(SCREENS);
 
-  const outDir = path.join(ROOT, bare ? 'shots/bare' : 'shots');
+  const outDir = path.join(ROOT, foot ? 'shots/foot' : bare ? 'shots/bare' : 'shots');
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
 
   const server = await ensureServer();
@@ -127,6 +134,18 @@ async function main() {
     await page.evaluate(() => document.fonts.ready);
     // let entrance springs settle and count-up odometers finish
     await page.waitForTimeout(2600);
+
+    /* Most plates sit at the END of a scroll, where they cannot fight a
+       line of type — which also means the default capture never sees
+       them. --foot runs the pane to the bottom first. Judging a foot
+       plate from a top-of-screen shot is judging it from its absence. */
+    if (foot) {
+      await page.evaluate(() => {
+        const pane = document.querySelector('.scroll-y, .pane');
+        if (pane) pane.scrollTop = pane.scrollHeight;
+      });
+      await page.waitForTimeout(900);
+    }
 
     if (bare) {
       await page.addStyleTag({ content: `

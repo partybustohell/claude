@@ -24,6 +24,7 @@ import type { CategoryId } from '../data/types';
 import { inr, compactINR, shortDate, pctOf } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Recurring.css';
+import { PlateFoot } from '../illustrations/place';
 
 interface Rep {
   key: string;
@@ -299,6 +300,8 @@ export function Recurring() {
               compared with everything else. The billed figure sits under each name.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="windmill" height={150} />
         </Stack>
       </div>
     </Screen>

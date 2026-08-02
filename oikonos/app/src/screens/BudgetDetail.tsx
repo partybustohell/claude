@@ -27,6 +27,7 @@ import {
 } from '../lib/format';
 import { snap, surface } from '../lib/motion';
 import './BudgetDetail.css';
+import { PlateFoot } from '../illustrations/place';
 
 /** '2024-05' → 'May' */
 function shortMonth(ym: string): string {
@@ -454,6 +455,8 @@ export function BudgetDetail({ id }: { id: string }) {
               )}
             </AnimatePresence>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="amphorae" height={150} />
         </Stack>
       </div>
     </Screen>

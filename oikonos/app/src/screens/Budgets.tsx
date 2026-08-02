@@ -10,6 +10,7 @@ import { IcSpark } from '../components/icons';
 import { inr, compactINR } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Budgets.css';
+import { PlateFoot } from '../illustrations/place';
 
 /** Days remaining in the month, from the app's pinned clock. */
 function daysLeft(nowIso: string): { left: number; total: number } {
@@ -151,6 +152,8 @@ export function Budgets() {
               behind it is spending slower than the calendar.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="amphorae" height={206} />
         </Stack>
       </div>
     </Screen>

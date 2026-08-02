@@ -26,6 +26,7 @@ import { Check } from '../components/icons';
 import { inr, compactINR, monthLabel, longDate } from '../lib/format';
 import { snap, gentle } from '../lib/motion';
 import './NewGoal.css';
+import { PlateFoot } from '../illustrations/place';
 
 type Scene = Goal['scene'];
 type GoalInk = Goal['ink'];
@@ -448,6 +449,8 @@ export function NewGoal() {
               target forward.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="ascent" height={200} />
         </Stack>
       </div>
     </Screen>

@@ -28,6 +28,7 @@ import { IcCoin, Check } from '../components/icons';
 import { inr, compactINR, pctOf } from '../lib/format';
 import { snap, gentle } from '../lib/motion';
 import './NewBudget.css';
+import { PlateFoot } from '../illustrations/place';
 
 /** Money that arrives, and money that only moves between your own pockets,
  *  cannot be capped by an envelope. */
@@ -288,6 +289,8 @@ export function NewBudget() {
               whatever it overspends follows it there too.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="amphorae" height={150} />
         </Stack>
       </div>
     </Screen>

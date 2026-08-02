@@ -12,6 +12,7 @@ import type { CategoryId, Txn } from '../data/types';
 import { inr, signedINR, compactINR, shortDate } from '../lib/format';
 import { snap, fade } from '../lib/motion';
 import './Search.css';
+import { PlateFoot } from '../illustrations/place';
 
 /** A bare number is an amount query — how people look for a half-remembered payment. */
 function parseAmount(s: string): number | null {
@@ -290,6 +291,11 @@ export function Search() {
                 </p>
               </div>
             </Rise>
+
+            {/* Only the resting state gets the plate. Once there is a query
+                the pane is a list of answers and must stay dense — a
+                drawing under a result set is furniture in a doorway. */}
+            <PlateFoot plate="shopfront" height={186} />
           </Stack>
         ) : res.total === 0 ? (
           <div>

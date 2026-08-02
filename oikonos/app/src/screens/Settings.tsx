@@ -6,6 +6,7 @@ import {
   IcLeaf, IcSwap,
 } from '../components/icons';
 import './Settings.css';
+import { PlateFoot } from '../illustrations/place';
 
 const CURRENCY_LABEL = { INR: 'Indian rupee', EUR: 'Euro', USD: 'US dollar' } as const;
 const TEXTURE_LABEL = { full: 'Full texture', subtle: 'Subtle', off: 'Plain' } as const;
@@ -97,6 +98,8 @@ export function Settings() {
               the connections you make yourself.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={196} />
         </Stack>
       </div>
     </Screen>

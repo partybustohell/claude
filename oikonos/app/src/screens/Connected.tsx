@@ -6,6 +6,7 @@ import {
 import { IcCard } from '../components/icons';
 import { longDate } from '../lib/format';
 import './Settings.css';
+import { PlateFoot } from '../illustrations/place';
 
 export function Connected() {
   const { back } = useNav();
@@ -62,6 +63,8 @@ export function Connected() {
               statement keeps its copy — revoking stops the next one.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={196} />
         </Stack>
       </div>
     </Screen>

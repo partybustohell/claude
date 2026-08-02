@@ -1,0 +1,27 @@
+/* Press proof: the plate alone, on its stock, at print size. */
+
+.proof {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.proof--paper { background: var(--paper); }
+.proof--ink   { background: var(--ink); }
+.proof--olive { background: var(--olive); }
+
+/* A plate bleeds off the bottom of whatever it sits in, so the proof
+   pins it to the bottom edge exactly as a screen would. */
+.proof__plate {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+.proof__missing {
+  padding: 40px var(--gutter);
+  font-family: var(--font-sans);
+  color: var(--vermilion);
+}

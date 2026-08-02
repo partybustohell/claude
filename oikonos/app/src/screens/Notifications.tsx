@@ -11,6 +11,7 @@ import { motion } from 'framer-motion';
 import { snap } from '../lib/motion';
 import { useMemo } from 'react';
 import './Notifications.css';
+import { PlateFoot } from '../illustrations/place';
 
 const KIND: Record<NoticeKind, { icon: React.ReactNode; ink: string; label: string }> = {
   budget:   { icon: <IcCoin size={17} />,  ink: 'vermilion', label: 'Budget' },
@@ -89,6 +90,8 @@ export function Notifications() {
               </Rise>
             );
           })}
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={196} />
         </Stack>
       </div>
     </Screen>

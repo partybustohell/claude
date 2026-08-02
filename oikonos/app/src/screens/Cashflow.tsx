@@ -22,6 +22,7 @@ import {
 import { MonthColumns } from '../components/charts';
 import { inr, compactINR, monthLabel, pctOf } from '../lib/format';
 import './Cashflow.css';
+import { PlateFoot } from '../illustrations/place';
 
 function monthName(iso: string): string {
   return monthLabel(iso).split(' ')[0];
@@ -262,6 +263,8 @@ export function Cashflow() {
               reaching for it.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="lighthouse" height={150} />
         </Stack>
       </div>
     </Screen>

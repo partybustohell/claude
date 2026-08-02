@@ -5,6 +5,7 @@ import {
 } from '../components/ui';
 import { inr, groupINR } from '../lib/format';
 import './Settings.css';
+import { PlateFoot } from '../illustrations/place';
 
 const CURRENCIES = [
   { id: 'INR' as const, label: 'Indian rupee', sub: '₹ · lakh and crore grouping', sample: () => inr(874350) },
@@ -70,6 +71,8 @@ export function Currency() {
               <Row title="A cup of coffee" value={<span className="figure">{s.currency === 'INR' ? inr(480) : s.currency === 'EUR' ? '€5' : '$6'}</span>} />
             </Group>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={196} />
         </Stack>
       </div>
     </Screen>

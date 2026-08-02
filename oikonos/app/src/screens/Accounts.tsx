@@ -10,6 +10,7 @@ import type { Account, AccountKind } from '../data/types';
 import { inr, compactINR } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Accounts.css';
+import { PlateFoot } from '../illustrations/place';
 
 const KIND_ICON: Record<AccountKind, typeof IcBank> = {
   bank: IcBank, card: IcCard, wallet: IcWallet, invest: IcRise,
@@ -69,6 +70,8 @@ export function Accounts() {
               Balances update when a bank posts. Last synced 9:41 AM today.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="harbour" height={214} />
         </Stack>
       </div>
     </Screen>

@@ -11,6 +11,7 @@ import type { Txn } from '../data/types';
 import { inr, signedINR, shortDate, time, relativeDay, compactINR } from '../lib/format';
 import { snap } from '../lib/motion';
 import './Payee.css';
+import { PlateFoot } from '../illustrations/place';
 
 /* ================================================================
    Shared payee furniture
@@ -487,6 +488,8 @@ export function Payee({ id }: { id: string }) {
               <ArrowRight size={16} />
             </motion.button>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="shopfront" height={196} />
         </Stack>
       </div>
     </Screen>

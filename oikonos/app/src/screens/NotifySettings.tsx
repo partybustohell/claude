@@ -6,6 +6,7 @@ import {
 import { IcBolt, IcCoin, IcFlag, IcSpark, IcLeaf } from '../components/icons';
 import type { Settings } from '../data/types';
 import './Settings.css';
+import { PlateFoot } from '../illustrations/place';
 
 type Key = keyof Settings['notifications'];
 
@@ -70,6 +71,8 @@ export function NotifySettings() {
               you did not do yourself.
             </p>
           </Rise>
+          {/* The screen runs out and the world begins. */}
+          <PlateFoot plate="colophon" height={190} />
         </Stack>
       </div>
     </Screen>
