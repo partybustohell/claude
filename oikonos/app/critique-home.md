@@ -1,0 +1,30 @@
+# Home — blind critic verdict
+
+This screen LOST a blind A/B against the master comp. The critic did
+not know which panel was which. Its reasoning:
+
+> The brief weights the illustration above all else, and that is where this is decided. A's sloop is actually drawn: the hull has a raked bow and a distinct transom so the boat has a heading, the mainsail and jib are separated by a hairline cream forestay gap, the mast tapers to a point, and the waterline cuts through the hull so the vessel sits IN the sea rather than on it. The sun is a clean disc whose lower edge is clipped by the horizon — it is setting, which is the whole point of the image — and the horizon itself is a whisper-fine dotted rule that dissolves into a stipple field decaying downward. It reads at thumbnail size. B's boat is two right triangles and a symmetric crescent: both ends of the hull are identical, so there is no bow, no stern, no direction; the sails are straight-leech shapes struck from a geometry tool with a bare mast spike poking between two mismatched apexes; a 4px cream construction seam separates sails from deck. B's sun is not clipped by the horizon at all — it floats above a hard grey-blue rule — and its lower-left edge has eroded into a trail of red specks that land in the water and on the hull, reading as compression dirt rather than riso misregistration.  The material story compounds it. A's entire surface carries consistent paper grain (measured σ≈1.6 on empty ground). B's background is mathematically flat (σ=0.0) while its sun and card both carry heavy grain, so textured objects hover on a perfectly clean digital sheet — the texture is decoration applied to shapes, not a substrate. A also holds far better negative space: the gulf between "Arjun." and NET WORTH is confident, and the illustration is given air, whereas B's stipple clumps into an amorphous mass that falls ~180px below the horizon and crowds the OVERVIEW eyebrow.  B is not without wins, and they are real ones: its left-margin grid is disciplined (835–842px across all blocks) where A drifts across four different left edges (card 74, RECENT ACTIVITY 91, OVERVIEW 94, header 107) — a 33px slop that is A's worst craft failure. B's card icons are one coherent set at one stroke weight, where A's savings icon is an illegible blob and its greens are two different values. B
+
+## Defects, in the critic's words
+
+### Blocking
+
+- The hull is a symmetric crescent — identical at both ends, no bow rake, no transom, a perfect geometric arc along the bottom — so the boat has no heading and reads as a smile with two triangles stuck on it rather than a sloop. Redraw with an asymmetric sheer: raked stem forward, squared transom aft.
+- The sun's disc terminates above the horizon rule instead of being clipped by it, so it floats in the sky rather than setting into the sea — the spatial logic of the whole scene collapses. Clip the disc at the waterline as panel A does.
+- The sun's lower-left edge is asymmetrically eroded into a scattered trail of red specks that fall into the blue stipple field and land on the hull and on the horizon rule. Because the erosion is one-sided it reads as compression noise or stray pixels, not as deliberate riso misregistration.
+
+### Major
+
+- The horizon is a solid ~2px grey-blue rule at a hue that belongs to neither the navy stipple nor the cream ground, running full-bleed edge to edge and passing straight through the hull. It reads as a UI section divider that a boat happens to be parked on, not as a water's edge.
+- The distant second sailboat at mid-left is a lone pale-grey triangle with no hull and no mast, sitting exactly on top of the rule. At that value and scale it reads as a stray artifact or a dropped glyph rather than a vessel receding in depth.
+- The stipple field clumps into an amorphous dense mass beneath the boat that keeps falling roughly 180px below the horizon, crowding the OVERVIEW eyebrow and destroying the reflection's silhouette. The dots are all one size, so density thins but there is no atmospheric decay — no scale gradient, no value gradient.
+- The page background is mathematically flat (measured pixel σ = 0.0 on empty ground) while the sun disc and the blue Overview card both carry visible grain. Textured objects are floating on a perfectly clean digital surface, so the material story contradicts itself. Either lay grain across the whole substrate or take it off the shapes.
+- The Recent Activity list is truncated mid-row: a green semicircle sliver of the second transaction's avatar pokes out above the tab-bar divider with no label, no amount, no fade. It reads as a clipping bug, not as a scroll affordance.
+- "Arjun." (bold serif) and "₹8,74,350" (a heavier bold serif) sit at two nearly-but-not-quite-equal weights. The hero figure separates from the name by size alone, never by weight, so the header reads as two competing display lines instead of a name and a number. Drop the name to a lighter cut of the same face.
+- In "₹8,74,350" the rupee glyph's upper crossbar runs hard into the left bowl of the 8 with effectively zero optical sidebearing — the pair fuses into one mark at a glance. Needs a kern of roughly 0.02–0.03em between ₹ and the first digit.
+
+### Minor
+
+- In the Recent Activity row, "Good Earth" is set in the bold display serif, "May 18, 2024" in the sans, and "−₹2,850" back in the serif at near-display weight. Three faces inside one 40px band, and a list row typeset like a headline — the merchant name outweighs the section eyebrow above it.
+- The blue Overview card's left edge sits 7px to the left of the OVERVIEW / RECENT ACTIVITY text column rather than either aligning flush with it or stepping out by a full, deliberate grid unit. The offset is too small to read as intentional and too large to read as clean.
+- The tab bar leaves roughly 85px of dead cream below the labels with no home indicator drawn, so the nav floats above the bottom edge instead of anchoring the screen (panel A's equivalent gap is ~48px and reads correctly).
