@@ -277,7 +277,7 @@ def _learned(h):
         if form == src.mod:
             h.learned_skipped.append(key)
             continue
-        e = Entry(key + "_learned", gloss, src.field, "learned (scribal Old Basin)",
+        e = Entry(key + "_learned", gloss, "learned", "learned (scribal Old Basin)",
                   f"re-borrowed by scribes from written Old Basin {''.join(src.ob)}; "
                   f"doublet of inherited '{key}'",
                   src.proto, src.ob, None, None, form, list(form))
@@ -293,6 +293,22 @@ def _grammaticalize(h):
                       "src_mb": src.mb, "mb": mb, "mb_rim": mbr,
                       "mod": ch.evolve(mb, ch.STAGE_C_STD),
                       "rim": ch.evolve(mbr, ch.STAGE_C_RIM)}
+    neg = h.lexicon["neg"]
+    neg.status = "obsolete"
+    neg.etym += "; preverbal negator, lost in the Jespersen cycle (replaced by postverbal NEG < 'seed')"
+    for fn, g in h.gram.items():
+        if fn in ("WARD", "PROG"):
+            continue
+        gloss = {"FUT": "will (future proclitic)", "NEG": "not (postverbal)",
+                 "DEF": "the (enclitic)", "Q": "question particle"}.get(fn, g["label"].strip("'").replace("' (", " ("))
+        e = Entry("gram_" + fn.lower(), gloss, "grammar", "grammaticalized",
+                  f"Middle Basin '{g['src']}' {''.join(g['src_mb'])}, reduced", None, None,
+                  g["mb"], g["mb_rim"], g["mod"], g["rim"])
+        h.lexicon[e.key] = e
+    g = h.gram["PROG"]
+    h.lexicon["gram_in"] = Entry("gram_in", "in, inside; progressive (enclitic)", "grammar", "grammaticalized",
+                                 f"Middle Basin 'belly' {''.join(g['src_mb'])}, reduced", None, None,
+                                 g["mb"], g["mb_rim"], g["mod"], g["rim"])
     ward = h.gram["WARD"]
     for key, gloss, noun in DIRECTIONALS:
         n = h.lexicon[noun]
@@ -319,7 +335,7 @@ def _modern_compounds(h):
             rim = rim + h.lexicon[p].rim
         h.lexicon[key] = Entry(key, gloss, "modern", "Modern compound",
                                "Modern Basin " + " + ".join(f"'{p}'" for p in parts),
-                               mod=mod, rim=rim)
+                               mod=ch.b8_cluster_repair(mod), rim=ch.b8_cluster_repair(rim))
 
 
 # ------------------------------------------------------------- paradigms

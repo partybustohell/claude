@@ -415,6 +415,15 @@ CLASSIFIERS = [
     ("CL.HEARTH", "households", "hearth"),
     ("CL.CLOD", "default: everything else", "clod"),
 ]
+# Which nouns take which classifier (anything unlisted takes CL.CLOD).
+CLASSIFIER_MEMBERS = {
+    "CL.HORN": ["cattle", "bull", "calf", "horse", "sheep", "lamb", "goat", "dog"],
+    "CL.SHEAF": ["plow", "road", "river", "reed", "knife", "tree", "snake", "worm",
+                 "furrow", "boat", "cart", "fence", "sheaf", "horn", "bone", "grainroad"],
+    "CL.BASKET": ["pot", "basket", "gourd", "egg", "bread", "stone", "head", "wheel",
+                  "cheese", "fish", "bird", "eagle"],
+    "CL.HEARTH": ["house", "hearth", "lineage", "village", "granary"],
+}
 
 # Transparent compounds coined in the Modern period.
 MODERN_COMPOUNDS = [

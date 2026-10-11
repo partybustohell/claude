@@ -1,6 +1,6 @@
 # Döspëvnë (Dospevne): reference grammar
 
-*Döspëvnë* /døspəvnə/ is the language of the *Doslënrë* /doslənrə/, farmers, herders and river traders of a fertile plain enclosed by a mountain ring. The name is an opaque Proto-Basin compound, *doskʷibeni 'bowl-speech'; the people's name is *doslamara 'bowl-person-COLLECTIVE'.
+*Döspëvnë* /døspəvnə/ is the language of the *Doslënrë* /doslənrə/, farmers, herders and river traders of a fertile plain enclosed by a mountain ring. The name is an opaque Proto-Basin compound, \*doskʷibeni 'bowl-speech'; the people's name is \*doslamara 'bowl-person-COLLECTIVE'.
 
 Every form in this document is produced by `generate.py` (seed `ringed-basin/v1`) from a procedurally generated proto-language and an ordered set of historical processes. Re-running the generator reproduces this file byte for byte.
 
@@ -17,7 +17,7 @@ Every form in this document is produced by `generate.py` (seed `ringed-basin/v1`
 | Negation | postverbal ley (from 'seed') |
 | Spatial frame | absolute: rimward / hubward / sunwise / nightwise |
 | Proto roots generated | 182 |
-| Lexicon entries (all strata) | 256 |
+| Lexicon entries (all strata) | 269 |
 | Sound changes | 7 (Old) + 8 (Middle) + 4 (Modern) + 2 Rim-only |
 | Slang innovations modelled | 20; 12 became standard, 8 stayed in-group |
 | Highland loanwords | 14 |
@@ -67,11 +67,11 @@ Every form in this document is produced by `generate.py` (seed `ringed-basin/v1`
 
 ### 2.1 Inventory
 
-Consonants: *t, *k, *p, *s, *m, *n, *l, *r, *d, *g, *b, *h, *w, *j, *kʷ, *gʷ. Vowels: *a *e *i *o *u. *h is a laryngeal; its only trace in the daughter stages is length on a preceding vowel (A1).
+Consonants: \*t, \*k, \*p, \*s, \*m, \*n, \*l, \*r, \*d, \*g, \*b, \*h, \*w, \*j, \*kʷ, \*gʷ. Vowels: \*a \*e \*i \*o \*u. \*h is a laryngeal; its only trace in the daughter stages is length on a preceding vowel (A1).
 
 Onset weights (relative frequency used by the generator): t 10, k 9, p 7, s 8, m 7, n 8, l 6, r 2, d 6, g 5, b 4, h 5, w 4, j 3, kʷ 4, gʷ 2.
 
-Medial codas: n, r, l, s, m, h; final codas: n, r, l, s, m, h, t, k. A medial nasal is homorganic with the following stop. No root repeats a consonant; *w, *j and the labiovelars do not precede rounded/front vowels of the same place.
+Medial codas: n, r, l, s, m, h; final codas: n, r, l, s, m, h, t, k. A medial nasal is homorganic with the following stop. No root repeats a consonant; \*w, \*j and the labiovelars do not precede rounded/front vowels of the same place.
 
 ### 2.2 Root shapes
 
@@ -84,33 +84,33 @@ Medial codas: n, r, l, s, m, h; final codas: n, r, l, s, m, h, t, k. A medial na
 | CVCCV | 12 | 13% |
 | CVCVC | 10.4 | 11% |
 
-Function words (pronouns, demonstratives, copula) are drawn from CV/CVC only. Sound symbolism: concepts tagged *small* favour *i, *e; concepts tagged *big* favour *a, *o, *u.
+Function words (pronouns, demonstratives, copula) are drawn from CV/CVC only. Sound symbolism: concepts tagged *small* favour \*i, \*e; concepts tagged *big* favour \*a, \*o, \*u.
 
 ### 2.3 Morphology
 
 | Category | Suffix |
 |---|---|
 | NOM | ∅ |
-| ACC | *-em |
-| GEN | *-os |
-| DAT | *-ei |
-| LOC | *-i |
-| ABL | *-et |
-| INS | *-bi |
-| PL | *-es |
-| COLL | *-ra |
-| verb 1SG | *-mi |
-| verb 2SG | *-si |
-| verb 3SG | *-ti |
-| verb 1PL | *-mes |
-| verb 2PL | *-te |
-| verb 3PL | *-nti |
-| past | *-ta- (before person) |
-| AGT | *-ter |
-| NMLZ | *-ni |
-| ADJ | *-ka |
-| DIM | *-li |
-| COLL | *-ra |
+| ACC | \*-em |
+| GEN | \*-os |
+| DAT | \*-ei |
+| LOC | \*-i |
+| ABL | \*-et |
+| INS | \*-bi |
+| PL | \*-es |
+| COLL | \*-ra |
+| verb 1SG | \*-mi |
+| verb 2SG | \*-si |
+| verb 3SG | \*-ti |
+| verb 1PL | \*-mes |
+| verb 2PL | \*-te |
+| verb 3PL | \*-nti |
+| past | \*-ta- (before person) |
+| AGT | \*-ter |
+| NMLZ | \*-ni |
+| ADJ | \*-ka |
+| DIM | \*-li |
+| COLL | \*-ra |
 
 At a vowel + vowel morpheme boundary the stem vowel elides. Compounds are modifier–head.
 
@@ -140,7 +140,7 @@ Rules apply in the order listed. Examples are the first words in the concept lis
 
 | # | Process | Rule | Motivation | Examples |
 |---|---|---|---|---|
-| A1 | Compensatory lengthening | `Vh → Vː / _C, _#` | Loss of a coda laryngeal leaves its timing slot to the vowel (cf. PIE *h₂ → Greek/Latin long vowels). | 'tooth' geh → geː; 'guest' todoh → todoː |
+| A1 | Compensatory lengthening | `Vh → Vː / _C, _#` | Loss of a coda laryngeal leaves its timing slot to the vowel (cf. PIE \*h₂ → Greek/Latin long vowels). | 'tooth' geh → geː; 'guest' todoh → todoː |
 | A2 | Laryngeal loss | `h → ∅` | Remaining /h/ (initial, intervocalic) is lost; glottal fricatives are the least stable consonants cross-linguistically. | 'one' himo → imo; 'four' hasot → asot |
 | A3 | Hiatus resolution | `V₁V₁ → Vː; aI → eː; aU → oː; i,u → j,w / _V` | Vowels brought together by A2 contract or glide; standard coalescence pattern (cf. Sanskrit sandhi). | 'heart' sae → seː; 'flour' tae → teː |
 | A4 | Labiovelar split | `kʷ,gʷ → k,g / _o,u; → p,b elsewhere` | Rounding is absorbed by a following rounded vowel, otherwise reinterpreted as labial place (cf. P-Celtic, Greek). | '2pl' kʷi → pi; 'tongue' kʷer → per |
@@ -152,7 +152,7 @@ Rules apply in the order listed. Examples are the first words in the concept lis
 
 | # | Process | Rule | Motivation | Examples |
 |---|---|---|---|---|
-| B1 | i-umlaut | `[back V] → [front V] / _C₀{i, iː, j}` | Anticipatory fronting of the stressed vowel before a high front vowel in the next syllable (cf. Germanic: *mūsiz → mice). | 'sun' tami → temi; 'spring' labi → lebi |
+| B1 | i-umlaut | `[back V] → [front V] / _C₀{i, iː, j}` | Anticipatory fronting of the stressed vowel before a high front vowel in the next syllable (cf. Germanic: \*mūsiz → mice). | 'sun' tami → temi; 'spring' labi → lebi |
 | B2 | Spirantization | `b,d,g → v,ð,ɣ / V_V` | Second lenition step: voiced stops become fricatives between vowels (cf. Spanish, Celtic). | 'two' nugo → nuɣo; 'head' kodo → koðo |
 | B3 | Velar gliding | `ɣ → j / [front V]_; ɣ → w elsewhere` | Weak velar fricative vocalizes toward the preceding vowel (cf. Old English dæg → day). | 'two' nuɣo → nuwo; 'cloud' nuɣa → nuwa |
 | B4 | Final nasal loss | `n,m → ∅ / unstressed V_#` | Unstressed final nasals weaken and drop (cf. Latin -um → Romance -o). | 'hair' tuvun → tuvu; 'seed' lejan → leja |
@@ -179,15 +179,15 @@ Rules apply in the order listed. Examples are the first words in the concept lis
 
 ### 3.5 Worked derivations
 
-**'grain, cereal'**: *beti → bedi (A6) → beði (B2) → beðə (B5) → beð (B7) → beθ (C1) = **beth**
+**'grain, cereal'**: \*beti → bedi (A6) → beði (B2) → beðə (B5) → beð (B7) → beθ (C1) = **beth**
 
-**'granary'**: *betibin → bedibin (A6) → beðivin (B2) → beðivi (B4) → beðəvə (B5) → beðvə (B6) = **bedhvë**
+**'granary'**: \*betibin → bedibin (A6) → beðivin (B2) → beðivi (B4) → beðəvə (B5) → beðvə (B6) = **bedhvë**
 
-**'the Basin language (endonym)'**: *doskʷibeni → dospibeni (A4) → døspibeni (B1) → døspiveni (B2) → døspəvənə (B5) → døspəvnə (B6) = **döspëvnë**
+**'the Basin language (endonym)'**: \*doskʷibeni → dospibeni (A4) → døspibeni (B1) → døspiveni (B2) → døspəvənə (B5) → døspəvnə (B6) = **döspëvnë**
 
-**'bread'**: *wahku → waːku (A1) → waːgu (A6) → waːɣu (B2) → waːwu (B3) → waːwə (B5) → waːw (B7) → wɔːw (C2) → vɔːv (C4) = **våv**
+**'bread'**: \*wahku → waːku (A1) → waːgu (A6) → waːɣu (B2) → waːwu (B3) → waːwə (B5) → waːw (B7) → wɔːw (C2) → vɔːv (C4) = **våv**
 
-**'sleep'**: *buki → butʃi (A5) → budʒi (A6) → bydʒi (B1) → bydʒə (B5) → bydʒ (B7) → bytʃ (C1) = **büch**
+**'sleep'**: \*buki → butʃi (A5) → budʒi (A6) → bydʒi (B1) → bydʒə (B5) → bydʒ (B7) → bytʃ (C1) = **büch**
 
 
 ## 4. Modern Standard phonology
@@ -210,14 +210,14 @@ IPA with romanization in ‹›. † = occurs only in loanwords (marginal phonem
 
 | Vowel | Romanized | Tokens in lexicon |
 |---|---|---|
-| i | i | 50 |
+| i | i | 51 |
 | y | ü | 8 |
-| e | e | 54 |
+| e | e | 59 |
 | ø | ö | 2 |
-| ə | ë | 66 |
+| ə | ë | 69 |
 | a | a | 67 |
-| o | o | 39 |
-| u | u | 35 |
+| o | o | 41 |
+| u | u | 36 |
 | iː | ii | 4 |
 | ɔː | å | 6 |
 | ei | ei | 1 |
@@ -229,11 +229,11 @@ Short *ë* /ə/ occurs only in unstressed syllables. Long /aː/ was lost in the 
 
 | Shape | Count |
 |---|---|
-| CVC | 113 |
+| CVC | 119 |
+| CV | 37 |
 | CVCCV | 36 |
-| CV | 32 |
 | CVCVC | 17 |
-| VC | 12 |
+| VC | 13 |
 | CVCV | 7 |
 | CVCCVC | 6 |
 | VCCVC | 3 |
@@ -243,7 +243,7 @@ Short *ë* /ə/ occurs only in unstressed syllables. Long /aː/ was lost in the 
 ### 4.4 Productive alternations
 
 - **Final devoicing** (C1): voiced obstruents alternate with voiceless ones at the word edge: 'grain' **beth**, GEN **bedhës**.
-- **Umlaut** (B1): a back stem vowel fronts in forms that once had *-i: LOC, INS, and the 1SG/2SG/3SG/3PL verb forms ('give' 1PL **domës** vs 3SG **döth**).
+- **Umlaut** (B1): a back stem vowel fronts in forms that once had \*-i: LOC, INS, and the 1SG/2SG/3SG/3PL verb forms ('give' 1PL **domës** vs 3SG **döth**).
 - **Velar palatalization** (A5): stem-final velars alternate with palato-alveolars before old front-vowel suffixes ('eye' **dik**, GEN **diyës**, old PL **dizhës**).
 - **Nasal assimilation** (B8) across clitic boundaries: 'house' **bin** + =pë → **bimpë**.
 
@@ -255,7 +255,7 @@ Each Proto-Basin case form of every inherited noun (111 nouns) was run through t
 
 | Cells | Merged (Standard) | Merged (Rim) | Consequence |
 |---|---|---|---|
-| GEN = PL | 73% | 73% | inherited plural abandoned; collective *-ra becomes the plural |
+| GEN = PL | 73% | 73% | inherited plural abandoned; collective \*-ra becomes the plural |
 | NOM = ACC | 62% | 40% | accusative lost; objects unmarked, SOV order fixed |
 | NOM = LOC | 38% | 32% | locative replaced by postposition 'in' (< 'belly') |
 | ACC = LOC | 35% | 35% | (follows from the two above) |
@@ -318,7 +318,7 @@ A numeral cannot modify a noun directly; a classifier intervenes. The system was
 | 1PL | **che** | **chës** (re-formed) |
 | 2PL | **pi** | **pës** (re-formed) |
 
-The inherited 1PL and 2PL possessives both became **kos** (A4 turned *kʷ into *k before *o). Speakers rebuilt both from the independent pronoun + the productive genitive ending.
+The inherited 1PL and 2PL possessives both became **kos** (A4 turned \*kʷ into \*k before \*o). Speakers rebuilt both from the independent pronoun + the productive genitive ending.
 
 
 ## 7. Verbs
@@ -333,11 +333,11 @@ The inherited 1PL and 2PL possessives both became **kos** (A4 turned *kʷ into *
 | PRS.2PL = PRS.3PL | 30% | 30% |
 | PRS.3PL = PST.3PL | 12% | 12% |
 
-3SG and 2PL fell together in 88% of verbs (present) and 100% (past): *-ti and *-te both reduced to -ë, -dhë or -th depending on the stem. Consequence: subject pronouns are obligatory in all persons; a finite verb without an overt subject is read as 3rd person.
+3SG and 2PL fell together in 88% of verbs (present) and 100% (past): \*-ti and \*-te both reduced to -ë, -dhë or -th depending on the stem. Consequence: subject pronouns are obligatory in all persons; a finite verb without an overt subject is read as 3rd person.
 
 ### 7.2 Sample paradigms
 
-**'know'** (*wem)
+**'know'** (\*wem)
 
 |  | 1SG | 2SG | 3SG | 1PL | 2PL | 3PL |
 |---|---|---|---|---|---|---|
@@ -346,7 +346,7 @@ The inherited 1PL and 2PL possessives both became **kos** (A4 turned *kʷ into *
 
 Verbal noun: **venë**
 
-**'sleep'** (*buki)
+**'sleep'** (\*buki)
 
 |  | 1SG | 2SG | 3SG | 1PL | 2PL | 3PL |
 |---|---|---|---|---|---|---|
@@ -355,7 +355,7 @@ Verbal noun: **venë**
 
 Verbal noun: **büzhnë**
 
-**'stand'** (*datah)
+**'stand'** (\*datah)
 
 |  | 1SG | 2SG | 3SG | 1PL | 2PL | 3PL |
 |---|---|---|---|---|---|---|
@@ -379,18 +379,18 @@ Verbal noun: **dadhan**
 
 | Value | Modern | Proto-Basin | Note |
 |---|---|---|---|
-| one | **im** | *himo |  |
-| two | **nuv** | *nuko |  |
-| three | **tel** | *tel |  |
-| four | **azët** | *hasot |  |
-| five | **lu** | *lu |  |
-| six | **lwim** | *luhimo | opaque *five + n |
-| seven | **lumwë** | *lunuko | opaque *five + n |
-| eight | **ludhël** | *lutel | opaque *five + n |
-| nine | **lwazët** | *luhasot | opaque *five + n |
-| ten | **lun** | *luno |  |
-| twenty | **nuvlën** | *nukoluno | *two + ten |
-| hundred | **ovlën** | *hobuluno | *big + ten |
+| one | **im** | \*himo |  |
+| two | **nuv** | \*nuko |  |
+| three | **tel** | \*tel |  |
+| four | **azët** | \*hasot |  |
+| five | **lu** | \*lu |  |
+| six | **lwim** | \*luhimo | opaque \*five + n |
+| seven | **lumwë** | \*lunuko | opaque \*five + n |
+| eight | **ludhël** | \*lutel | opaque \*five + n |
+| nine | **lwazët** | \*luhasot | opaque \*five + n |
+| ten | **lun** | \*luno |  |
+| twenty | **nuvlën** | \*nukoluno | \*two + ten |
+| hundred | **ovlën** | \*hobuluno | \*big + ten |
 
 Market traders counted 'hand' for five; the usage scored 0.109 (threshold 0.15) and stayed a market-register word: **vil**. Numerals have very high replacement resistance.
 
@@ -529,19 +529,19 @@ Proto-Basin compounds went through every sound change and are no longer analysab
 
 | Meaning | Parts | Modern | Status |
 |---|---|---|---|
-| granary | *betibin | **bedhvë** | opaque |
-| boatman | *barulama | **barlëm** | opaque |
-| harvest | *tawani | **tavnë** | opaque |
-| lineage, extended household | *nuhra | **nour** | opaque |
-| hundred | *hobuluno | **ovlën** | opaque |
+| granary | \*betibin | **bedhvë** | opaque |
+| boatman | \*barulama | **barlëm** | opaque |
+| harvest | \*tawani | **tavnë** | opaque |
+| lineage, extended household | \*nuhra | **nour** | opaque |
+| hundred | \*hobuluno | **ovlën** | opaque |
 | fertile black soil | tar + tuzël | **tartuzël** | transparent |
 | poor rim land | ath + lan | **athlan** | transparent |
 | fresh flood deposit | kandë + bün | **kandëbün** | transparent |
-| snowmelt | souf + zhith | **soufzhith** | transparent |
+| snowmelt | souf + zhith | **souvzhith** | transparent |
 | trade route | beth + ko | **bethko** | transparent |
 | cold downslope wind | sal + paf | **salpaf** | transparent |
 | first-sheaf festival | kandë + lou | **kandëlou** | transparent |
-| irrigation official | zhith + zherbë | **zhithzherbë** | transparent |
+| irrigation official | zhith + zherbë | **zhidhzherbë** | transparent |
 
 ## 12. Dialects: Standard and Rim
 

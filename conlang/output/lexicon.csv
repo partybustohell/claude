@@ -10,13 +10,13 @@ take,bamëk,bamək,bamëk,take,verb,current,inherited,bamək,bamok,*gʷamok,Prot
 boat,bar,bar,bara,boat,water,current,inherited,bar,baru,*baru,Proto-Basin root
 boatman,barlëm,barləm,barlëma,boatman,derived,current,inherited (proto derivative),barləm,barulama,*barulama,Proto-Basin derivative: *baru 'boat' + *lama 'person'
 granary,bedhvë,beðvə,bedva,granary,derived,current,inherited (proto derivative),beðvə,bedibin,*betibin,Proto-Basin derivative: *beti 'grain' + *bin 'house'
-granary_learned,bedibin,bedibin,bedibin,treasury (learned),derived,current,learned (scribal Old Basin),,bedibin,*betibin,re-borrowed by scribes from written Old Basin bedibin; doublet of inherited 'granary'
+granary_learned,bedibin,bedibin,bedibin,treasury (learned),learned,current,learned (scribal Old Basin),,bedibin,*betibin,re-borrowed by scribes from written Old Basin bedibin; doublet of inherited 'granary'
 cold,bempë,bempə,bempa,cold,quality,current,inherited,bempə,bempa,*bempa,Proto-Basin root
 grain,beth,beθ,beda,"grain, cereal",crops,current,inherited,beð,bedi,*beti,Proto-Basin root
 wealth,beth,beθ,beda,wealth,society,current,slang → standard (market),beð,bedi,*beti,"market slang (metonymy) from 'grain', Old Basin period. Grain was the market unit of account."
 grainroad,bethko,beθko,bedako,trade route,modern,current,Modern compound,,,,Modern Basin 'grain' + 'road'
 count,bey,bej,beya,count,verb,current,inherited,bej,beju,*gʷeju,Proto-Basin root
-count_learned,beyu,beju,beyu,"number, arithmetic (learned)",verb,current,learned (scribal Old Basin),,beju,*gʷeju,re-borrowed by scribes from written Old Basin beju; doublet of inherited 'count'
+count_learned,beyu,beju,beyu,"number, arithmetic (learned)",learned,current,learned (scribal Old Basin),,beju,*gʷeju,re-borrowed by scribes from written Old Basin beju; doublet of inherited 'count'
 eat_slang,bii,biː,bē,eat (herders register only),verb,register,"slang, not standardized (herders)",beː,beː,*beh,"herders slang (metaphor) from 'graze', Middle Basin period. People 'graze' like cattle; mock-rustic, later neutral."
 graze,bii,biː,bē,graze,verb,current,inherited,beː,beː,*beh,Proto-Basin root
 house,bin,bin,bin,house,society,current,inherited,bin,bin,*bin,Proto-Basin root
@@ -54,7 +54,7 @@ market,gaf,gaf,gava,market,society,current,inherited,gav,gabo,*gapo,Proto-Basin 
 die,gal,gal,gal,die,verb,current,slang → standard (farmers),gal,gal,*gal,"farmers slang (euphemism) from 'fallow', Old Basin period. Death taboo: 'he lies fallow' = he rests and will return in the cycle."
 fallow,gal,gal,gal,lie fallow (of a field),verb,current,inherited,gal,gal,*gal,Proto-Basin root
 elder,gan,gan,gana,elder,people,current,inherited,gan,ganu,*ganu,Proto-Basin root
-elder_learned,ganu,ganu,ganu,council member (learned),people,current,learned (scribal Old Basin),,ganu,*ganu,re-borrowed by scribes from written Old Basin ganu; doublet of inherited 'elder'
+elder_learned,ganu,ganu,ganu,council member (learned),learned,current,learned (scribal Old Basin),,ganu,*ganu,re-borrowed by scribes from written Old Basin ganu; doublet of inherited 'elder'
 lawful,gon,gon,gona,"lawful, proper",quality,narrowed,"inherited, narrowed",gon,gona,*gona,Proto-Basin root; meant 'good' until displaced by youth slang
 2sg,gu,gu,gu,you (singular),pronoun,current,inherited,gu,gu,*gu,Proto-Basin root
 barley,guf,guf,guva,barley,crops,current,inherited,guv,gubu,*gupu,Proto-Basin root
@@ -77,19 +77,23 @@ felt,kiprë,kiprə,kipra,felt,contact,current,loan (late Highland),kiprə,,,"Hig
 road,ko,ko,ko,"road, way",society,current,inherited,ko,ko,*ko,Proto-Basin root
 bad_obs,kof,kof,kova,bad,quality,obsolete,inherited,kov,kobe,*kope,"Proto-Basin root; displaced by farmers slang, survives only in fixed phrases"
 wet,kompë,kompə,kompa,wet,quality,current,inherited,kompə,kompo,*kompo,Proto-Basin root
-law_learned,kospi,kospi,kospi,statute (learned),society,current,learned (scribal Old Basin),,kospi,*kospi,re-borrowed by scribes from written Old Basin kospi; doublet of inherited 'law'
+law_learned,kospi,kospi,kospi,statute (learned),learned,current,learned (scribal Old Basin),,kospi,*kospi,re-borrowed by scribes from written Old Basin kospi; doublet of inherited 'law'
 go,koth,koθ,koda,go,verb,current,inherited,koð,koda,*koda,Proto-Basin root
+gram_on,koth,koθ,ko,"on, atop",grammar,current,grammaticalized,koð,,,"Middle Basin 'head' koð, reduced"
 summit,koth,koθ,koda,"summit, top of a mountain",body,narrowed,"inherited, narrowed",koð,kodo,*kodo,Proto-Basin root; meant 'head' until displaced by herders slang
 butter,kovës,kovəs,kovës,butter,herding,current,inherited,kovəs,kobos,*kopos,Proto-Basin root
 who,ku,ku,ku,who,deixis,current,inherited,ku,ku,*ku,Proto-Basin root
 burn,kum,kum,kuma,burn,verb,current,inherited,kum,kumo,*kumo,Proto-Basin root
 day,kå,kɔː,kā,day,time,current,inherited,kaː,kaː,*kah,Proto-Basin root
+gram_fut,kë,kə,kë,will (future proclitic),grammar,current,grammaticalized,kə,,,"Middle Basin 'go' koð, reduced"
 highlander,këkiv,kəkiv,këkiw,Highlander (exonym),contact,current,loan (late Highland),kəkiw,,,"Highland kqiw 'people', borrowed into Middle Basin"
 law,köspë,køspə,köspa,"custom, law",society,current,inherited,køspə,kospi,*kospi,Proto-Basin root
 calf,la,la,la,calf,herding,current,inherited,la,la,*la,Proto-Basin root
 person,lam,lam,lama,person,people,current,inherited,lam,lama,*lama,Proto-Basin root
 field,lan,lan,lana,field,crops,current,inherited,lan,lanu,*lanu,Proto-Basin root
+gram_from,lef,lef,le,from (source),grammar,current,grammaticalized,lev,,,"Middle Basin 'spring' lev, reduced"
 spring,lef,lef,leva,"spring, water source",water,current,inherited,lev,labi,*lapi,Proto-Basin root
+gram_neg,ley,lej,le,not (postverbal),grammar,current,grammaticalized,lej,,,"Middle Basin 'seed' lej, reduced"
 seed,ley,lej,leya,seed,crops,current,inherited,lej,legan,*lekan,Proto-Basin root
 louse,lith,liθ,lida,louse,nature,current,inherited,lið,lidu,*litu,Proto-Basin root
 knife,liy,lij,liy,knife,contact,current,loan (late Highland),lij,,,"Highland lij, borrowed into Middle Basin"
@@ -105,6 +109,7 @@ long,mar,mar,mara,long,quality,current,inherited,mar,mare,*mare,Proto-Basin root
 drift,mavëk,mavək,mavëk,drift (downstream),verb,current,inherited,mavək,mabak,*mabak,Proto-Basin root
 go_slang,mavëk,mavək,mavëk,go (boatmen register only),verb,register,"slang, not standardized (boatmen)",mavək,mabak,*mabak,"boatmen slang (metaphor) from 'drift', Middle Basin period. Boatmen 'drift' everywhere."
 white,mef,mef,meva,white,quality,current,inherited,mev,mebe,*mepe,Proto-Basin root
+gram_behind,mel,mel,mel,"behind, after",grammar,current,grammaticalized,mel,,,"Middle Basin 'back' melkə, reduced"
 back,melkë,melkə,melka,back (of the body),body,current,inherited,melkə,melka,*melka,Proto-Basin root
 feast,mertë,mertə,merta,feast,society,current,inherited,mertə,merte,*merte,Proto-Basin root
 carry,mey,mej,meya,carry,verb,current,inherited,mej,megan,*mekan,Proto-Basin root
@@ -137,10 +142,12 @@ sand,nur,nur,nur,sand,nature,current,inherited,nur,nur,*nur,Proto-Basin root
 cloud,nuv,nuv,nuwa,cloud,nature,current,inherited,nuw,nuga,*nuka,Proto-Basin root
 two,nuv,nuv,nuwa,two,number,current,inherited,nuw,nugo,*nuko,Proto-Basin root
 twenty,nuvlën,nuvlən,nuwlëna,twenty,derived,current,inherited (proto derivative),nuwlən,nugoluno,*nukoluno,Proto-Basin derivative: *nuko 'two' + *luno 'ten'
+gram_q,në,nə,në,question particle,grammar,current,grammaticalized,nə,,,"Middle Basin 'what' na, reduced"
 cheese,nëkus,nəkus,nëkus,cheese,contact,current,loan (late Highland),nəkus,,,"Highland nkʼus, borrowed into Middle Basin"
 salt,nürëk,nyrək,nürëk,salt,contact,current,loan (early Highland),nyrək,nurik,,"Highland nuriχ, borrowed into Old Basin"
 big,of,of,ova,big,quality,current,inherited,ov,obu,*hobu,Proto-Basin root
 face,os,os,os,face,body,current,inherited,os,os,*hos,Proto-Basin root
+gram_before,os,os,os,"before, in front of",grammar,current,grammaticalized,os,,,"Middle Basin 'face' os, reduced"
 hundred,ovlën,ovlən,ovlëna,hundred,derived,current,inherited (proto derivative),ovlən,obuluno,*hobuluno,Proto-Basin derivative: *hobu 'big' + *luno 'ten'
 wind,paf,paf,pava,wind,nature,current,inherited,pav,paba,*kʷapa,Proto-Basin root
 dawn,palsë,palsə,palsa,dawn,time,current,inherited,palsə,palse,*kʷalse,Proto-Basin root
@@ -153,7 +160,7 @@ clay,path,paθ,pada,clay,nature,current,inherited,pað,pade,*pate,Proto-Basin ro
 tongue,per,per,per,tongue,body,current,inherited,per,per,*kʷer,Proto-Basin root
 wheat,peth,peθ,peda,wheat,crops,current,inherited,peð,pedo,*kʷedo,Proto-Basin root
 2pl,pi,pi,pi,you (plural),pronoun,current,inherited,pi,pi,*kʷi,Proto-Basin root
-speech_learned,pibeni,pibeni,pibeni,"grammar, formal language (learned)",derived,current,learned (scribal Old Basin),,pibeni,*kʷibeni,re-borrowed by scribes from written Old Basin pibeni; doublet of inherited 'speech'
+speech_learned,pibeni,pibeni,pibeni,"grammar, formal language (learned)",learned,current,learned (scribal Old Basin),,pibeni,*kʷibeni,re-borrowed by scribes from written Old Basin pibeni; doublet of inherited 'speech'
 say,pif,pif,piva,say,verb,current,inherited,piv,pibe,*kʷibe,Proto-Basin root
 fish,pim,pim,pima,fish,water,current,inherited,pim,pimi,*kʷimi,Proto-Basin root
 eat,pirzhë,pirʒə,pirja,eat,verb,current,inherited,pirdʒə,pirdʒi,*kʷirgi,Proto-Basin root
@@ -164,6 +171,7 @@ blood,pon,pon,pon,blood,body,current,inherited,pon,pon,*pon,Proto-Basin root
 red,por,por,por,red,quality,current,inherited,por,por,*por,Proto-Basin root
 kill,poth,poθ,poda,kill,verb,current,inherited,poð,pode,*pode,Proto-Basin root
 dry,pwe,pwe,pwe,dry,quality,current,inherited,pwe,pwe,*puhe,Proto-Basin root
+gram_def,pë,pə,pë,the (enclitic),grammar,current,grammaticalized,pə,,,"Middle Basin 'that' pas, reduced"
 copper,ras,ras,rasa,copper,contact,current,loan (early Highland),ras,rasam,,"Highland raʃam, borrowed into Old Basin"
 hold,rik,rik,rik,"hold, keep",verb,current,inherited,rik,rik,*rik,Proto-Basin root
 bone,rol,rol,rol,bone,body,current,inherited,rol,rol,*rol,Proto-Basin root
@@ -176,9 +184,10 @@ knee,sarchë,sartʃə,sarcha,knee,body,current,inherited,sartʃə,sartʃe,*sarke
 dusk,sat,sat,sat,dusk,time,current,inherited,sat,sat,*sat,Proto-Basin root
 trade,sav,sav,sawa,"trade, barter",verb,current,inherited,saw,sawe,*sawe,Proto-Basin root
 trader,savdhër,savðər,sawdër,trader,derived,current,inherited (proto derivative),sawðər,saweder,*saweter,Proto-Basin derivative: *sawe 'trade' + *-ter
-heart_learned,se,se,se,"essence, core (learned)",body,current,learned (scribal Old Basin),,seː,*sahe,re-borrowed by scribes from written Old Basin seː; doublet of inherited 'heart'
+heart_learned,se,se,se,"essence, core (learned)",learned,current,learned (scribal Old Basin),,seː,*sahe,re-borrowed by scribes from written Old Basin seː; doublet of inherited 'heart'
 village,sei,sei,sii,village,society,current,inherited,siː,siː,*sih,Proto-Basin root
 flank,sel,sel,sel,"flank, side",body,current,inherited,sel,sel,*sel,Proto-Basin root
+gram_beside,sel,sel,sel,beside,grammar,current,grammaticalized,sel,,,"Middle Basin 'flank' sel, reduced"
 horse,sem,sem,sema,horse,herding,current,inherited,sem,semi,*semi,Proto-Basin root
 fence,sempë,sempə,sempa,"fence, hedge",crops,current,inherited,sempə,sempo,*sempo,Proto-Basin root
 man,sen,sen,sen,man,people,current,inherited,sen,sen,*sen,Proto-Basin root
@@ -192,16 +201,17 @@ eagle,silës,siləs,silës,eagle,contact,current,loan (early Highland),siləs,si
 sit,sindë,sində,sinda,sit,verb,current,inherited,sində,sinde,*sinde,Proto-Basin root
 pass,sokët,sokət,sokët,mountain pass,contact,current,loan (early Highland),sokət,sokut,,"Highland tsʼoqutʼ, borrowed into Old Basin"
 thaw,souf,souf,suuva,thaw season (early spring),time,current,inherited,suːv,suːba,*suhba,Proto-Basin root
-meltwater,soufzhith,soufʒiθ,suuvajida,snowmelt,modern,current,Modern compound,,,,Modern Basin 'thaw' + 'water'
+meltwater,souvzhith,souvʒiθ,suuvajida,snowmelt,modern,current,Modern compound,,,,Modern Basin 'thaw' + 'water'
 horn,sun,sun,sun,horn,body,current,inherited,sun,sun,*sun,Proto-Basin root
 bird,så,sɔː,sā,bird,nature,current,inherited,saː,saː,*sah,Proto-Basin root
 black,tar,tar,tar,black,quality,current,inherited,tar,tar,*tar,Proto-Basin root
 blackearth,tartuzël,tartuzəl,tartuzël,fertile black soil,modern,current,Modern compound,,,,Modern Basin 'black' + 'earth'
 kill_slang,tav,tav,tawa,kill (guards register only),verb,register,"slang, not standardized (guards)",taw,tawa,*tawa,"guards slang (metaphor) from 'reap', Middle Basin period. Retainers' euphemism-dysphemism: cutting men down like grain."
 reap,tav,tav,tawa,reap,verb,current,inherited,taw,tawa,*tawa,Proto-Basin root
-harvest_learned,tavani,tavani,tavani,"fiscal year, levy period (learned)",derived,current,learned (scribal Old Basin),,tawani,*tawani,re-borrowed by scribes from written Old Basin tawani; doublet of inherited 'harvest'
+harvest_learned,tavani,tavani,tavani,"fiscal year, levy period (learned)",learned,current,learned (scribal Old Basin),,tawani,*tawani,re-borrowed by scribes from written Old Basin tawani; doublet of inherited 'harvest'
 harvest,tavnë,tavnə,tawna,harvest,derived,current,inherited (proto derivative),tawnə,tawani,*tawani,Proto-Basin derivative: *tawa 'reap' + *-ni
 year_slang,tavnë,tavnə,tawna,year (farmers register only),time,register,"slang, not standardized (farmers)",tawnə,tawani,*tawani,"farmers slang (metonymy) from 'harvest', Old Basin period. Years are counted in harvests."
+gram_under,te,te,te,"under, below",grammar,current,grammaticalized,te,,,"Middle Basin 'foot' tezəl, reduced"
 this,te,te,te,this,deixis,current,inherited,te,te,*te,Proto-Basin root
 root,tel,tel,tela,root,crops,current,inherited,tel,tele,*tele,Proto-Basin root
 three,tel,tel,tel,three,number,current,inherited,tel,tel,*tel,Proto-Basin root
@@ -216,8 +226,9 @@ flour,tii,tiː,tē,flour,crops,current,inherited,teː,teː,*tahe,Proto-Basin roo
 wool,tis,tis,tis,wool,contact,current,loan (early Highland),tis,tis,,"Highland tʼiʃ, borrowed into Old Basin"
 bridle,tishmë,tiʃmə,tishma,bridle,contact,current,loan (late Highland),tiʃmə,,,"Highland tiʃm, borrowed into Middle Basin"
 guest,todho,toðo,todo,guest,people,current,inherited,toðo,todoː,*todoh,Proto-Basin root
-neg,tol,tol,tol,not,deixis,current,inherited,tol,tol,*tol,Proto-Basin root
+neg,tol,tol,tol,not,deixis,obsolete,inherited,tol,tol,*tol,"Proto-Basin root; preverbal negator, lost in the Jespersen cycle (replaced by postverbal NEG < 'seed')"
 1sg,tor,tor,tor,"I, me",pronoun,current,inherited,tor,tor,*tor,Proto-Basin root
+gram_in,tu,tu,tu,"in, inside; progressive (enclitic)",grammar,current,grammaticalized,tu,,,"Middle Basin 'belly' tuðər, reduced"
 belly,tudhër,tuðər,tudër,belly,body,current,inherited,tuðər,tudur,*tudur,Proto-Basin root
 hair,tuf,tuf,tuva,hair,body,current,inherited,tuv,tubun,*tupun,Proto-Basin root
 tree,tul,tul,tul,tree,crops,current,inherited,tul,tul,*tul,Proto-Basin root
@@ -236,11 +247,13 @@ know,ven,ven,wen,know,verb,current,inherited,wen,wen,*wem,Proto-Basin root
 warden,vet,vet,wet,pass-warden (official title),people,narrowed,"inherited, narrowed",wet,wet,*wet,"Proto-Basin root; meant 'guard, watchman' until displaced by market slang"
 fire,vi,vi,wi,fire,nature,current,inherited,wi,wi,*wi,Proto-Basin root
 five_slang,vil,vil,wil,five (market register only),number,register,"slang, not standardized (market)",wil,wil,*wil,"market slang (metonymy) from 'hand', Old Basin period. Finger counting at grain stalls."
+gram_with,vil,vil,wil,"with (instrument, companion)",grammar,current,grammaticalized,wil,,,"Middle Basin 'hand' wil, reduced"
 hand,vil,vil,wil,hand,body,current,inherited,wil,wil,*wil,Proto-Basin root
 bread,våv,vɔːv,wāwa,bread,crops,current,inherited,waːw,waːgu,*wahku,Proto-Basin root
 old,yak,jak,yak,old,quality,current,inherited,jak,jak,*jak,Proto-Basin root
 very_obs,yartë,jartə,yarta,very (intensifier),quality,obsolete,inherited,jartə,jarta,*jarta,"Proto-Basin root; displaced by boatmen slang, survives only in fixed phrases"
 come,yath,jaθ,yada,come,verb,current,inherited,jað,jado,*jato,Proto-Basin root
+gram_to,yol,jol,yol,"to, at (recipient, goal)",grammar,current,grammaticalized,jol,,,"Middle Basin 'mouth' jol, reduced"
 mouth,yol,jol,yol,mouth,body,current,inherited,jol,jol,*jol,Proto-Basin root
 river,yos,jos,yos,river,water,current,inherited,jos,jos,*jos,Proto-Basin root
 star,yå,jɔː,yā,star,nature,current,inherited,jaː,jaː,*jah,Proto-Basin root
@@ -250,8 +263,8 @@ skin,zhef,ʒef,jeva,"skin, hide",body,current,inherited,dʒev,dʒebe,*gebe,Proto
 dog,zherbë,ʒerbə,jerba,dog,herding,current,inherited,dʒerbə,dʒerbu,*gerbu,Proto-Basin root
 guard,zherbë,ʒerbə,jerba,"guard, watchman",people,current,slang → standard (market),dʒerbə,dʒerbu,*gerbu,"market slang (metaphor) from 'dog', Middle Basin period. Traders' insult for toll-collecting pass-guards."
 leaf,zhich,ʒitʃ,jija,leaf,crops,current,inherited,dʒidʒ,dʒidʒe,*gike,Proto-Basin root
+waterwarden,zhidhzherbë,ʒiðʒerbə,jidajerba,irrigation official,modern,current,Modern compound,,,,Modern Basin 'water' + 'guard'
 tooth,zhii,ʒiː,jē,tooth,body,current,inherited,dʒeː,dʒeː,*geh,Proto-Basin root
 heir,zhir,ʒir,jir,"heir, legal offspring",people,narrowed,"inherited, narrowed",dʒir,dʒir,*gir,Proto-Basin root; meant 'child' until displaced by farmers slang
 water,zhith,ʒiθ,jida,water,nature,current,inherited,dʒið,dʒido,*gito,Proto-Basin root
-waterwarden,zhithzherbë,ʒiθʒerbə,jidajerba,irrigation official,modern,current,Modern compound,,,,Modern Basin 'water' + 'guard'
 many,å,ɔː,ā,many,quality,current,inherited,aː,aː,*aha,Proto-Basin root

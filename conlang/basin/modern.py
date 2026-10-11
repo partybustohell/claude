@@ -7,14 +7,28 @@ suffixes undergo the same final devoicing and vowel shift as everything else.
 
 from . import changes as ch
 from .history import inflect, productive_suffix
-from .phonology import roman
+from .phonology import is_vowel, roman
 
 PERSON_SFX = {"1SG": "mi", "2SG": "si", "3SG": "ti", "1PL": "mes", "2PL": "te", "3PL": "nti"}
+
+
+def elide(pieces):
+    """Schwa at a vowel + vowel morpheme juncture is dropped."""
+    out = [list(p) for p in pieces]
+    for i in range(1, len(out)):
+        prev, cur = out[i - 1][0], out[i][0]
+        if prev and cur and is_vowel(prev[-1]) and is_vowel(cur[0]):
+            if prev[-1] == "ə":
+                out[i - 1][0] = prev[:-1]
+            elif cur[0] == "ə":
+                out[i][0] = cur[1:]
+    return [tuple(p) for p in out]
 
 
 def realize(pieces):
     """pieces: list of (mb_segs, gloss, sep) with sep in {'', '-', '='}.
     Returns (surface, segmented_surface, gloss)."""
+    pieces = elide(pieces)
     flat, bounds = [], []
     for mb, _g, _sep in pieces:
         flat += mb

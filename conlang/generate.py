@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Generate the Basin conlang: reference grammar, lexicon (Markdown + CSV).
+"""Generate the Basin conlang: reference grammar, lexicon (Markdown + CSV),
+and a single-file web page with the grammar, lexicon and a translator.
 
 Deterministic: identical inputs in basin/data.py produce identical output.
 """
@@ -9,14 +10,17 @@ import sys
 
 from basin.history import build
 from basin.render import render_grammar, render_lexicon_csv, render_lexicon_md
+from basin.site import render_site
 
 OUT = pathlib.Path(__file__).parent / "output"
 
 
 def main():
     h = build()
+    grammar = render_grammar(h)
     files = {
-        "grammar.md": render_grammar(h),
+        "grammar.md": grammar,
+        "dospevne.html": render_site(h, grammar),
         "lexicon.md": render_lexicon_md(h),
         "lexicon.csv": render_lexicon_csv(h),
     }

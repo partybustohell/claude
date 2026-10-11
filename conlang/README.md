@@ -6,7 +6,8 @@ three stages of history over it (Old, Middle, Modern): sound change, contact, sl
 scribal borrowing, grammaticalization, and dialect divergence.
 
 - `output/grammar.md`: reference grammar (phonology, morphology, syntax, history, dialects, glossed texts)
-- `output/lexicon.md`, `output/lexicon.csv`: 256 entries with forms at every stage and etymologies
+- `output/lexicon.md`, `output/lexicon.csv`: 269 entries with forms at every stage and etymologies
+- `output/dospevne.html`: single-file web page with the grammar, a searchable lexicon and a two-way translator (English ↔ Döspëvnë). All forms in the translator come from the same computed paradigms.
 
 ## Run
 

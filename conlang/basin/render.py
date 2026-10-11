@@ -15,6 +15,9 @@ from .proto import (CODAS_FINAL, CODAS_MEDIAL, ONSETS, PARAMS,
                     _shape_weights)
 
 
+S = "\\*"  # escaped proto-form star for Markdown
+
+
 def table(headers, rows):
     out = ["| " + " | ".join(headers) + " |",
            "|" + "|".join("---" for _ in headers) + "|"]
@@ -142,8 +145,8 @@ def render_grammar(h):
     w(f"*{name}* /{ipa(lex['glossonym'].mod)}/ is the language of the *{people}* "
       f"/{ipa(lex['ethnonym'].mod)}/, farmers, herders and river traders of a fertile "
       f"plain enclosed by a mountain ring. The name is an opaque Proto-Basin compound, "
-      f"*{ipa(h.derived['glossonym'])} 'bowl-speech'; the people's name is "
-      f"*{ipa(h.derived['ethnonym'])} 'bowl-person-COLLECTIVE'.\n")
+      f"{S}{ipa(h.derived['glossonym'])} 'bowl-speech'; the people's name is "
+      f"{S}{ipa(h.derived['ethnonym'])} 'bowl-person-COLLECTIVE'.\n")
     w(f"Every form in this document is produced by `generate.py` (seed `{SEED}`) from a "
       f"procedurally generated proto-language and an ordered set of historical processes. "
       f"Re-running the generator reproduces this file byte for byte.\n")
@@ -200,24 +203,24 @@ def render_grammar(h):
     # ------------------------------------------------------------ 2 proto
     w("## 2. Proto-Basin\n")
     w("### 2.1 Inventory\n")
-    w("Consonants: " + ", ".join(f"*{c}" for c in ONSETS) +
-      ". Vowels: *a *e *i *o *u. *h is a laryngeal; its only trace in the daughter stages is length on a preceding vowel (A1).\n")
+    w("Consonants: " + ", ".join(f"{S}{c}" for c in ONSETS) +
+      f". Vowels: {S}a {S}e {S}i {S}o {S}u. {S}h is a laryngeal; its only trace in the daughter stages is length on a preceding vowel (A1).\n")
     w("Onset weights (relative frequency used by the generator): " +
       ", ".join(f"{k} {v}" for k, v in ONSETS.items()) + ".\n")
     w("Medial codas: " + ", ".join(CODAS_MEDIAL) + "; final codas: " + ", ".join(CODAS_FINAL) +
-      ". A medial nasal is homorganic with the following stop. No root repeats a consonant; *w, *j and the labiovelars do not precede rounded/front vowels of the same place.\n")
+      f". A medial nasal is homorganic with the following stop. No root repeats a consonant; {S}w, {S}j and the labiovelars do not precede rounded/front vowels of the same place.\n")
     w("### 2.2 Root shapes\n")
     sw = _shape_weights("")
     tot = sum(sw.values())
     w(table(["Shape", "Weight", "Share"], [[s, round(v, 1), pct(v / tot)] for s, v in sw.items()]))
     w("\nFunction words (pronouns, demonstratives, copula) are drawn from CV/CVC only. "
-      "Sound symbolism: concepts tagged *small* favour *i, *e; concepts tagged *big* favour *a, *o, *u.\n")
+      f"Sound symbolism: concepts tagged *small* favour {S}i, {S}e; concepts tagged *big* favour {S}a, {S}o, {S}u.\n")
     w("### 2.3 Morphology\n")
     w(table(["Category", "Suffix"], [
-        *[[c, "*-" + s if s else "∅"] for c, s in NOUN_CELLS],
-        *[["verb " + p, "*-" + s] for p, s in PERSONS],
-        ["past", "*-ta- (before person)"],
-        *[[k.strip("-"), "*-" + v] for k, v in PROTO_AFFIXES.items()],
+        *[[c, S + "-" + s if s else "∅"] for c, s in NOUN_CELLS],
+        *[["verb " + p, S + "-" + s] for p, s in PERSONS],
+        ["past", S + "-ta- (before person)"],
+        *[[k.strip("-"), S + "-" + v] for k, v in PROTO_AFFIXES.items()],
     ]))
     w("\nAt a vowel + vowel morpheme boundary the stem vowel elides. Compounds are modifier–head.\n")
     w("### 2.4 Lexical density by semantic field\n")
@@ -237,14 +240,14 @@ def render_grammar(h):
         rows = []
         for r in rules:
             e = "; ".join(f"'{k}' {ipa(b)} → {ipa(a)}" for k, b, a in ex.get(r.code, [])) or "—"
-            rows.append([r.code, r.name, f"`{r.statement}`", r.why, e])
+            rows.append([r.code, r.name, f"`{r.statement}`", r.why.replace("*", S), e])
         w(table(["#", "Process", "Rule", "Motivation", "Examples"], rows))
         w("")
     w("### 3.5 Worked derivations\n")
     for key in ("grain", "granary", "glossonym", "bread", "sleep"):
         steps = derivation(h, key)
         w(f"**'{lex[key].gloss if key in lex else key}'**: " + " → ".join(
-            (f"*{ipa(f)}" if st == "Proto-Basin" else f"{ipa(f)} ({code})") for st, code, f in steps)
+            (f"{S}{ipa(f)}" if st == "Proto-Basin" else f"{ipa(f)} ({code})") for st, code, f in steps)
           + f" = **{roman(steps[-1][2])}**\n")
     w("")
 
@@ -267,7 +270,7 @@ def render_grammar(h):
     w("\n### 4.4 Productive alternations\n")
     w("- **Final devoicing** (C1): voiced obstruents alternate with voiceless ones at the word edge: "
       f"'grain' {R(lex['grain'].mod)}, GEN {R(inflect(h.roots['grain'], 'os')['mod'])}.\n"
-      "- **Umlaut** (B1): a back stem vowel fronts in forms that once had *-i: LOC, INS, and the 1SG/2SG/3SG/3PL verb forms "
+      f"- **Umlaut** (B1): a back stem vowel fronts in forms that once had {S}-i: LOC, INS, and the 1SG/2SG/3SG/3PL verb forms "
       f"('give' 1PL {R(inflect(h.roots['give'], 'mes')['mod'])} vs 3SG {R(inflect(h.roots['give'], 'ti')['mod'])}).\n"
       "- **Velar palatalization** (A5): stem-final velars alternate with palato-alveolars before old front-vowel suffixes "
       f"('eye' {R(inflect(h.roots['eye'])['mod'])}, GEN {R(inflect(h.roots['eye'], 'os')['mod'])}, old PL {R(inflect(h.roots['eye'], 'es')['mod'])}).\n"
@@ -283,7 +286,7 @@ def render_grammar(h):
     rows = sorted(P["noun_rates_std"].items(), key=lambda x: -x[1])
     w(table(["Cells", "Merged (Standard)", "Merged (Rim)", "Consequence"], [
         [f"{a} = {b}", pct(r), pct(P["noun_rates_rim"].get((a, b), 0)),
-         {"GEN = PL": "inherited plural abandoned; collective *-ra becomes the plural",
+         {"GEN = PL": f"inherited plural abandoned; collective {S}-ra becomes the plural",
           "NOM = ACC": "accusative lost; objects unmarked, SOV order fixed",
           "NOM = LOC": "locative replaced by postposition 'in' (< 'belly')",
           "ACC = LOC": "(follows from the two above)"}.get(f"{a} = {b}", "tolerated" if r < .3 else "repaired")]
@@ -327,7 +330,7 @@ def render_grammar(h):
     w(table(["Person", "Independent", "Possessive"], rows))
     if P["pron_reformed"]:
         old = inflect(h.roots[P["pron_reformed"][0]], "os")["mod"]
-        w(f"\nThe inherited 1PL and 2PL possessives both became {R(old)} (A4 turned *kʷ into *k before *o). "
+        w(f"\nThe inherited 1PL and 2PL possessives both became {R(old)} (A4 turned {S}kʷ into {S}k before {S}o). "
           "Speakers rebuilt both from the independent pronoun + the productive genitive ending.\n")
     w("")
 
@@ -339,13 +342,13 @@ def render_grammar(h):
             [[f"{a} = {b}", pct(r), pct(P["verb_rates_rim"].get((a, b), 0))] for (a, b), r in rows if r >= .1]))
     if P["verb_rates_std"].get(("PRS.3SG", "PRS.2PL"), 0) >= .3:
         w(f"\n3SG and 2PL fell together in {pct(P['verb_rates_std'][('PRS.3SG', 'PRS.2PL')])} of verbs (present) and "
-          f"{pct(P['verb_rates_std'].get(('PST.3SG', 'PST.2PL'), 0))} (past): *-ti and *-te both reduced to -ë, -dhë or -th "
+          f"{pct(P['verb_rates_std'].get(('PST.3SG', 'PST.2PL'), 0))} (past): {S}-ti and {S}-te both reduced to -ë, -dhë or -th "
           "depending on the stem. Consequence: subject pronouns are obligatory in all persons; "
           "a finite verb without an overt subject is read as 3rd person.\n")
     w("### 7.2 Sample paradigms\n")
     for k, _p in P["verb_samples"]:
         row = P["verbs"][k]
-        w(f"**'{k}'** (*{ipa(h.roots[k])})\n")
+        w(f"**'{k}'** ({S}{ipa(h.roots[k])})\n")
         w(table(["", *[p for p, _ in PERSONS]],
                 [["Present", *[roman(row["PRS." + p]["mod"]) for p, _ in PERSONS]],
                  ["Past", *[roman(row["PST." + p]["mod"]) for p, _ in PERSONS]]]))
@@ -367,9 +370,9 @@ def render_grammar(h):
     w("## 8. Numerals\n")
     nums = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "twenty", "hundred"]
     w(table(["Value", "Modern", "Proto-Basin", "Note"], [
-        [n, R(lex[n].mod), "*" + ipa(lex[n].proto),
-         "opaque *five + n" if n in ("six", "seven", "eight", "nine") else
-         "*two + ten" if n == "twenty" else "*big + ten" if n == "hundred" else ""]
+        [n, R(lex[n].mod), S + ipa(lex[n].proto),
+         f"opaque {S}five + n" if n in ("six", "seven", "eight", "nine") else
+         f"{S}two + ten" if n == "twenty" else f"{S}big + ten" if n == "hundred" else ""]
         for n in nums]))
     five = next(r for r in h.slang_results if r["target"] == "five")
     w(f"\nMarket traders counted 'hand' for five; the usage scored {five['score']:.3f} (threshold {CONSOLIDATION['threshold_standard']}) "
@@ -471,7 +474,7 @@ def render_grammar(h):
     rows = []
     for k in ("granary", "boatman", "harvest", "lineage", "hundred"):
         e = h.etyma[k]
-        rows.append([e.gloss, "*" + ipa(e.proto), R(e.mod), "opaque"])
+        rows.append([e.gloss, S + ipa(e.proto), R(e.mod), "opaque"])
     for k, g, parts in MODERN_COMPOUNDS:
         rows.append([g, " + ".join(roman(lex[p].mod) for p in parts), R(lex[k].mod), "transparent"])
     w(table(["Meaning", "Parts", "Modern", "Status"], rows))
@@ -552,11 +555,11 @@ def render_lexicon_md(h):
            "*obsolete* = displaced, fixed phrases only.\n",
            table(["Modern", "IPA", "Rim", "Meaning", "Status", "Origin", "Middle", "Old", "Proto"],
                  [[f"**{r['modern']}**", f"/{r['modern_ipa']}/", r["rim"], r["gloss"], r["status"], r["origin"],
-                   r["middle_basin"], r["old_basin"], r["proto"]] for r in rows]),
+                   r["middle_basin"], r["old_basin"], r["proto"].replace("*", S)] for r in rows]),
            "\n## Etymological notes\n"]
     for r in rows:
         if r["origin"] != "inherited":
-            out.append(f"- **{r['modern']}** '{r['gloss']}': {r['etymology']}")
+            out.append(f"- **{r['modern']}** '{r['gloss']}': " + r["etymology"].replace("*", S))
     return "\n".join(out) + "\n"
 
 
