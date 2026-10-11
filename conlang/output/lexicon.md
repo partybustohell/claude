@@ -1,6 +1,6 @@
 # Döspëvnë lexicon
 
-269 entries, sorted by Modern Standard form. Status: *current* = standard word; *narrowed* = inherited word that lost its basic sense to slang; *register* = slang that never standardized; *obsolete* = displaced, fixed phrases only.
+273 entries, sorted by Modern Standard form. Status: *current* = standard word; *narrowed* = inherited word that lost its basic sense to slang; *register* = slang that never standardized; *obsolete* = displaced, fixed phrases only.
 
 | Modern | IPA | Rim | Meaning | Status | Origin | Middle | Old | Proto |
 |---|---|---|---|---|---|---|---|---|
@@ -126,10 +126,14 @@
 | **mun** | /mun/ | mun | inherited wealth in cattle (legal term) | narrowed | inherited, narrowed | mun | mun | \*mun |
 | **må** | /mɔː/ | mā | ash | current | inherited | maː | maː | \*mah |
 | **na** | /na/ | na | what | current | inherited | na | na | \*na |
+| **nakå** | /nakɔː/ | nakā | when | current | grammaticalized compound | nakaː |  |  |
 | **nal** | /nal/ | nal | year | current | inherited | nal | nal | \*nal |
 | **napakh** | /napax/ | napakh | iron | current | loan (late Highland) | napax |  |  |
 | **nar** | /nar/ | nar | reed | current | inherited | nar | nar | \*nar |
 | **nat** | /nat/ | nat | ear | current | inherited | nat | nat | \*nat |
+| **natel** | /natel/ | natela | why | current | grammaticalized compound | natel |  |  |
+| **natu** | /natu/ | natu | where | current | grammaticalized compound | natu |  |  |
+| **navil** | /navil/ | nawil | how | current | grammaticalized compound | nawil |  |  |
 | **ne** | /ne/ | ne | clod of earth | current | inherited | ne | ne | \*ne |
 | **nei** | /nei/ | nii | quick | obsolete | inherited | niː | niː | \*nihi |
 | **nes** | /nes/ | neza | furrow | current | inherited | nez | nezi | \*nesi |
@@ -320,7 +324,11 @@
 - **mon** 'know (market register only)': market slang (metaphor) from 'grasp', Middle Basin period. 'Grasp' a price = understand it.
 - **mul** 'foreign guest under hospitality law': Proto-Basin root; meant 'stranger, outsider' until displaced by youth slang
 - **mun** 'inherited wealth in cattle (legal term)': Proto-Basin root; meant 'wealth' until displaced by market slang
+- **nakå** 'when': Middle Basin 'what' na + kaː: 'what' + 'day': on what day
 - **napakh** 'iron': Highland napaχ, borrowed into Middle Basin
+- **natel** 'why': Middle Basin 'what' na + tel: 'what' + 'root': cause pictured as the root of a plant
+- **natu** 'where': Middle Basin 'what' na + tu: 'what' + 'in' (< 'belly'): in what place
+- **navil** 'how': Middle Basin 'what' na + wil: 'what' + 'with' (< 'hand'): by what means
 - **neschë** 'young (of animals)': Proto-Basin root; meant 'small' until displaced by market slang
 - **nor** 'child': farmers slang (metaphor) from 'sprout', Old Basin period. Children are a household's new growth.
 - **nothko** 'toward the central marsh (inward, downstream)': Middle Basin 'marsh' + '-ward' (< 'road')

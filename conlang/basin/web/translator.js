@@ -51,9 +51,8 @@ function createTranslator(D) {
     seven: "seven", eight: "eight", nine: "nine", ten: "ten", twenty: "twenty", hundred: "hundred",
     "1": "one", "2": "two", "3": "three", "4": "four", "5": "five", "6": "six", "7": "seven",
     "8": "eight", "9": "nine", "10": "ten", "20": "twenty", "100": "hundred" };
-  const UNSUPPORTED = { where: "'where' has no Döspëvnë word in the lexicon",
-    when: "'when' has no Döspëvnë word in the lexicon", why: "'why' has no Döspëvnë word in the lexicon",
-    how: "'how' has no Döspëvnë word in the lexicon", or: "'or' has no Döspëvnë equivalent; dropped",
+  const WH_ADV = { where: "where", when: "when", why: "why", how: "how" };
+  const UNSUPPORTED = { or: "'or' has no Döspëvnë equivalent; dropped",
     if: "conditional clauses are not described in the grammar; clause juxtaposed" };
 
   // ---------------------------------------------------------------- lexicon indexes
@@ -159,6 +158,12 @@ function createTranslator(D) {
       if (t === undefined) break;
       if (t === "the") { np.def = true; i++; continue; }
       if (["a", "an", "some", "any"].includes(t)) { i++; continue; }
+      if (["this", "these", "that", "those"].includes(t) && i === start && !(nounOf(toks[i + 1] || "") ||
+          adjOf(toks[i + 1] || "") || NUM_WORDS[toks[i + 1]] || matchPhrase(toks, i + 1, PHRASE))) {
+        np.dem = t === "this" || t === "these" ? "this" : "that"; np.demOnly = true;
+        if (t === "these" || t === "those") np.pl = true;
+        i++; break;
+      }
       if (t === "this" || t === "these") { np.dem = "this"; if (t === "these") np.pl = true; i++; continue; }
       if ((t === "that" || t === "those") && (nounOf(toks[i + 1] || "") || adjOf(toks[i + 1] || "") || NUM_WORDS[toks[i + 1]])) {
         np.dem = "that"; if (t === "those") np.pl = true; i++; continue;
@@ -182,7 +187,7 @@ function createTranslator(D) {
       if (i === start && (t === "who" || t === "what")) { np.wh = t; i++; break; }
       break;
     }
-    if (!np.head && !np.pron && !np.wh) {
+    if (!np.head && !np.pron && !np.wh && !np.demOnly) {
       if (np.def || np.dem || np.poss || np.num) {
         // determiner followed by an unknown word: treat it as an unknown noun
         const t = toks[i];
@@ -263,6 +268,15 @@ function createTranslator(D) {
     let i = 0;
     const isQ = toks.q;
     const AUXQ = ["is", "are", "am", "was", "were", "do", "does", "did", "will", "have", "has", "had"];
+    if (WH_ADV[toks[0]]) {
+      c.whAdv = WH_ADV[toks[0]]; c.content = true; i = 1;
+      if (!isQ) notes.add(`'${toks[0]}' starts a subordinate clause here; subordination is not described in the grammar, so the question word is used as a clause adverb`);
+      if (c.whAdv === "how" && (toks[1] === "many" || toks[1] === "much")) notes.add("'how many / how much' rendered as 'how' + 'many'");
+      else if (c.whAdv === "how" && (adjOf(toks[1] || "") || toks[1] === "very") && AUXQ.includes(toks[toks[1] === "very" ? 3 : 2])) {
+        if (toks[1] === "very") { c.pred.push(W(D.adjs.very.f, "very")); i++; }
+        const a = D.adjs[adjOf(toks[i])]; c.pred.push(W(a.f, a.hw[0].replace(/ /g, "."))); i++;
+      }
+    }
     if (toks[0] === "who" || toks[0] === "what") {
       const t1 = toks[1];
       if (AUXQ.includes(t1) && toks[2] && startsNP(toks[2]) && toks[2] !== "very") {
@@ -348,6 +362,7 @@ function createTranslator(D) {
         const post = pp ? pp.val : PREPS[t];
         const r = parseNP(toks, i + (pp ? pp.n : 1), notes);
         if (r) { c.pps.push({ post, np: r.np }); i = r.next; continue; }
+        if ((c.whAdv || c.whObj) && !c.whPost) c.whPost = post;
         i += pp ? pp.n : 1; continue;
       }
       if (vg.cop && (t === "very" || adjOf(t)) && !(nounOf(toks[i + 1] || "") && adjOf(t))) {
@@ -371,7 +386,8 @@ function createTranslator(D) {
     if (c.exist && c.predNP) { c.subj = c.predNP; c.predNP = null; }
     if (c.fragment && !c.subj && !c.verb) { c.vg.cop = true; c.impliedSubj = true; c.imperative = false;
       notes.add("verbless reply: 3SG copula supplied, subject left implicit"); }
-    if (c.whObj && !c.verb && vg.cop) { c.predNP = { wh: c.whObj, adjs: [] }; }
+    if (c.whObj && c.whPost) { c.pps.unshift({ post: c.whPost, np: { wh: c.whObj, adjs: [] } }); c.whPost = null; }
+    else if (c.whObj && !c.verb && vg.cop) { c.predNP = { wh: c.whObj, adjs: [] }; }
     else if (c.whObj) c.objs.unshift({ wh: c.whObj, adjs: [] });
     return c;
   }
@@ -408,6 +424,10 @@ function createTranslator(D) {
       else if (p.unknown) words.push(W("⟨" + p.unknown + "⟩", "?"));
       else { words.push(...nounWords(p.np, "nom")); const pp = D.post[p.post]; words.push(W(pp.f, pp.label)); }
     }
+    if (c.whAdv) {
+      const g = D.gram[c.whAdv]; words.push(W(g.f, c.whAdv));
+      if (c.whPost) { const pp = D.post[c.whPost]; words.push(W(pp.f, pp.label)); }
+    }
     if (c.predNP) words.push(...nounWords(c.predNP, "nom"));
     words.push(...c.pred);
     words.push(...verbWords(c));
@@ -421,7 +441,8 @@ function createTranslator(D) {
       const t = toks[i], n = toks[i + 1] || "";
       const verbish = verbOf(n) && !nounOf(n) && !adjOf(n) && !isDet(n);
       const leftHasVerb = cur.some((x) => verbOf(x) || ["is", "are", "am", "was", "were", "will"].includes(x));
-      if (t === ";" || (t === "," && cur.length && toks.slice(i + 1).some((x) => verbOf(x))) ||
+      const clauseAhead = toks.slice(i + 1).some((x) => verbOf(x) || ["is", "are", "am", "was", "were", "will"].includes(x));
+      if (t === ";" || (t === "," && cur.length && clauseAhead) ||
           ((t === "and" || t === "but") && leftHasVerb && (SUBJ[n] || verbish))) {
         if (t === "but") parts.notes = (parts.notes || []).concat(["'but' has no Döspëvnë equivalent; clauses juxtaposed"]);
         if (cur.length) parts.push(cur); cur = []; continue;
@@ -480,6 +501,7 @@ function createTranslator(D) {
   idx(D.gram.this.f, { pos: "dem", k: "this", en: "this", gloss: "this", seg: D.gram.this.f });
   idx(D.pron["3"].f, { pos: "dem", k: "that", en: "that", gloss: "that", seg: D.pron["3"].f });
   for (const w of ["who", "what"]) idx(D.gram[w].f, { pos: "wh", k: w, en: w, gloss: w, seg: D.gram[w].f });
+  for (const w of Object.keys(WH_ADV)) if (D.gram[w]) idx(D.gram[w].f, { pos: "whadv", k: w, en: w, gloss: w, seg: D.gram[w].f });
 
   const PREP_EN = { PROG: "in", ON: "on", BEHIND: "behind", BEFORE: "in front of", UNDER: "under",
     BESIDE: "beside", WITH: "with", TO: "to", FROM: "from" };
@@ -531,7 +553,7 @@ function createTranslator(D) {
     if (ctx.nextIsQ || ctx.nextIsNeg) return pref(["verb", "prog", "noun"]);
     if (ctx.first) return pref(["pron", "noun", "poss", "dem", "num", "adj", "very", "verb"]);
     if (ctx.prevNum) return pref(["cl", "noun"]);
-    if (ctx.prevNounLike) return pref(["post", "dir", "noun", "adj", "very", "num", "verb", "prog", "pron"]);
+    if (ctx.prevNounLike || ctx.prevWh) return pref(["post", "dir", "noun", "adj", "very", "num", "verb", "prog", "pron"]);
     if (ctx.nextAdj) return pref(["very", "dem", "poss", "num", "adj", "noun"]);
     return pref(["noun", "num", "poss", "adj", "dir", "pron", "dem", "verb", "prog", "post"]);
   }
@@ -547,12 +569,14 @@ function createTranslator(D) {
         const nextA = all[i + 1] || [];
         const prev = picked[i - 1];
         const ctx = {
-          first: i === 0, last: i === toks.length - 1,
+          first: i === 0 || (!!picked[i - 1] && ["verb", "neg", "q"].includes(picked[i - 1].pos)),
+          last: i === toks.length - 1,
           afterVerb: !!prev && (prev.pos === "verb" || prev.pos === "prog"),
           nextIsQ: nextA.some((a) => a.pos === "q") && i + 1 === toks.length - 1,
           nextIsNeg: nextA.some((a) => a.pos === "neg") && (i + 1 === toks.length - 1 || (all[i + 2] || []).some((a) => a.pos === "q")),
           prevNum: !!prev && prev.pos === "num",
           prevNounLike: !!prev && ["noun", "pron", "vnoun", "prog"].includes(prev.pos),
+          prevWh: !!prev && (prev.pos === "wh" || prev.pos === "whadv"),
           nextAdj: nextA.some((a) => a.pos === "adj"),
           nextCl: nextA.some((a) => a.pos === "cl"),
         };
@@ -596,13 +620,26 @@ function createTranslator(D) {
       }
     });
     if (cur.length) clauses.push(cur);
-    const out = clauses.map(clauseReading).filter(Boolean);
+    const out = clauses.map((c, n) => clauseReading(c, n === clauses.length - 1)).filter(Boolean);
     if (!out.length) return "";
     const lower = (c) => /^I\b/.test(c) ? c : c.charAt(0).toLowerCase() + c.slice(1);
     return out.map((c, n) => (n ? lower(c) : c)).map((c, n) => n < out.length - 1 ? c.replace(/[.?]$/, "") : c).join(", ");
   }
 
-  function clauseReading(ws) {
+  const negAux = (a) => ({ will: "won't", am: "am not", "will be": "won't be" }[a] || a + "n't");
+
+  function clauseReading(ws, isLast = true) {
+    // English fronts question words: take out the question adverb (and a postposition
+    // stranded after it), or a non-subject who/what, before chunking.
+    let wh = null, whTail = "";
+    const take = (n) => {
+      wh = ws[n].en;
+      if (ws[n + 1] && ws[n + 1].pos === "post") { whTail = PREP_EN[ws[n + 1].k]; ws = ws.filter((_, m) => m !== n + 1); }
+      ws = ws.filter((_, m) => m !== n);
+    };
+    const wa = ws.findIndex((w) => w.pos === "whadv");
+    if (wa >= 0) take(wa);
+    else { const wo = ws.findIndex((w, n) => w.pos === "wh" && n > 0); if (wo >= 0) take(wo); }
     const chunks = []; let cur = [];
     const flush = () => { if (cur.length) chunks.push(cur); cur = []; };
     let verb = null, neg = false, q = false, prog = null;
@@ -613,6 +650,7 @@ function createTranslator(D) {
       if (w.pos === "q") { q = true; continue; }
       if (w.pos === "post") { flush(); if (chunks.length) chunks[chunks.length - 1].push(w); else chunks.push([w]); continue; }
       if (w.pos === "dir") { flush(); chunks.push([w]); continue; }
+      if (w.pos === "noun" && w.kind.endsWith("gen")) { cur.push(w); continue; }
       if (["noun", "pron", "wh", "vnoun", "unknown"].includes(w.pos)) { cur.push(w); flush(); continue; }
       cur.push(w);
     }
@@ -639,7 +677,8 @@ function createTranslator(D) {
     let subj = null, subjChunk = null; const rest = [], preds = [], pps = [];
     chunks.forEach((ch, n) => {
       const isPP = ch.some((w) => w.pos === "post" || w.pos === "dir");
-      const headless = ch.every((w) => ["adj", "very", "num", "cl", "dem", "poss"].includes(w.pos));
+      const headless = ch.every((w) => ["adj", "very", "num", "cl", "dem", "poss"].includes(w.pos)) &&
+        !(ch.length === 1 && ch[0].pos === "dem");
       if (!subj && n === 0 && !isPP && !headless) { subj = phrase(ch, "subj"); subjChunk = ch; }
       else if (headless) preds.push(phrase(ch, "obj"));
       else if (isPP) pps.push(phrase(ch, "obj"));
@@ -657,26 +696,46 @@ function createTranslator(D) {
     if (!subj && !v && !prog) return cap(`${[...preds, ...rest].join(" ")}`) + ".";
     if (subj === "he/she/it" && person === "3PL") subj = "they";
     const isBe = v && v.en === "be";
+    const end = subjChunk && subjChunk.some((w) => w.pos === "wh") ? "?" : ".";
+    if (wh && !isLast) {
+      const st = clauseReading(ws, true).replace(/[.?]$/, "");
+      return wh.charAt(0).toUpperCase() + wh.slice(1) + " " + (/^I\b/.test(st) ? st : st.charAt(0).toLowerCase() + st.slice(1)) + ".";
+    }
+    if (wh) {
+      const Wh = wh.charAt(0).toUpperCase() + wh.slice(1);
+      const tail = whTail ? " " + whTail : "", restS = rest.join(" "), predS = preds.join(" ");
+      if (prog) {
+        const be = beEn(tense, person);
+        return cap(`${Wh} ${neg ? negAux(be) : be} ${subj || ""} ${ingEn(prog.en)} ${restS} ${predS}${tail}`) + "?";
+      }
+      if (isBe || !v) {
+        const be = beEn(tense, person), b = neg ? negAux(be) : be;
+        if (wh === "how" && preds.length) return cap(`How ${predS} ${b} ${subj || ""} ${restS}${tail}`) + "?";
+        return cap(`${Wh} ${b} ${subj || ""} ${predS} ${restS}${tail}`) + "?";
+      }
+      const aux = tense === "FUT" ? "will" : tense === "PST" ? "did" : person === "3SG" ? "does" : "do";
+      return cap(`${Wh} ${neg ? negAux(aux) : aux} ${subj || ""} ${v.en} ${restS} ${predS}${tail}`) + "?";
+    }
     if (prog) {
       const be = beEn(tense, person);
-      if (q) return cap(`${be} ${subj || ""} ${neg ? "not " : ""}${ingEn(prog.en)} ${rest.join(" ")} ${preds.join(" ")}`) + "?";
-      return cap(`${subj || ""} ${be}${neg ? " not" : ""} ${ingEn(prog.en)} ${[...rest, ...preds].join(" ")}`) + ".";
+      if (q) return cap(`${neg ? negAux(be) : be} ${subj || ""} ${ingEn(prog.en)} ${rest.join(" ")} ${preds.join(" ")}`) + "?";
+      return cap(`${subj || ""} ${be}${neg ? " not" : ""} ${ingEn(prog.en)} ${[...rest, ...preds].join(" ")}`) + end;
     }
     if (isBe || !v) {
       const be = beEn(tense, person);
-      if (q) return cap(`${be}${neg ? "n't" : ""} ${subj || ""} ${[...rest, ...preds].join(" ")}`) + "?";
-      return cap(`${subj || ""} ${v ? be + (neg ? " not" : "") : ""} ${[...preds, ...rest].join(" ")}`) + ".";
+      if (q) return cap(`${neg ? negAux(be) : be} ${subj || ""} ${[...rest, ...preds].join(" ")}`) + "?";
+      return cap(`${subj || ""} ${v ? be + (neg ? " not" : "") : ""} ${[...preds, ...rest].join(" ")}`) + end;
     }
     const base = v.en;
     if (q) {
       const aux = tense === "FUT" ? "will" : tense === "PST" ? "did" : person === "3SG" ? "does" : "do";
-      return cap(`${aux}${neg ? "n't" : ""} ${subj || ""} ${base} ${[...rest, ...preds].join(" ")}`) + "?";
+      return cap(`${neg ? negAux(aux) : aux} ${subj || ""} ${base} ${[...rest, ...preds].join(" ")}`) + "?";
     }
     let vp;
     if (tense === "FUT") vp = "will " + (neg ? "not " : "") + base;
     else if (neg) vp = (tense === "PST" ? "did" : person === "3SG" ? "does" : "do") + " not " + base;
     else vp = tense === "PST" ? pastEn(base) : person === "3SG" ? s3En(base) : base;
-    return cap(`${subj || ""} ${vp} ${[...rest, ...preds].join(" ")}`) + ".";
+    return cap(`${subj || ""} ${vp} ${[...rest, ...preds].join(" ")}`) + end;
   }
   const cap = (s) => { s = s.replace(/\s+/g, " ").trim().replace(/\s+([?.])$/, "$1"); return s.charAt(0).toUpperCase() + s.slice(1); };
 

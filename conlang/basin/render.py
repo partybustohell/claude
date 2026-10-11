@@ -392,8 +392,18 @@ def render_grammar(h):
     w("- Clause: Subject – Object – (Adverbial) – Verb – NEG – Q.\n"
       "- Noun phrase: Possessor – Numeral – Classifier – Adjective – Noun – PL –=DEF – Postposition.\n"
       "- Subjects are always overt (see §7.1). Objects are unmarked; definiteness is marked by =DEF.\n"
-      "- Polar questions add the clause-final particle; content questions put the question word in situ.\n"
+      "- Polar questions add the clause-final particle. Content questions take no particle: 'who' and 'what' stay in the "
+      "position of the phrase they replace; question adverbs stand immediately before the verb.\n"
       "- Progressive: verbal noun =PROG + copula agreeing with the subject.\n")
+
+    w("**Question words.** 'Who' and 'what' are inherited roots. The question adverbs are Middle Basin compounds of "
+      "'what' with a noun or postposition; they fused and went through the Modern sound changes as single words.\n")
+    rows = [["'who'", R(lex["who"].mod), "inherited root", "—"], ["'what'", R(lex["what"].mod), "inherited root", "—"]]
+    for fn in ("WH.WHERE", "WH.WHEN", "WH.WHY", "WH.HOW"):
+        g = G[fn]
+        rows.append([f"'{g['label']}'", R(g["mod"]), f"/{ipa(g['parts'][0])}/ + /{ipa(g['parts'][1])}/ → /{ipa(g['mb'])}/", g["why"]])
+    w(table(["Meaning", "Modern", "Middle Basin formation", "Path"], rows))
+    w("")
 
     # ------------------------------------------------------------ 11 lexical history
     w("## 11. Lexical history and society\n")

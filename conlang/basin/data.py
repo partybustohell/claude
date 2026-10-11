@@ -406,6 +406,15 @@ DIRECTIONALS = [
     ("nightwise", "counter-clockwise around the basin", "night"),
 ]
 
+# Question adverbs: Middle Basin compounds of 'what' + a noun or postposition.
+# (key, gloss, source: grammaticalized function or concept key, rationale)
+INTERROGATIVES = [
+    ("where", "where", "PROG", "'what' + 'in' (< 'belly'): in what place"),
+    ("when", "when", "day", "'what' + 'day': on what day"),
+    ("why", "why", "root", "'what' + 'root': cause pictured as the root of a plant"),
+    ("how", "how", "WITH", "'what' + 'with' (< 'hand'): by what means"),
+]
+
 # Numeral classifiers (from market measure-counting).
 # (label, use, source concept)
 CLASSIFIERS = [

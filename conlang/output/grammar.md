@@ -17,7 +17,7 @@ Every form in this document is produced by `generate.py` (seed `ringed-basin/v1`
 | Negation | postverbal ley (from 'seed') |
 | Spatial frame | absolute: rimward / hubward / sunwise / nightwise |
 | Proto roots generated | 182 |
-| Lexicon entries (all strata) | 269 |
+| Lexicon entries (all strata) | 273 |
 | Sound changes | 7 (Old) + 8 (Middle) + 4 (Modern) + 2 Rim-only |
 | Slang innovations modelled | 20; 12 became standard, 8 stayed in-group |
 | Highland loanwords | 14 |
@@ -210,16 +210,16 @@ IPA with romanization in ‹›. † = occurs only in loanwords (marginal phonem
 
 | Vowel | Romanized | Tokens in lexicon |
 |---|---|---|
-| i | i | 51 |
+| i | i | 52 |
 | y | ü | 8 |
-| e | e | 59 |
+| e | e | 60 |
 | ø | ö | 2 |
 | ə | ë | 69 |
-| a | a | 67 |
+| a | a | 71 |
 | o | o | 41 |
-| u | u | 36 |
+| u | u | 37 |
 | iː | ii | 4 |
-| ɔː | å | 6 |
+| ɔː | å | 7 |
 | ei | ei | 1 |
 | ou | ou | 6 |
 
@@ -232,9 +232,9 @@ Short *ë* /ə/ occurs only in unstressed syllables. Long /aː/ was lost in the 
 | CVC | 119 |
 | CV | 37 |
 | CVCCV | 36 |
-| CVCVC | 17 |
+| CVCVC | 19 |
 | VC | 13 |
-| CVCV | 7 |
+| CVCV | 9 |
 | CVCCVC | 6 |
 | VCCVC | 3 |
 | CVCCVCCV | 3 |
@@ -410,8 +410,19 @@ Because the mountain ring is visible from every point of the plain and every riv
 - Clause: Subject – Object – (Adverbial) – Verb – NEG – Q.
 - Noun phrase: Possessor – Numeral – Classifier – Adjective – Noun – PL –=DEF – Postposition.
 - Subjects are always overt (see §7.1). Objects are unmarked; definiteness is marked by =DEF.
-- Polar questions add the clause-final particle; content questions put the question word in situ.
+- Polar questions add the clause-final particle. Content questions take no particle: 'who' and 'what' stay in the position of the phrase they replace; question adverbs stand immediately before the verb.
 - Progressive: verbal noun =PROG + copula agreeing with the subject.
+
+**Question words.** 'Who' and 'what' are inherited roots. The question adverbs are Middle Basin compounds of 'what' with a noun or postposition; they fused and went through the Modern sound changes as single words.
+
+| Meaning | Modern | Middle Basin formation | Path |
+|---|---|---|---|
+| 'who' | **ku** | inherited root | — |
+| 'what' | **na** | inherited root | — |
+| 'where' | **natu** | /na/ + /tu/ → /natu/ | 'what' + 'in' (< 'belly'): in what place |
+| 'when' | **nakå** | /na/ + /kaː/ → /nakaː/ | 'what' + 'day': on what day |
+| 'why' | **natel** | /na/ + /tel/ → /natel/ | 'what' + 'root': cause pictured as the root of a plant |
+| 'how' | **navil** | /na/ + /wil/ → /nawil/ | 'what' + 'with' (< 'hand'): by what means |
 
 ## 11. Lexical history and society
 

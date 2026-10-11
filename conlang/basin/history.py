@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 
 from . import changes as ch
 from .data import (CLASSIFIERS, CONSOLIDATION, DERIVED, DIRECTIONALS,
-                   GRAMMATICALIZATION, GROUPS, LEARNED, LOANS,
+                   GRAMMATICALIZATION, GROUPS, INTERROGATIVES, LEARNED, LOANS,
                    MODERN_COMPOUNDS, ROOTS, SEED, SLANG)
 from .phonology import is_cons, is_vowel, shorten, tokenize
 from .proto import attach, build_derived, generate_highland, generate_roots
@@ -317,6 +317,17 @@ def _grammaticalize(h):
         h.lexicon[key] = finish(Entry(key, gloss, "direction", "grammaticalized compound",
                                       f"Middle Basin '{noun}' + '-ward' (< 'road')",
                                       None, None, mb, mbr))
+    what = h.etyma["what"]
+    for key, gloss, src, why in INTERROGATIVES:
+        if src in h.gram:
+            smb, smbr = h.gram[src]["mb"], h.gram[src]["mb_rim"]
+        else:
+            smb, smbr = h.lexicon[src].mb, h.lexicon[src].mb_rim
+        h.lexicon[key] = finish(Entry(key, gloss, "deixis", "grammaticalized compound",
+                                      f"Middle Basin 'what' {''.join(what.mb)} + {''.join(smb)}: {why}",
+                                      None, None, mb_join(what.mb, smb), mb_join(what.mb_rim, smbr)))
+        h.gram["WH." + key.upper()] = {"label": gloss, "src": src, "why": why, "parts": (what.mb, smb),
+                                       "mb": h.lexicon[key].mb, "mod": h.lexicon[key].mod}
     for label, use, src_key in CLASSIFIERS:
         n = h.lexicon[src_key]
         mb, mbr = ch.erode(n.mb, 1), ch.erode(n.mb_rim, 1)
